@@ -19,6 +19,6 @@ script:
     - vint plugin/
     - vint autoload/
     - flake8 rplugin/python3/
-    - mypy rplugin/python3/
+    - mypy --ignore-missing-imports rplugin/python3/
     - python3 -m pytest
     - codecov

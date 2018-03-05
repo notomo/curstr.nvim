@@ -17,9 +17,6 @@ class Curstr(Echoable):
         self._custom = CustomFacade(vim)
         self._importer = importer
 
-        if hasattr(self._vim, 'channel_id'):
-            self._vim.vars['curstr#_channel_id'] = self._vim.channel_id
-
     def execute(self, arg_string: str) -> None:
         execute_option = self._custom.get_execute_option(arg_string)
         action = self._get_action(execute_option)

@@ -18,13 +18,12 @@ install:
     - pip3 install pytest-cov
     - pip3 install codecov
     - pip3 install covimerage
-    - git clone --depth 1 https://github.com/thinca/vim-themis
+    - git clone --depth 1 https://github.com/thinca/vim-themis vim-themis
 
 env:
     - THEMIS_VIM=nvim
     - THEMIS_ARGS="-e -s --headless"
     - THEMIS_PROFILE_LOG=profile.txt
-    - THEMIS_HOME=./vim-themis
 
 script:
     - vint plugin/
@@ -32,6 +31,9 @@ script:
     - flake8 rplugin/python3/
     - mypy --ignore-missing-imports rplugin/python3/
     - python3 -m pytest
-    - ./vim-themis/bin/themis
+    - nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
+    - THEMIS_HOME=./vim-themis ./vim-themis/bin/themis
+
+after_success:
     - covimerage write_coverage $THEMIS_PROFILE_LOG
     - codecov --file .coverage .coverage.covimerage

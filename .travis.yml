@@ -24,6 +24,7 @@ env:
     - THEMIS_VIM=nvim
     - THEMIS_ARGS="-e -s --headless"
     - THEMIS_PROFILE_LOG=profile.txt
+    - THEMIS_HOME=./themis-vim
 
 script:
     - vint plugin/

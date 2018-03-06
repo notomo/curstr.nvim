@@ -5,6 +5,3 @@ source = rplugin/python3/
 
 [html]
 directory = test/report/html/
-
-# [paths]
-# source = rplugin/python3/

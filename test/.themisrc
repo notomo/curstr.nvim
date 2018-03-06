@@ -1,0 +1,21 @@
+set encoding=utf-8
+
+call themis#option('recursive', 1)
+
+doautocmd FuncUndefined _curstr_execute
+doautocmd FuncUndefined _curstr_custom
+runtime! plugin/rplugin.vim
+UpdateRemotePlugins
+
+function! CurstrTestBefore() abort
+    let s:root = getcwd()
+    return s:root
+endfunction
+
+function! CurstrTestAfterEach() abort
+    %bwipeout!
+    execute 'cd ' . s:root
+endfunction
+
+execute 'profile' 'start' $THEMIS_PROFILE_LOG
+profile! file ./autoload/*

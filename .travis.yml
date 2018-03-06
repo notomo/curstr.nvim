@@ -8,6 +8,8 @@ python:
     - 3.6
 
 install:
+    # from lambdalisue/install_nvim_for_ci.sh
+    - curl -sL git.io/v18DU | bash
     - pip3 install neovim
     - pip3 install mypy
     - pip3 install flake8
@@ -15,6 +17,14 @@ install:
     - pip3 install pytest
     - pip3 install pytest-cov
     - pip3 install codecov
+    - pip3 install covimerage
+    - git clone --depth 1 https://github.com/thinca/vim-themis vim-themis
+
+env:
+    global:
+        - THEMIS_VIM=nvim
+        - THEMIS_ARGS="-e -s --headless"
+        - THEMIS_PROFILE_LOG=profile.txt
 
 script:
     - vint plugin/
@@ -22,4 +32,11 @@ script:
     - flake8 rplugin/python3/
     - mypy --ignore-missing-imports rplugin/python3/
     - python3 -m pytest
-    - codecov
+    - PATH="$HOME/neovim/bin:$PATH" nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
+    - PATH="$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis ./vim-themis/bin/themis
+
+after_success:
+    - covimerage write_coverage $THEMIS_PROFILE_LOG
+    - python3 -m coverage xml --rcfile=.vim_coveragerc -o vim_coverage.xml
+    - python3 -m coverage xml --rcfile=.coveragerc -o python_coverage.xml
+    - codecov -f vim_coverage.xml python_coverage.xml

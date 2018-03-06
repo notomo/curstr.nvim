@@ -1,2 +1,6 @@
 .pytest_cache
 .coverage
+.coverage.covimerage
+coverage.xml
+profile.txt
+vim_coverage.xml

@@ -21,9 +21,10 @@ install:
     - git clone --depth 1 https://github.com/thinca/vim-themis vim-themis
 
 env:
-    - THEMIS_VIM=nvim
-    - THEMIS_ARGS="-e -s --headless"
-    - THEMIS_PROFILE_LOG=profile.txt
+    global:
+        - THEMIS_VIM=nvim
+        - THEMIS_ARGS="-e -s --headless"
+        - THEMIS_PROFILE_LOG=profile.txt
 
 script:
     - vint plugin/

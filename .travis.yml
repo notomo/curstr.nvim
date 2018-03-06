@@ -8,6 +8,8 @@ python:
     - 3.6
 
 install:
+    # from lambdalisue/install_nvim_for_ci.sh
+    - curl -sL git.io/v18DU | bash
     - pip3 install neovim
     - pip3 install mypy
     - pip3 install flake8

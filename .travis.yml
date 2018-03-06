@@ -37,4 +37,5 @@ script:
 
 after_success:
     - covimerage write_coverage $THEMIS_PROFILE_LOG
-    - codecov --file .coverage .coverage.covimerage
+    - python3 -m coverage xml --rcfile=.vimcoveragerc
+    - codecov

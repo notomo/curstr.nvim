@@ -16,3 +16,6 @@ function! CurstrTestAfterEach() abort
     %bwipeout!
     execute 'cd ' . s:root
 endfunction
+
+execute 'profile' 'start' $THEMIS_PROFILE_LOG
+profile! file ./autoload/*

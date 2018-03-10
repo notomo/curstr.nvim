@@ -29,3 +29,7 @@ class ActionModuleNotFoundException(Exception):
             self._module_type,
             self._action_module_name
         )
+
+
+class ActionGroupValidationError(Exception):
+    pass

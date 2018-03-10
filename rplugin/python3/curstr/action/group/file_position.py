@@ -1,5 +1,5 @@
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from .file import File
 
@@ -8,6 +8,8 @@ class FilePosition(File):
 
     def __init__(self, vim: Nvim, path: str, row: int, column: int) -> None:
         super().__init__(vim, path)
+        if row <= 0 or column <= 0:
+            raise self._validate_error()
         self._row = row
         self._column = column
 

@@ -1,4 +1,6 @@
 
+from os.path import isdir
+
 from .file import File
 from .listable import Listable
 
@@ -14,3 +16,6 @@ class Directory(File, Listable):
             [{'name': 'curstr/file', 'args': []}],
             {'curstr__path': self._path}
         )
+
+    def _validate(self, path: str) -> bool:
+        return isdir(path)

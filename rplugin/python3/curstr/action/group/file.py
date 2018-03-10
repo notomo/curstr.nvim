@@ -1,4 +1,6 @@
 
+from os.path import isfile
+
 from .base import ActionGroup
 
 
@@ -6,6 +8,8 @@ class File(ActionGroup):
 
     def __init__(self, vim, path) -> None:
         super().__init__(vim)
+        if not self._validate(path):
+            raise self._validate_error(path)
         self._path = path
 
     @property
@@ -31,3 +35,6 @@ class File(ActionGroup):
 
     def action_default(self):
         self.action_open()
+
+    def _validate(self, path: str) -> bool:
+        return isfile(path)

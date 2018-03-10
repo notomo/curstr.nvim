@@ -25,14 +25,13 @@ env:
         - THEMIS_VIM=nvim
         - THEMIS_ARGS="-e -s --headless"
         - THEMIS_PROFILE_LOG=profile.txt
-        - PATH=$PATH:$HOME/vim-themis/bin
 
 script:
     - vint plugin/
     - vint autoload/
     - flake8 rplugin/python3/
     - mypy --ignore-missing-imports rplugin/python3/
-    - PATH="$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis make test
+    - PATH="./vim-themis/bin:$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis make test
 
 after_success:
     - covimerage write_coverage $THEMIS_PROFILE_LOG

@@ -38,7 +38,6 @@ class ActionSource(Echoable, metaclass=ABCMeta):
             (execute(x) for x in class_and_args)
             if y is not False
         )
-        # self.echo_message(list(groups))
         try:
             return next(groups)
         except StopIteration:

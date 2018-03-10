@@ -1,7 +1,7 @@
 
 from typing import Any, Dict, List
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from curstr.echoable import Echoable
 from curstr.exception import LogicException

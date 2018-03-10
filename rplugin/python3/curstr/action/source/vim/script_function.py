@@ -2,9 +2,9 @@
 import re
 from typing import Tuple
 
-from curstr.action.group import ActionGroup, Nothing, Position
-from curstr.custom import ActionSourceOption
+from curstr.action.group import ActionGroup, Position
 from curstr.action.source import ActionSource as Base
+from curstr.custom import ActionSourceOption
 
 
 class ActionSource(Base):
@@ -17,10 +17,7 @@ class ActionSource(Base):
             self._vim.command('setlocal iskeyword-={}'.format(':,<,>'))
 
         position = self.__search_function_position(cword)
-        if position != (0, 0):
-            return Position(self._vim, *position)
-
-        return Nothing(self._vim)
+        return self._dispatch((Position, *position))
 
     def __search_function_position(self, name: str) -> Tuple[int, int]:
         match = re.match('(s:|<SID>)(?P<name>\S+)', name)

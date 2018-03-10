@@ -2,7 +2,7 @@
 
 from unittest.mock import Mock
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 from pytest import fixture
 
 from curstr import Curstr

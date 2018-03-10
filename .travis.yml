@@ -31,9 +31,7 @@ script:
     - vint autoload/
     - flake8 rplugin/python3/
     - mypy --ignore-missing-imports rplugin/python3/
-    - python3 -m pytest
-    - PATH="$HOME/neovim/bin:$PATH" nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
-    - PATH="$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis ./vim-themis/bin/themis
+    - PATH="./vim-themis/bin:$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis make test
 
 after_success:
     - covimerage write_coverage $THEMIS_PROFILE_LOG

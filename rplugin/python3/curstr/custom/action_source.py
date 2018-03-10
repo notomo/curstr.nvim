@@ -3,7 +3,7 @@ from itertools import chain
 from typing import Any  # noqa
 from typing import Dict, List, Tuple
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from curstr.exception import InvalidCustomException
 

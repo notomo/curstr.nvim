@@ -1,6 +1,6 @@
 
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from .file_position import FilePosition
 

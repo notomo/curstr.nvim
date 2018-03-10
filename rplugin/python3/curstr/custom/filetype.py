@@ -2,7 +2,7 @@
 from typing import Dict  # noqa
 from typing import List
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from curstr.exception import InvalidCustomException
 

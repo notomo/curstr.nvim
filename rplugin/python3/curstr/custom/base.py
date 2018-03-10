@@ -1,5 +1,5 @@
 
-from neovim.api.nvim import Nvim
+from neovim import Nvim
 
 from curstr.echoable import Echoable
 

@@ -2,6 +2,8 @@
 from .base import ActionGroup
 from .command import Command
 from .directory import Directory
+from .dispatcher.base import Dispatcher
+from .dispatcher.file import FileDispatcher
 from .file import File
 from .file_position import FilePosition
 from .help import Help
@@ -23,4 +25,6 @@ __all__ = [
     'Position',
     'Tag',
     'Tags',
+    'Dispatcher',
+    'FileDispatcher',
 ]

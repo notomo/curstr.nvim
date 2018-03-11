@@ -1,8 +1,7 @@
 
 from curstr.action.group import ActionGroup, Directory, FileDispatcher
+from curstr.action.source.base import ActionSource as Base
 from curstr.custom import ActionSourceOption
-
-from .base import ActionSource as Base
 
 
 class ActionSource(Base):

@@ -42,6 +42,14 @@ class ActionSourceCustom(Custom):
                 'vim/autoload_function',
                 'vim/script_function',
             ],
+            'file': [
+                'file/buffer_relative',
+                'file/path',
+            ],
+            'directory': [
+                'directory/buffer_relative',
+                'directory/path',
+            ],
         }
         self._action_source_options = {
             '_': {

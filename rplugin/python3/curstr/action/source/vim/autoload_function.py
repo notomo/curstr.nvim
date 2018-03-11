@@ -3,12 +3,14 @@ import os.path
 import re
 from typing import Tuple
 
-from curstr.action.group import ActionGroup, File, FilePosition
+from curstr.action.group import ActionGroup, File, FileDispatcher, FilePosition
 from curstr.action.source import ActionSource as Base
 from curstr.custom import ActionSourceOption
 
 
 class ActionSource(Base):
+
+    _DISPATCHER_CLASS = FileDispatcher
 
     def _create_action_group(self, option: ActionSourceOption) -> ActionGroup:
         try:
@@ -18,7 +20,7 @@ class ActionSource(Base):
             self._vim.command('setlocal iskeyword-={}'.format('#'))
 
         if '#' not in cword:
-            return self._nothing()
+            return self._dispatcher.nothing()
 
         splited = cword.split('#')
         paths = splited[:-1]
@@ -27,12 +29,12 @@ class ActionSource(Base):
             file_path = os.path.join(runtimepath, 'autoload', path)
             if os.path.isfile(file_path):
                 position = self.__search_position(cword, file_path)
-                return self._dispatch(
+                return self._dispatcher.dispatch(
                     (FilePosition, file_path, *position),
                     (File, file_path)
                 )
 
-        return self._nothing()
+        return self._dispatcher.nothing()
 
     def __search_position(
         self, function_name: str, path: str

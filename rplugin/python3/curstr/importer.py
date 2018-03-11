@@ -88,7 +88,9 @@ class Importer(Echoable):
         )
         module = self._import(module_name)
         if hasattr(module, 'ActionSource'):
-            action_source = module.ActionSource(self._vim)
+            cls = module.ActionSource
+            dispatcher = cls._DISPATCHER_CLASS(self._vim)
+            action_source = cls(self._vim, dispatcher)
             self._action_sources[source_name] = action_source
             return action_source
 

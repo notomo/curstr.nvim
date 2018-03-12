@@ -50,6 +50,12 @@ class ActionSourceCustom(Custom):
                 'directory/buffer_relative',
                 'directory/path',
             ],
+            'vim/runtime': [
+                'vim/runtime/pattern/file',
+                'vim/runtime/pattern/directory',
+                'vim/runtime/file',
+                'vim/runtime/directory',
+            ],
         }
         self._action_source_options = {
             '_': {

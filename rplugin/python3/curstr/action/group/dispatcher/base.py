@@ -3,20 +3,21 @@ from neovim import Nvim
 
 from curstr.action.group.base import ActionGroup
 from curstr.action.group.nothing import Nothing
+from curstr.echoable import Echoable
 
 
-class Dispatcher(object):
+class Dispatcher(Echoable):
 
     def __init__(self, vim: Nvim) -> None:
         self._vim = vim
 
-    def dispatch(self, *class_and_args):
+    def dispatch(self, class_and_args):
 
         mapper = self._mapper()
 
-        def execute(class_and_args) -> ActionGroup:
-            cls = class_and_args[0]
-            arg = class_and_args[1:]
+        def execute(class_and_arg) -> ActionGroup:
+            cls = class_and_arg[0]
+            arg = class_and_arg[1:]
             validate = mapper[cls]
             if validate(*arg):
                 return cls(self._vim, *arg)
@@ -31,6 +32,9 @@ class Dispatcher(object):
             return next(groups)
         except StopIteration:
             return self.nothing()
+
+    def dispatch_one(self, cls, *args):
+        return self.dispatch(((cls, *args),))
 
     def nothing(self):
         return Nothing(self._vim)

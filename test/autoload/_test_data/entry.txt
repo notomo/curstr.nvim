@@ -1,3 +1,7 @@
 opened.txt
 opened
 ./path/../opened
+autoload/curstr.vim
+rplugin/python3/curstr
+rplugin/python3/curstr/echoable.*
+rplugin/python3/curstr/*/group

@@ -13,4 +13,4 @@ class ActionSource(Base):
     def _create_action_group(self, option: ActionSourceOption) -> ActionGroup:
         path = self._vim.call('expand', '<cfile>')
         absolute_path = join(self._vim.call('expand', '%:p:h'), path)
-        return self._dispatcher.dispatch((Directory, absolute_path))
+        return self._dispatcher.dispatch_one(Directory, absolute_path)

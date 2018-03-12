@@ -29,10 +29,10 @@ class ActionSource(Base):
             file_path = os.path.join(runtimepath, 'autoload', path)
             if os.path.isfile(file_path):
                 position = self.__search_position(cword, file_path)
-                return self._dispatcher.dispatch(
+                return self._dispatcher.dispatch((
                     (FilePosition, file_path, *position),
                     (File, file_path)
-                )
+                ))
 
         return self._dispatcher.nothing()
 

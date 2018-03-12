@@ -19,7 +19,7 @@ class ActionSource(Base):
             self._vim.command('setlocal iskeyword-={}'.format(':,<,>'))
 
         position = self.__search_function_position(cword)
-        return self._dispatcher.dispatch((Position, *position))
+        return self._dispatcher.dispatch_one(Position, *position)
 
     def __search_function_position(self, name: str) -> Tuple[int, int]:
         match = re.match('(s:|<SID>)(?P<name>\S+)', name)

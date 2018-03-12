@@ -66,9 +66,9 @@ class Importer(Echoable):
         for runtime in runtime_paths:
             for path in glob.iglob(join(runtime, file_path), recursive=True):
                 file_name = os.path.splitext(os.path.basename(path))[0]
-                if (file_name in ('__init__', 'base')):
+                if file_name == '__init__':
                     continue
-                if (file_name != expected_file_name):
+                if file_name != expected_file_name:
                     continue
 
                 return path

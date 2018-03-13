@@ -20,12 +20,10 @@ class ActionSourceNotFoundException(Exception):
 
 class ActionModuleNotFoundException(Exception):
 
-    def __init__(self, module_type: str, action_module_name: str) -> None:
-        self._module_type = module_type
+    def __init__(self, action_module_name: str) -> None:
         self._action_module_name = action_module_name
 
     def __str__(self):
-        return 'action {} "{}" is not found.'.format(
-            self._module_type,
+        return '"{}" is not found.'.format(
             self._action_module_name
         )

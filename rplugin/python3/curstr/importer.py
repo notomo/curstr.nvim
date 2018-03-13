@@ -30,16 +30,13 @@ class Importer(Echoable):
     def find_spec(self, fullname: str, path: List[str], target=None):
         if fullname.startswith(self.ACTION_MODULE_PATH):
             module_paths = fullname[len(self.ACTION_MODULE_PATH):].split('.')
-            if len(module_paths) <= 1:
-                return None
-            module_type = module_paths.pop(0)
-            return self._get_spec(module_type, module_paths)
+            return self._get_spec(module_paths)
         return None
 
-    def _get_spec(self, module_type: str, module_paths: List[str]):
+    def _get_spec(self, module_paths: List[str]):
         name = '/'.join(module_paths)
-        path = self._get_path(name, module_type)
-        module_path = '{}.{}'.format(module_type, '.'.join(module_paths))
+        path = self._get_path(name)
+        module_path = '.'.join(module_paths)
         if os.path.isdir(path):
             file_path = '{}/__init__.py'.format(path)
         else:
@@ -57,10 +54,8 @@ class Importer(Echoable):
             spec.submodule_search_locations = [path]
         return spec
 
-    def _get_path(self, name: str, module_type: str) -> str:
-        file_path = 'rplugin/python3/curstr/action/{}/**/{}*'.format(
-            module_type, name
-        )
+    def _get_path(self, name: str) -> str:
+        file_path = 'rplugin/python3/curstr/action/**/{}*'.format(name)
         expected_file_name = name.split('/')[-1]
         runtime_paths = self._vim.options['runtimepath'].split(',')
         for runtime in runtime_paths:
@@ -73,7 +68,7 @@ class Importer(Echoable):
 
                 return path
 
-        raise ActionModuleNotFoundException(module_type, name)
+        raise ActionModuleNotFoundException(name)
 
     def get_action_source(
         self, source_name: str, use_cache: bool

@@ -13,12 +13,16 @@ class Dispatcher(Echoable):
 
     def dispatch(self, class_and_args):
 
-        mapper = self._mapper()
+        mapper = {
+            str(key): value
+            for key, value
+            in self._mapper().items()
+        }
 
         def execute(class_and_arg) -> ActionGroup:
             cls = class_and_arg[0]
             arg = class_and_arg[1:]
-            validate = mapper[cls]
+            validate = mapper[str(cls)]
             if validate(*arg):
                 return cls(self._vim, *arg)
             return None

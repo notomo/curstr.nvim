@@ -75,21 +75,49 @@ class Importer(Echoable):
     ) -> ActionSource:
         if use_cache and source_name in self._action_sources:
             return self._action_sources[source_name]
-        return self._load_action_source(source_name)
+        return self._load_action_source(source_name, use_cache)
 
-    def _load_action_source(self, source_name: str) -> ActionSource:
+    def _load_action_source(
+        self, source_name: str, use_cache: bool
+    ) -> ActionSource:
         module_name = 'curstr.action.source.{}'.format(
             '.'.join(source_name.split('/'))
         )
         module = self._import(module_name)
         if hasattr(module, 'ActionSource'):
             cls = module.ActionSource
-            dispatcher = cls._DISPATCHER_CLASS(self._vim)
+            dispatcher = self._load_dispatcher(
+                cls._DISPATCHER_CLASS, use_cache
+            )
             action_source = cls(self._vim, dispatcher)
             self._action_sources[source_name] = action_source
             return action_source
 
         raise ActionSourceNotFoundException(source_name)
+
+    def _load_dispatcher(self, cls, use_cache: bool):
+        if use_cache:
+            return cls(self._vim)
+        self._reload_action_group()
+        dispatcher_module = self._import(cls.__module__)
+        return getattr(dispatcher_module, cls.__name__)(self._vim)
+
+    def _reload_action_group(self):
+        group_module = self._import('curstr.action.group')
+        groups = [
+            (name, cls)
+            for name, cls
+            in group_module.__dict__.items()
+            if (
+                isinstance(cls, type) and
+                cls.__module__.startswith('curstr.action.group')
+            )
+        ]
+        for name, cls in groups:
+            reloaded = self._import(cls.__module__)
+            group_module.__dict__[name] = (
+                reloaded.__dict__[name]
+            )
 
     def _import(self, module_name: str) -> Module:
         if module_name in sys.modules.keys():

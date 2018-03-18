@@ -26,40 +26,40 @@ class ExecuteCustom(Custom):
         )
 
     def get(self, arg_string: str):
-        action_source_names, options = self._parse_arg_string(arg_string)
+        source_names, options = self._parse_arg_string(arg_string)
         merged_options = {**self._options, **options}
-        return ExecuteOption(action_source_names, merged_options)
+        return ExecuteOption(source_names, merged_options)
 
     def _parse_arg_string(
         self, arg_string: str
     ) -> Tuple[List[str], Dict[str, str]]:
         options = {}
-        action_source_names = []
+        source_names = []
         for arg in arg_string.split(' '):
             key_value = arg.split('=')
             key = key_value[0]
             if not key.startswith('-'):
-                action_source_names.append(key)
+                source_names.append(key)
             elif len(key_value) > 1:
                 options[key[1:]] = key_value[1]
             else:
                 options[key[1:]] = '1'
 
-        return action_source_names, options
+        return source_names, options
 
 
 class ExecuteOption(object):
 
-    def __init__(self, action_source_names: List[str], options: Dict) -> None:
-        self._action_source_names = [
-            x for x in action_source_names if len(x) > 0
+    def __init__(self, source_names: List[str], options: Dict) -> None:
+        self._source_names = [
+            x for x in source_names if len(x) > 0
         ]
         self._action_name = options.get('action', '')
         self._use_cache = bool(options.get('use-cache', True))
 
     @property
-    def action_source_names(self) -> List[str]:
-        return self._action_source_names
+    def source_names(self) -> List[str]:
+        return self._source_names
 
     @property
     def action_name(self) -> str:

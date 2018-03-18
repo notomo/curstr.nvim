@@ -1,6 +1,6 @@
 
-from .action import Action
+from .facade import ActionFacade
 
 __all__ = [
-    'Action',
+    'ActionFacade',
 ]

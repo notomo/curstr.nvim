@@ -9,7 +9,7 @@ from .importer import Importer
 @neovim.plugin
 class CurstrHandler(object):
 
-    def __init__(self, vim):
+    def __init__(self, vim: neovim.Nvim) -> None:
         importer = Importer(vim)
         self._curstr = Curstr(vim, importer)
 

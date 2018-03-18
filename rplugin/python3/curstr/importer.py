@@ -9,9 +9,9 @@ from os.path import join
 from typing import Dict  # noqa
 from typing import List
 
-from curstr.action.source import ActionSource
+from curstr.action.source import Source
 from curstr.exception import (
-    ActionModuleNotFoundException, ActionSourceNotFoundException
+    ActionModuleNotFoundException, SourceNotFoundException
 )
 
 from .echoable import Echoable
@@ -25,7 +25,7 @@ class Importer(Echoable):
         self._vim = vim
         sys.meta_path.insert(0, self)
 
-        self._action_sources = {}  # type: Dict[str, ActionSource]
+        self._sources = {}  # type: Dict[str, Source]
 
     def find_spec(self, fullname: str, path: List[str], target=None):
         if fullname.startswith(self.ACTION_MODULE_PATH):
@@ -70,30 +70,30 @@ class Importer(Echoable):
 
         raise ActionModuleNotFoundException(name)
 
-    def get_action_source(
+    def get_source(
         self, source_name: str, use_cache: bool
-    ) -> ActionSource:
-        if use_cache and source_name in self._action_sources:
-            return self._action_sources[source_name]
-        return self._load_action_source(source_name, use_cache)
+    ) -> Source:
+        if use_cache and source_name in self._sources:
+            return self._sources[source_name]
+        return self._load_source(source_name, use_cache)
 
-    def _load_action_source(
+    def _load_source(
         self, source_name: str, use_cache: bool
-    ) -> ActionSource:
+    ) -> Source:
         module_name = 'curstr.action.source.{}'.format(
             '.'.join(source_name.split('/'))
         )
         module = self._import(module_name)
-        if hasattr(module, 'ActionSource'):
-            cls = module.ActionSource
+        if hasattr(module, 'Source'):
+            cls = module.Source
             dispatcher = self._load_dispatcher(
-                cls._DISPATCHER_CLASS, use_cache
+                cls.DISPATCHER_CLASS, use_cache
             )
-            action_source = cls(self._vim, dispatcher)
-            self._action_sources[source_name] = action_source
-            return action_source
+            source = cls(self._vim, dispatcher)
+            self._sources[source_name] = source
+            return source
 
-        raise ActionSourceNotFoundException(source_name)
+        raise SourceNotFoundException(source_name)
 
     def _load_dispatcher(self, cls, use_cache: bool):
         if use_cache:

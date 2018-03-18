@@ -2,16 +2,16 @@
 import re
 from typing import Tuple
 
-from curstr.action.group import ActionGroup, FileDispatcher, Position
-from curstr.action.source import ActionSource as Base
-from curstr.custom import ActionSourceOption
+from curstr.action.group import ActionGroup, FileDispatcher
+from curstr.action.source import Source as Base
+from curstr.custom import SourceOption
 
 
-class ActionSource(Base):
+class Source(Base):
 
-    _DISPATCHER_CLASS = FileDispatcher
+    DISPATCHER_CLASS = FileDispatcher
 
-    def _create_action_group(self, option: ActionSourceOption) -> ActionGroup:
+    def create(self, option: SourceOption) -> ActionGroup:
         try:
             self._vim.command('setlocal iskeyword+={}'.format(':,<,>'))
             cword = self._vim.call('expand', '<cword>')
@@ -19,7 +19,10 @@ class ActionSource(Base):
             self._vim.command('setlocal iskeyword-={}'.format(':,<,>'))
 
         position = self.__search_function_position(cword)
-        return self._dispatcher.dispatch_one(Position, *position)
+        return self._dispatcher.dispatch_one(
+            FileDispatcher.Position,
+            *position
+        )
 
     def __search_function_position(self, name: str) -> Tuple[int, int]:
         match = re.match('(s:|<SID>)(?P<name>\S+)', name)

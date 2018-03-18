@@ -11,7 +11,7 @@ from .base import Custom
 from .execute import ExecuteOption
 
 
-class ActionSourceOption(object):
+class SourceOption(object):
 
     def __init__(self, name: str, action_name: str, options: Dict) -> None:
         self._name = name
@@ -33,11 +33,11 @@ class ActionSourceOption(object):
         return self._options.get(key, default)
 
 
-class ActionSourceCustom(Custom):
+class SourceCustom(Custom):
 
     def __init__(self, vim: Nvim) -> None:
         super().__init__(vim)
-        self._action_source_aliases = {
+        self._source_aliases = {
             'vim/function': [
                 'vim/autoload_function',
                 'vim/script_function',
@@ -57,21 +57,21 @@ class ActionSourceCustom(Custom):
                 'vim/runtime/directory',
             ],
         }
-        self._action_source_options = {
+        self._source_options = {
             '_': {
                 'exactly': False,
             }
         }  # type: Dict[str, Dict[str, Any]]
 
-    def set_alias(self, alias: str, action_source_names: List[str]):
-        self._action_source_aliases[alias] = action_source_names
+    def set_alias(self, alias: str, source_names: List[str]):
+        self._source_aliases[alias] = source_names
 
     def apply_alias(
-        self, action_source_names: List[str], execute_option: ExecuteOption
-    ) -> List[ActionSourceOption]:
+        self, source_names: List[str], execute_option: ExecuteOption
+    ) -> List[SourceOption]:
         options = [
-            (name, self._action_source_options.get(name, {}))
-            for name in action_source_names
+            (name, self._source_options.get(name, {}))
+            for name in source_names
         ]
         aliased = chain.from_iterable(
             map(self._apply_alias, *zip(*options))
@@ -79,9 +79,9 @@ class ActionSourceCustom(Custom):
 
         executed_action_name = execute_option.action_name
         return [
-            ActionSourceOption(
+            SourceOption(
                 name, executed_action_name,
-                {**self._action_source_options['_'], **option}
+                {**self._source_options['_'], **option}
             )
             for name, option in aliased
         ]
@@ -89,12 +89,12 @@ class ActionSourceCustom(Custom):
     def _apply_alias(
         self, name: str, option: Dict[str, str]
     ) -> List[Tuple[str, Dict[str, str]]]:
-        aliased = self._action_source_aliases.get(name, name)
+        aliased = self._source_aliases.get(name, name)
         if aliased == name:
             return [(name, option)]
 
         options = [
-            (name, {**self._action_source_options.get(name, {}), **option})
+            (name, {**self._source_options.get(name, {}), **option})
             for name in aliased
         ]
         try:
@@ -106,7 +106,7 @@ class ActionSourceCustom(Custom):
                 'Invalid alias definition: {}'.format(name)
             )
 
-    def set_option(self, action_source_name: str, option_name: str, value):
-        option = self._action_source_options.get(action_source_name, {})
+    def set_option(self, source_name: str, option_name: str, value):
+        option = self._source_options.get(source_name, {})
         option[option_name] = value
-        self._action_source_options[action_source_name] = option
+        self._source_options[source_name] = option

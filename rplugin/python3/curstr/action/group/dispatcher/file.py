@@ -11,6 +11,11 @@ from .base import Dispatcher
 
 class FileDispatcher(Dispatcher):
 
+    File = File
+    Directory = Directory
+    FilePosition = FilePosition
+    Position = Position
+
     def _mapper(self):
         return {
             File: isfile,

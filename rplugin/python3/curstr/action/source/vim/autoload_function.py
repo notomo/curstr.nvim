@@ -3,16 +3,16 @@ import os.path
 import re
 from typing import Tuple
 
-from curstr.action.group import ActionGroup, File, FileDispatcher, FilePosition
-from curstr.action.source import ActionSource as Base
-from curstr.custom import ActionSourceOption
+from curstr.action.group import ActionGroup, FileDispatcher
+from curstr.action.source import Source as Base
+from curstr.custom import SourceOption
 
 
-class ActionSource(Base):
+class Source(Base):
 
-    _DISPATCHER_CLASS = FileDispatcher
+    DISPATCHER_CLASS = FileDispatcher
 
-    def _create_action_group(self, option: ActionSourceOption) -> ActionGroup:
+    def create(self, option: SourceOption) -> ActionGroup:
         try:
             self._vim.command('setlocal iskeyword+={}'.format('#'))
             cword = self._vim.call('expand', '<cword>')
@@ -30,8 +30,8 @@ class ActionSource(Base):
             if os.path.isfile(file_path):
                 position = self.__search_position(cword, file_path)
                 return self._dispatcher.dispatch((
-                    (FilePosition, file_path, *position),
-                    (File, file_path)
+                    (FileDispatcher.FilePosition, file_path, *position),
+                    (FileDispatcher.File, file_path)
                 ))
 
         return self._dispatcher.nothing()

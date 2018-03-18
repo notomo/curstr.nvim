@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 from pytest import fixture
 
-from curstr.action import Action
+from curstr.action.facade import Action
 from curstr.action.group import ActionGroup
 
 

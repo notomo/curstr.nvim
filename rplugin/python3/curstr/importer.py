@@ -87,7 +87,7 @@ class Importer(Echoable):
         if hasattr(module, 'Source'):
             cls = module.Source
             dispatcher = self._load_dispatcher(
-                cls._DISPATCHER_CLASS, use_cache
+                cls.DISPATCHER_CLASS, use_cache
             )
             source = cls(self._vim, dispatcher)
             self._sources[source_name] = source

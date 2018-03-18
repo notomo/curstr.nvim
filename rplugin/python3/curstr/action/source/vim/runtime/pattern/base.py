@@ -7,11 +7,11 @@ from curstr.action.group import ActionGroup, FileDispatcher
 from curstr.action.source.base import Source as Base
 
 
-class Source(Base):
+class BaseSource(Base):
 
-    _DISPATCHER_CLASS = FileDispatcher
+    DISPATCHER_CLASS = FileDispatcher
 
-    def __create_action_group(self, action_group_class) -> ActionGroup:
+    def _create(self, action_group_class) -> ActionGroup:
         try:
             self._vim.command('setlocal isfname+={}'.format('*'))
             path_pattern = self._vim.call('expand', '<cfile>')

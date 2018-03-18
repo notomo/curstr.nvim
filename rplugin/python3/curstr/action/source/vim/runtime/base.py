@@ -1,16 +1,15 @@
 
-from abc import ABCMeta
 from os.path import join
 
 from curstr.action.group import ActionGroup, FileDispatcher
 from curstr.action.source.base import Source as Base
 
 
-class Source(Base, metaclass=ABCMeta):
+class BaseSource(Base):
 
-    _DISPATCHER_CLASS = FileDispatcher
+    DISPATCHER_CLASS = FileDispatcher
 
-    def __create_action_group(self, action_group_class) -> ActionGroup:
+    def _create(self, action_group_class) -> ActionGroup:
         path = self._vim.call('expand', '<cfile>')
 
         return self._dispatcher.dispatch((

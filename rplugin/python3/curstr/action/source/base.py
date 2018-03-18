@@ -10,7 +10,7 @@ from curstr.echoable import Echoable
 
 class Source(Echoable, metaclass=ABCMeta):
 
-    _DISPATCHER_CLASS = Dispatcher
+    DISPATCHER_CLASS = Dispatcher
 
     def __init__(self, vim: Nvim, dispatcher: Dispatcher) -> None:
         self._vim = vim

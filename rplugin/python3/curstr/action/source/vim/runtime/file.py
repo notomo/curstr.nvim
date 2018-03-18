@@ -1,11 +1,11 @@
 
-from curstr.action.group import ActionGroup, File
+from curstr.action.group import ActionGroup, FileDispatcher
 from curstr.custom import SourceOption
 
-from .base import Source as Base
+from .base import BaseSource
 
 
-class Source(Base):
+class Source(BaseSource):
 
     def create(self, option: SourceOption) -> ActionGroup:
-        return self.__create_action_group(File)
+        return self._create(FileDispatcher.File)

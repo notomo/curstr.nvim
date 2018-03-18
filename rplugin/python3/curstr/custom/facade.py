@@ -11,6 +11,38 @@ from .execute import ExecuteCustom, ExecuteOption
 from .filetype import FiletypeCustom
 
 
+class OptionSet(Echoable):
+
+    def __init__(
+        self,
+        vim: Nvim,
+        source_options: List[ActionSourceOption],
+        execute_option: ExecuteOption
+    ) -> None:
+        self._vim = vim
+        self._source_options = source_options
+        self._execute_option = execute_option
+
+    def get(self, name: str):
+        pass
+
+    @property
+    def source_options(self):
+        return self._source_options
+
+    @property
+    def action_source_names(self) -> List[str]:
+        return self._execute_option._action_source_names
+
+    @property
+    def action_name(self) -> str:
+        return self._execute_option._action_name
+
+    @property
+    def use_cache(self) -> bool:
+        return self._execute_option._use_cache
+
+
 class CustomFacade(Echoable):
 
     def __init__(self, vim: Nvim) -> None:
@@ -43,18 +75,15 @@ class CustomFacade(Echoable):
 
         raise LogicException('Invalid custom_type: {}'.format(custom_type))
 
-    def get_execute_option(self, arg_string: str) -> ExecuteOption:
-        return self._execute_custom.get(arg_string)
-
-    def get_action_source_options(
-        self, execute_option: ExecuteOption
-    ) -> List[ActionSourceOption]:
+    def get_option_set(self, arg_string: str) -> OptionSet:
+        execute_option = self._execute_custom.get(arg_string)
         if execute_option.action_source_names:
             action_source_names = execute_option.action_source_names
         else:
             action_source_names = self._filetype_custom.get(
                 self._vim.current.buffer.options['filetype']
             )
-        return self._action_source_custom.apply_alias(
+        source_options = self._action_source_custom.apply_alias(
             action_source_names, execute_option
         )
+        return OptionSet(self._vim, source_options, execute_option)

@@ -4,10 +4,10 @@ from itertools import chain
 from os.path import join
 
 from curstr.action.group import ActionGroup, FileDispatcher
-from curstr.action.source.base import ActionSource as Base
+from curstr.action.source.base import Source as Base
 
 
-class ActionSource(Base):
+class Source(Base):
 
     _DISPATCHER_CLASS = FileDispatcher
 

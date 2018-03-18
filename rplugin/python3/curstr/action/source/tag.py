@@ -3,14 +3,14 @@
 from typing import List  # noqa
 
 from curstr.action.group import ActionGroup, Nothing, Tag, Tags
-from curstr.custom import ActionSourceOption
+from curstr.custom import SourceOption
 
-from .base import ActionSource as Base
+from .base import Source as Base
 
 
-class ActionSource(Base):
+class Source(Base):
 
-    def _create_action_group(self, option: ActionSourceOption) -> ActionGroup:
+    def create(self, option: SourceOption) -> ActionGroup:
         word = self._vim.call('expand', '<cword>')
 
         contained = []  # type: List[str]

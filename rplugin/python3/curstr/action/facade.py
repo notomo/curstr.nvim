@@ -38,7 +38,7 @@ class ActionFacade(Echoable):
             source = self._importer.get_source(
                 option.name, use_cache
             )
-            group = source._create_action_group(option)
+            group = source.create(option)
             action = Action(group, option.action_name)
             if action.is_executable():
                 return action.execute()

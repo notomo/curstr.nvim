@@ -3,10 +3,10 @@ from abc import ABCMeta
 from os.path import join
 
 from curstr.action.group import ActionGroup, FileDispatcher
-from curstr.action.source.base import ActionSource as Base
+from curstr.action.source.base import Source as Base
 
 
-class ActionSource(Base, metaclass=ABCMeta):
+class Source(Base, metaclass=ABCMeta):
 
     _DISPATCHER_CLASS = FileDispatcher
 

@@ -1,6 +1,6 @@
 
-from .base import ActionSource
+from .base import Source
 
 __all__ = [
-    'ActionSource',
+    'Source',
 ]

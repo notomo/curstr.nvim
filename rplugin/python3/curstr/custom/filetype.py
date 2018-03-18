@@ -13,27 +13,27 @@ class FiletypeCustom(Custom):
 
     def __init__(self, vim: Nvim) -> None:
         super().__init__(vim)
-        self._action_source_names = {'_': ['file']}
+        self._source_names = {'_': ['file']}
         self._aliases = {}  # type: Dict[str, str]
 
-    def set(self, filetype: str, action_source_names: List[str]):
-        self._action_source_names[filetype] = action_source_names
+    def set(self, filetype: str, source_names: List[str]):
+        self._source_names[filetype] = source_names
 
     def set_alias(self, alias: str, filetype: str):
         self._aliases[alias] = filetype
 
     def get(self, filetype: str):
         aliased_filetype = self._apply_alias(filetype)
-        action_source_names = [
+        source_names = [
             name for name
-            in self._action_source_names.get(aliased_filetype, [])
+            in self._source_names.get(aliased_filetype, [])
         ]
-        action_source_names.extend(self._action_source_names['_'])
-        action_source_names = sorted(
-            set(action_source_names), key=action_source_names.index
+        source_names.extend(self._source_names['_'])
+        source_names = sorted(
+            set(source_names), key=source_names.index
         )
 
-        return action_source_names
+        return source_names
 
     def _apply_alias(self, filetype: str) -> str:
         aliased = self._aliases.get(filetype, filetype)

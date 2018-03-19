@@ -2,15 +2,14 @@
 import os.path
 from typing import List  # noqa
 
-from curstr.action.group import ActionGroup, Help, Helps, Nothing
+from curstr.action.group import ActionGroup, Help, Helps
 from curstr.action.source import Source as Base
-from curstr.custom import SourceOption
 
 
 class Source(Base):
 
-    def create(self, option: SourceOption) -> ActionGroup:
-        word = self._vim.call('expand', '<cword>')
+    def create(self) -> ActionGroup:
+        word = self._cursor.get_word()
 
         contained = []  # type: List[str]
         extend = contained.extend
@@ -27,7 +26,7 @@ class Source(Base):
 
                 extend([x for x in words if word in x])
 
-        if not contained or option.get('exactly'):
-            return Nothing(self._vim)
+        if not contained or self._option.get('exactly'):
+            return self._dispatcher.nothing()
 
         return Helps(self._vim, contained)

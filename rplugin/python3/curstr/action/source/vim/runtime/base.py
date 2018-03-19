@@ -10,7 +10,7 @@ class BaseSource(Base):
     DISPATCHER_CLASS = FileDispatcher
 
     def _create(self, action_group_class) -> ActionGroup:
-        path = self._vim.call('expand', '<cfile>')
+        path = self._cursor.get_file_path()
 
         return self._dispatcher.dispatch((
             (action_group_class, join(runtime_path, path))

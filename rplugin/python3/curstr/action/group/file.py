@@ -12,16 +12,20 @@ class File(ActionGroup):
     def path(self):
         return self._path
 
-    def action_open(self):
+    @ActionGroup.action()
+    def open(self):
         self._open('edit')
 
-    def action_tab_open(self):
+    @ActionGroup.action()
+    def tab_open(self):
         self._open('tabedit')
 
-    def action_vertical_open(self):
+    @ActionGroup.action()
+    def vertical_open(self):
         self._open('vsplit')
 
-    def action_horizontal_open(self):
+    @ActionGroup.action()
+    def horizontal_open(self):
         self._open('split')
 
     def _open(self, opener: str):
@@ -29,5 +33,6 @@ class File(ActionGroup):
             opener, self._path
         ))
 
-    def action_default(self):
-        self.action_open()
+    @ActionGroup.action()
+    def default(self):
+        self.open()

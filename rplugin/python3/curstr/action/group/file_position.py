@@ -19,20 +19,24 @@ class FilePosition(File):
     def column(self):
         return self._column
 
-    def action_open(self):
-        super().action_open()
+    @File.action()
+    def open(self):
+        super().open()
         self._goto()
 
-    def action_tab_open(self):
-        super().action_tab_open()
+    @File.action()
+    def tab_open(self):
+        super().tab_open()
         self._goto()
 
-    def action_vertical_open(self):
-        super().action_vertical_open()
+    @File.action()
+    def vertical_open(self):
+        super().vertical_open()
         self._goto()
 
-    def action_horizontal_open(self):
-        super().action_horizontal_open()
+    @File.action()
+    def horizontal_open(self):
+        super().horizontal_open()
         self._goto()
 
     def _goto(self):

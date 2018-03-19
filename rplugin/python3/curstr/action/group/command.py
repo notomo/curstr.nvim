@@ -8,16 +8,20 @@ class Command(ActionGroup):
         super().__init__(vim)
         self._command = command
 
-    def action_open(self):
+    @ActionGroup.action()
+    def open(self):
         self._open('')
 
-    def action_tab_open(self):
+    @ActionGroup.action()
+    def tab_open(self):
         self._open('tab')
 
-    def action_vertical_open(self):
+    @ActionGroup.action()
+    def vertical_open(self):
         self._open('vertical')
 
-    def action_horizontal_open(self):
+    @ActionGroup.action()
+    def horizontal_open(self):
         self._open('split')
 
     def _open(self, opener: str):
@@ -25,5 +29,6 @@ class Command(ActionGroup):
             opener, self._command
         ))
 
-    def action_default(self):
-        self.action_open()
+    @ActionGroup.action()
+    def default(self):
+        self.open()

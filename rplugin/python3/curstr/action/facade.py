@@ -1,7 +1,7 @@
 
 from neovim import Nvim
 
-from curstr.action.group import ActionGroup, Nothing
+from curstr.action.group import ActionGroup
 from curstr.custom import OptionSet
 from curstr.echoable import Echoable
 from curstr.importer import Importer
@@ -14,16 +14,10 @@ class Action(object):
         self._action_name = action_name
 
     def execute(self):
-        getattr(self._action_group, self._get_method_name())()
+        self._action_group.call(self._action_name)
 
     def is_executable(self) -> bool:
-        return (
-            hasattr(self._action_group, self._get_method_name()) and
-            not isinstance(self._action_group, Nothing)
-        )
-
-    def _get_method_name(self) -> str:
-        return 'action_{}'.format(self._action_name)
+        return self._action_group.has(self._action_name)
 
 
 class ActionFacade(Echoable):

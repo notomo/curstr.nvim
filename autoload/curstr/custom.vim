@@ -1,51 +1,51 @@
-
-let s:init_customizes = {
-    \ 'execute_option': [],
-    \ 'filetype_source': [],
-    \ 'filetype_alias': [],
-    \ 'source_alias': [],
-    \ 'source_option': [],
-\ }
-
-function! curstr#custom#execute_option(option_name, value) abort
-    let dict = {'option_name': a:option_name, 'value': a:value}
-    call s:custom('execute_option', dict)
+let s:execute_options = {}
+function! curstr#custom#get_execute_options() abort
+    return s:execute_options
 endfunction
 
-function! curstr#custom#filetype_alias(alias, filetype) abort
-    let dict = {'alias': a:alias, 'filetype': a:filetype}
-    call s:custom('filetype_alias', dict)
+function! curstr#custom#execute_option(name, value) abort
+    let s:execute_options[a:name] = a:value
 endfunction
 
-function! curstr#custom#filetype_source(filetype, source_names) abort
-    let dict = {'filetype': a:filetype, 'source_names': a:source_names}
-    call s:custom('filetype_source', dict)
-endfunction
 
-function! curstr#custom#source_alias(alias, source_names) abort
-    let dict = {'alias': a:alias, 'source_names': a:source_names}
-    call s:custom('source_alias', dict)
+let s:source_options = {}
+function! curstr#custom#get_source_options() abort
+    return s:source_options
 endfunction
 
 function! curstr#custom#source_option(source_name, option_name, value) abort
-    let dict = {'source_name': a:source_name, 'option_name': a:option_name, 'value': a:value}
-    call s:custom('source_option', dict)
+    if !has_key(s:source_options, a:source_name)
+        let s:source_options[a:source_name] = {}
+    endif
+    let s:source_options[a:source_name][a:option_name] = a:value
 endfunction
 
-function! curstr#custom#init() abort
-    if !exists('s:init_customizes')
-        return
-    endif
-    for [type, dicts] in items(s:init_customizes)
-        call _curstr_custom(type, dicts)
-    endfor
-    unlet s:init_customizes
+
+let s:filetype_sources = {}
+function! curstr#custom#get_filetype_sources() abort
+    return s:filetype_sources
 endfunction
 
-function! s:custom(type, dict) abort
-    if has('vim_starting')
-        call add(s:init_customizes[a:type], a:dict)
-        return
-    endif
-    call _curstr_custom(a:type, [a:dict])
+function! curstr#custom#filetype_source(filetype, source_names) abort
+    let s:filetype_sources[a:filetype] = a:source_names
+endfunction
+
+
+let s:filetype_aliases = {}
+function! curstr#custom#get_filetype_aliases() abort
+    return s:filetype_aliases
+endfunction
+
+function! curstr#custom#filetype_alias(alias, filetype) abort
+    let s:filetype_aliases[a:alias] = a:filetype
+endfunction
+
+
+let s:source_aliases = {}
+function! curstr#custom#get_source_aliases() abort
+    return s:source_aliases
+endfunction
+
+function! curstr#custom#source_alias(alias, source_names) abort
+    let s:source_aliases[a:alias] = a:source_names
 endfunction

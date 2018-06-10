@@ -21,7 +21,12 @@ class Source(Base):
 
             append(name)
 
-        if not contained or self._option.get('exactly'):
+        if not contained or self.get_option('exactly'):
             return self._dispatcher.nothing()
 
         return Tags(self._vim, contained)
+
+    def get_options(self):
+        return {
+            'exactly': False,
+        }

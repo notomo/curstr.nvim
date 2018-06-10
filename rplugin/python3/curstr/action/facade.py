@@ -2,9 +2,9 @@
 from neovim import Nvim
 
 from curstr.action.group import ActionGroup
-from curstr.custom import OptionSet
 from curstr.echoable import Echoable
 from curstr.importer import Importer
+from curstr.info import ExecuteInfo
 
 
 class Action(object):
@@ -26,14 +26,10 @@ class ActionFacade(Echoable):
         self._vim = vim
         self._importer = importer
 
-    def execute(self, option_set: OptionSet):
-        use_cache = option_set.use_cache
-        for option in option_set.source_options:
-            source = self._importer.get_source(
-                option, use_cache
-            )
+    def execute(self, info: ExecuteInfo):
+        for source in self._importer.get_sources(info):
             group = source.create()
-            action = Action(group, option.action_name)
+            action = Action(group, info.action_name)
             if action.is_executable():
                 return action.execute()
         return None

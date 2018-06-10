@@ -3,17 +3,19 @@ import glob
 import importlib
 import os
 import sys
+from functools import partial
 from importlib.util import spec_from_file_location, spec_from_loader
 from modulefinder import Module
 from os.path import join
 from typing import Dict  # noqa
 from typing import List, Type
 
+from curstr.action.cursor import Cursor
 from curstr.action.source import Source
-from curstr.custom import SourceOption
 from curstr.exception import (
     ActionModuleNotFoundException, SourceNotFoundException
 )
+from curstr.info import ExecuteInfo
 
 from .echoable import Echoable
 
@@ -71,23 +73,24 @@ class Importer(Echoable):
 
         raise ActionModuleNotFoundException(name)
 
-    def get_source(
-        self, option: SourceOption, use_cache: bool
-    ) -> Source:
-        source_name = option.name
-        if use_cache and source_name in self._sources:
-            return self._get_source_instance(
-                self._sources[source_name],
-                option,
-                use_cache
-            )
+    def get_sources(self, info: ExecuteInfo):
+        use_cache = info.use_cache
+        cursor = Cursor(self._vim, info)
+        return (
+            self._get_source(name, use_cache)(cursor)
+            for name in info.source_names
+        )
 
-        return self._load_source(option, use_cache)
+    def _get_source(
+        self, source_name: str, use_cache: bool
+    ):
+        if use_cache and source_name in self._sources:
+            return self._sources[source_name]
+        return self._load_source(source_name, use_cache)
 
     def _load_source(
-        self, option: SourceOption, use_cache: bool
+        self, source_name: str, use_cache: bool
     ) -> Source:
-        source_name = option.name
         module_name = 'curstr.action.source.{}'.format(
             '.'.join(source_name.split('/'))
         )
@@ -96,18 +99,18 @@ class Importer(Echoable):
             cls = module.Source
             self._sources[source_name] = cls
             return self._get_source_instance(
-                cls, option, use_cache
+                cls, use_cache
             )
 
         raise SourceNotFoundException(source_name)
 
     def _get_source_instance(
-        self, cls: Type[Source], option: SourceOption, use_cache: bool
-    ) -> Source:
+        self, cls: Type[Source], use_cache: bool
+    ):
         dispatcher = self._load_dispatcher(
             cls.DISPATCHER_CLASS, use_cache
         )
-        source = cls(self._vim, dispatcher, option)
+        source = partial(cls, self._vim, dispatcher)
         return source
 
     def _load_dispatcher(self, cls, use_cache: bool):

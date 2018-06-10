@@ -1,19 +1,19 @@
 
 from neovim import Nvim
 
-from curstr.custom import SourceOption
 from curstr.echoable import Echoable
+from curstr.info import ExecuteInfo
 
 
 class Cursor(Echoable):
 
-    def __init__(self, vim: Nvim, option: SourceOption) -> None:
+    def __init__(self, vim: Nvim, info: ExecuteInfo) -> None:
         self._vim = vim
-        self._option = option
+        self._info = info
 
     def target_option(func):
         def wrapper(self, *args, **kwargs):
-            target_string = self._option.get('str')
+            target_string = self._info.string
             if target_string:
                 return target_string
             return func(self, *args, **kwargs)

@@ -85,7 +85,9 @@ class Importer(Echoable):
         self, source_name: str, use_cache: bool
     ):
         if use_cache and source_name in self._sources:
-            return self._sources[source_name]
+            return self._get_source_instance(
+                self._sources[source_name], use_cache
+            )
         return self._load_source(source_name, use_cache)
 
     def _load_source(

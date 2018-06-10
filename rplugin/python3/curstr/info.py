@@ -13,7 +13,7 @@ class ExecuteInfo(object):
 
     DEFAULT_OPTIONS = {
         'use-cache': True,
-        'action_name': 'default',
+        'action': 'default',
         'string': '',
     }  # type: ExecuteOptions
 
@@ -23,7 +23,7 @@ class ExecuteInfo(object):
         source_names: List[str],
         options: ExecuteOptions
     ) -> None:
-        self._source_names = source_names
+        self._source_names = list(filter(lambda x: len(x) != 0, source_names))
         user_options = vim.call('curstr#custom#get_execute_options')
         self._options = {
             **self.DEFAULT_OPTIONS, **user_options, **options
@@ -61,7 +61,7 @@ class ExecuteInfo(object):
 
     @property
     def action_name(self) -> str:
-        action_name = self._options['action_name']
+        action_name = self._options['action']
         if not isinstance(action_name, str):
             raise LogicException('action_name must be str')
         return action_name

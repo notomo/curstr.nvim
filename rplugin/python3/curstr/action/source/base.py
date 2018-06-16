@@ -37,12 +37,10 @@ class Source(Echoable, metaclass=ABCMeta):
         return {}
 
     def get_option(self, name: str):
-        source_options = self._vim.call('curstr#custom#get_source_options')
-        source_name = self.name
-        if source_name in source_options:
-            options = {**self.get_options(), **source_options}
-        else:
-            options = self.get_options()
+        source_options = self._vim.call(
+            'curstr#custom#get_source_options', self.name
+        )
+        options = {**self.get_options(), **source_options}
         if name not in options:
-            raise LogicException('Not exist option: '.format(name))
+            raise LogicException('Not exist option: {}'.format(name))
         return options[name]

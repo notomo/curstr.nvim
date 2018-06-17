@@ -12,11 +12,7 @@ class BaseSource(Base):
     DISPATCHER_CLASS = FileDispatcher
 
     def _create(self, action_group_class) -> ActionGroup:
-        try:
-            self._vim.command('setlocal isfname+={}'.format('*'))
-            path_pattern = self._vim.call('expand', '<cfile>')
-        finally:
-            self._vim.command('setlocal isfname-={}'.format('*'))
+        path_pattern = self._cursor.get_file_path(added_isfname='*')
 
         runtime_glob_paths = chain(*[
             iglob(join(runtime_path, path_pattern), recursive=True)

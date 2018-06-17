@@ -3,21 +3,25 @@ import glob
 import importlib
 import os
 import sys
+from functools import partial
+from importlib.abc import MetaPathFinder
 from importlib.util import spec_from_file_location, spec_from_loader
 from modulefinder import Module
 from os.path import join
 from typing import Dict  # noqa
-from typing import List
+from typing import List, Type
 
+from curstr.action.cursor import Cursor
 from curstr.action.source import Source
 from curstr.exception import (
     ActionModuleNotFoundException, SourceNotFoundException
 )
+from curstr.info import ExecuteInfo
 
 from .echoable import Echoable
 
 
-class Importer(Echoable):
+class Importer(Echoable, MetaPathFinder):
 
     ACTION_MODULE_PATH = 'curstr.action.'
 
@@ -25,9 +29,11 @@ class Importer(Echoable):
         self._vim = vim
         sys.meta_path.insert(0, self)
 
-        self._sources = {}  # type: Dict[str, Source]
+        self._sources = {}  # type: Dict[str, Type[Source]]
 
-    def find_spec(self, fullname: str, path: List[str], target=None):
+    def find_spec(  # type: ignore
+        self, fullname: str, path: List[str], target=None
+    ):
         if fullname.startswith(self.ACTION_MODULE_PATH):
             module_paths = fullname[len(self.ACTION_MODULE_PATH):].split('.')
             return self._get_spec(module_paths)
@@ -70,30 +76,44 @@ class Importer(Echoable):
 
         raise ActionModuleNotFoundException(name)
 
-    def get_source(
-        self, source_name: str, use_cache: bool
-    ) -> Source:
-        if use_cache and source_name in self._sources:
-            return self._sources[source_name]
-        return self._load_source(source_name, use_cache)
+    def get_sources(self, execute_info: ExecuteInfo):
+        return (
+            self._get_source(info.source_name, info.use_cache)(
+                info,
+                Cursor(self._vim, info)
+            )
+            for info in execute_info.source_execute_infos
+        )
 
-    def _load_source(
+    def _get_source(
         self, source_name: str, use_cache: bool
-    ) -> Source:
+    ):
+        if use_cache and source_name in self._sources:
+            return self._get_source_instance(
+                self._sources[source_name], use_cache
+            )
+
         module_name = 'curstr.action.source.{}'.format(
             '.'.join(source_name.split('/'))
         )
         module = self._import(module_name)
         if hasattr(module, 'Source'):
             cls = module.Source
-            dispatcher = self._load_dispatcher(
-                cls.DISPATCHER_CLASS, use_cache
+            self._sources[source_name] = cls
+            return self._get_source_instance(
+                cls, use_cache
             )
-            source = cls(self._vim, dispatcher)
-            self._sources[source_name] = source
-            return source
 
         raise SourceNotFoundException(source_name)
+
+    def _get_source_instance(
+        self, cls: Type[Source], use_cache: bool
+    ):
+        dispatcher = self._load_dispatcher(
+            cls.DISPATCHER_CLASS, use_cache
+        )
+        source = partial(cls, self._vim, dispatcher)
+        return source
 
     def _load_dispatcher(self, cls, use_cache: bool):
         if use_cache:

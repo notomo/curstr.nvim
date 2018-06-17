@@ -2,12 +2,14 @@ set encoding=utf-8
 
 call themis#option('recursive', 1)
 
+
 doautocmd FuncUndefined _curstr_execute
 doautocmd FuncUndefined _curstr_custom
 runtime! plugin/rplugin.vim
 UpdateRemotePlugins
 
 function! CurstrTestBefore() abort
+    let g:running_themis = 1
     let s:root = getcwd()
     return s:root
 endfunction
@@ -15,6 +17,7 @@ endfunction
 function! CurstrTestAfterEach() abort
     %bwipeout!
     execute 'cd ' . s:root
+    let g:running_themis = 1
 endfunction
 
 execute 'profile' 'start' $THEMIS_PROFILE_LOG

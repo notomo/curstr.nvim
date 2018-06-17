@@ -2,16 +2,15 @@
 
 from typing import List  # noqa
 
-from curstr.action.group import ActionGroup, Nothing, Tag, Tags
-from curstr.custom import SourceOption
+from curstr.action.group import ActionGroup, Tag, Tags
 
 from .base import Source as Base
 
 
 class Source(Base):
 
-    def create(self, option: SourceOption) -> ActionGroup:
-        word = self._vim.call('expand', '<cword>')
+    def create(self) -> ActionGroup:
+        word = self._cursor.get_word()
 
         contained = []  # type: List[str]
         append = contained.append
@@ -22,7 +21,12 @@ class Source(Base):
 
             append(name)
 
-        if not contained or option.get('exactly'):
-            return Nothing(self._vim)
+        if not contained or self.get_option('exactly'):
+            return self._dispatcher.nothing()
 
         return Tags(self._vim, contained)
+
+    def get_options(self):
+        return {
+            'exactly': False,
+        }

@@ -1,10 +1,10 @@
 
 from neovim import Nvim
 
-from curstr.action.group import ActionGroup, Nothing
-from curstr.custom import OptionSet
+from curstr.action.group import ActionGroup
 from curstr.echoable import Echoable
 from curstr.importer import Importer
+from curstr.info import ExecuteInfo
 
 
 class Action(object):
@@ -14,16 +14,10 @@ class Action(object):
         self._action_name = action_name
 
     def execute(self):
-        getattr(self._action_group, self._get_method_name())()
+        self._action_group.call(self._action_name)
 
     def is_executable(self) -> bool:
-        return (
-            hasattr(self._action_group, self._get_method_name()) and
-            not isinstance(self._action_group, Nothing)
-        )
-
-    def _get_method_name(self) -> str:
-        return 'action_{}'.format(self._action_name)
+        return self._action_group.has(self._action_name)
 
 
 class ActionFacade(Echoable):
@@ -32,14 +26,10 @@ class ActionFacade(Echoable):
         self._vim = vim
         self._importer = importer
 
-    def execute(self, option_set: OptionSet):
-        use_cache = option_set.use_cache
-        for option in option_set.source_options:
-            source = self._importer.get_source(
-                option.name, use_cache
-            )
-            group = source.create(option)
-            action = Action(group, option.action_name)
+    def execute(self, info: ExecuteInfo):
+        for source in self._importer.get_sources(info):
+            group = source.create()
+            action = Action(group, source.action_name)
             if action.is_executable():
                 return action.execute()
         return None

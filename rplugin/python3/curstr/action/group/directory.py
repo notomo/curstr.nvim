@@ -8,7 +8,8 @@ class Directory(File, Listable):
     def __init__(self, vim, path) -> None:
         super().__init__(vim, path)
 
-    def action_list(self):
+    @Listable.action()
+    def list(self):
         self._vim.call(
             'denite#start',
             [{'name': 'curstr/file', 'args': []}],

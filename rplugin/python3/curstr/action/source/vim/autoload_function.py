@@ -5,19 +5,14 @@ from typing import Tuple
 
 from curstr.action.group import ActionGroup, FileDispatcher
 from curstr.action.source import Source as Base
-from curstr.custom import SourceOption
 
 
 class Source(Base):
 
     DISPATCHER_CLASS = FileDispatcher
 
-    def create(self, option: SourceOption) -> ActionGroup:
-        try:
-            self._vim.command('setlocal iskeyword+={}'.format('#'))
-            cword = self._vim.call('expand', '<cword>')
-        finally:
-            self._vim.command('setlocal iskeyword-={}'.format('#'))
+    def create(self) -> ActionGroup:
+        cword = self._cursor.get_word(added_iskeyword='#')
 
         if '#' not in cword:
             return self._dispatcher.nothing()

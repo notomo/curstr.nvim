@@ -16,6 +16,25 @@ function! s:suite.after_each()
     call CurstrTestAfterEach()
 endfunction
 
+function! s:suite.string_option()
+    call setpos('.', [0, 1, 1, 0])
+    Curstr vim/autoload_function -string=curstr#execute
+
+    call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
+    let position = getpos('.')
+    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[2], 11)
+endfunction
+
+function! s:suite.no_cache_option()
+    Curstr vim/autoload_function -no-cache
+
+    call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
+    let position = getpos('.')
+    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[2], 11)
+endfunction
+
 function! s:suite.open()
     Curstr vim/autoload_function
 

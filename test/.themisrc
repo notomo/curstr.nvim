@@ -8,8 +8,8 @@ doautocmd FuncUndefined _curstr_custom
 runtime! plugin/rplugin.vim
 UpdateRemotePlugins
 
+call curstr#test#start_testing()
 function! CurstrTestBefore() abort
-    let g:running_themis = 1
     let s:root = getcwd()
     return s:root
 endfunction
@@ -17,7 +17,6 @@ endfunction
 function! CurstrTestAfterEach() abort
     %bwipeout!
     execute 'cd ' . s:root
-    let g:running_themis = 1
 endfunction
 
 execute 'profile' 'start' $THEMIS_PROFILE_LOG

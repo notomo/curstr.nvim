@@ -15,5 +15,5 @@ class Echoable(object):
         lines = traceback.format_exc().splitlines()
         message = '[curstr] {}\n'.format('\n'.join(lines))
         self._vim.err_write(message)
-        if self._vim.call('curstr#is_testing'):
+        if self._vim.call('curstr#test#is_testing'):
             self._vim.call('themis#log', message)

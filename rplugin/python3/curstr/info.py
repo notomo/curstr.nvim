@@ -75,6 +75,25 @@ class ExecuteInfo(object):
             **self._DEFAULT_EXECUTE_OPTIONS, **user_options,
         }
 
+        if len(source_names) == 0:
+            filetype = vim.current.buffer.options['filetype']
+            filetype_alias = vim.call(
+                'curstr#custom#get_filetype_aliase', filetype
+            )
+            filetype = filetype_alias if len(filetype_alias) != 0 else filetype
+            source_names = vim.call(
+                'curstr#custom#get_filetype_sources', filetype
+            )
+
+        all_filetype_source_names = vim.call(
+            'curstr#custom#get_filetype_sources', '_'
+        )
+        source_names.extend(all_filetype_source_names)
+
+        source_names = sorted(
+            set(source_names), key=source_names.index
+        )
+
         self._source_execute_infos = list(chain.from_iterable((
             self._resolve_source_name(
                 name, {}, execute_options, default_execute_options
@@ -96,26 +115,8 @@ class ExecuteInfo(object):
             else:
                 options[key[1:]] = True
 
-        if len(source_names) == 0:
-            filetype = vim.current.buffer.options['filetype']
-            filetype_alias = vim.call(
-                'curstr#custom#get_filetype_aliase', filetype
-            )
-            filetype = filetype_alias if len(filetype_alias) != 0 else filetype
-            source_names = vim.call(
-                'curstr#custom#get_filetype_sources', filetype
-            )
-
-        all_filetype_source_names = vim.call(
-            'curstr#custom#get_filetype_sources', '_'
-        )
-        source_names.extend(all_filetype_source_names)
-
         source_names = list(filter(
-            lambda x: len(x) != 0,
-            sorted(
-                set(source_names), key=source_names.index
-            )
+            lambda x: len(x) != 0, source_names
         ))
 
         return cls(vim, source_names, options)

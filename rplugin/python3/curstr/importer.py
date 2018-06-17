@@ -4,6 +4,7 @@ import importlib
 import os
 import sys
 from functools import partial
+from importlib.abc import MetaPathFinder
 from importlib.util import spec_from_file_location, spec_from_loader
 from modulefinder import Module
 from os.path import join
@@ -20,7 +21,7 @@ from curstr.info import ExecuteInfo
 from .echoable import Echoable
 
 
-class Importer(Echoable):
+class Importer(Echoable, MetaPathFinder):
 
     ACTION_MODULE_PATH = 'curstr.action.'
 
@@ -30,7 +31,9 @@ class Importer(Echoable):
 
         self._sources = {}  # type: Dict[str, Type[Source]]
 
-    def find_spec(self, fullname: str, path: List[str], target=None):
+    def find_spec(  # type: ignore
+        self, fullname: str, path: List[str], target=None
+    ):
         if fullname.startswith(self.ACTION_MODULE_PATH):
             module_paths = fullname[len(self.ACTION_MODULE_PATH):].split('.')
             return self._get_spec(module_paths)

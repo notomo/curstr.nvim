@@ -29,7 +29,7 @@ class ActionFacade(Echoable):
     def execute(self, info: ExecuteInfo):
         for source in self._importer.get_sources(info):
             group = source.create()
-            action = Action(group, info.action_name)
+            action = Action(group, source.action_name)
             if action.is_executable():
                 return action.execute()
         return None

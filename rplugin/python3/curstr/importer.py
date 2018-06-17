@@ -73,12 +73,13 @@ class Importer(Echoable):
 
         raise ActionModuleNotFoundException(name)
 
-    def get_sources(self, info: ExecuteInfo):
-        use_cache = info.use_cache
-        cursor = Cursor(self._vim, info)
+    def get_sources(self, execute_info: ExecuteInfo):
         return (
-            self._get_source(name, use_cache)(cursor)
-            for name in info.source_names
+            self._get_source(info.source_name, info.use_cache)(
+                info,
+                Cursor(self._vim, info)
+            )
+            for info in execute_info.source_execute_infos
         )
 
     def _get_source(
@@ -88,11 +89,7 @@ class Importer(Echoable):
             return self._get_source_instance(
                 self._sources[source_name], use_cache
             )
-        return self._load_source(source_name, use_cache)
 
-    def _load_source(
-        self, source_name: str, use_cache: bool
-    ) -> Source:
         module_name = 'curstr.action.source.{}'.format(
             '.'.join(source_name.split('/'))
         )

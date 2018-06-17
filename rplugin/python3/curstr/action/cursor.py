@@ -2,12 +2,12 @@
 from neovim import Nvim
 
 from curstr.echoable import Echoable
-from curstr.info import ExecuteInfo
+from curstr.info import SourceExecuteInfo
 
 
 class Cursor(Echoable):
 
-    def __init__(self, vim: Nvim, info: ExecuteInfo) -> None:
+    def __init__(self, vim: Nvim, info: SourceExecuteInfo) -> None:
         self._vim = vim
         self._info = info
 

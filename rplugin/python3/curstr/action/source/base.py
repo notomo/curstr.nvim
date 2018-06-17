@@ -7,6 +7,7 @@ from curstr.action.cursor import Cursor
 from curstr.action.group import ActionGroup, Dispatcher
 from curstr.echoable import Echoable
 from curstr.exception import LogicException
+from curstr.info import SourceExecuteInfo
 
 
 class Source(Echoable, metaclass=ABCMeta):
@@ -17,30 +18,27 @@ class Source(Echoable, metaclass=ABCMeta):
         self,
         vim: Nvim,
         dispatcher: Dispatcher,
+        info: SourceExecuteInfo,
         cursor: Cursor
     ) -> None:
         self._vim = vim
         self._dispatcher = dispatcher
+        self._info = info
         self._cursor = cursor
 
     @abstractmethod
     def create(self) -> ActionGroup:
         pass
 
-    @property
-    def name(self):
-        return __file__.split(
-            'rplugin/python3/curstr/action/source/'
-        )[1].split('.')[0]
-
     def get_options(self):
         return {}
 
     def get_option(self, name: str):
-        source_options = self._vim.call(
-            'curstr#custom#get_source_options', self.name
-        )
-        options = {**self.get_options(), **source_options}
+        options = {**self.get_options(), **self._info.source_options}
         if name not in options:
             raise LogicException('Not exist option: {}'.format(name))
         return options[name]
+
+    @property
+    def action_name(self) -> str:
+        return self._info.action_name

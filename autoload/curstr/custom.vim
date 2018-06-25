@@ -121,3 +121,12 @@ function! s:is_type_list(values, type) abort
     return len(valid_values) == len(a:values)
 endfunction
 
+
+function! curstr#custom#clean() abort
+    let s:execute_options = {'_':{}}
+    let s:source_options = {}
+    let s:filetype_sources = {}
+    let s:filetype_aliases = {}
+    let s:source_aliases = {}
+endfunction
+

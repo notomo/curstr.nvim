@@ -85,10 +85,10 @@ class ExecuteInfo(object):
                 'curstr#custom#get_filetype_sources', filetype
             )
 
-        all_filetype_source_names = vim.call(
-            'curstr#custom#get_filetype_sources', '_'
-        )
-        source_names.extend(all_filetype_source_names)
+            all_filetype_source_names = vim.call(
+                'curstr#custom#get_filetype_sources', '_'
+            )
+            source_names.extend(all_filetype_source_names)
 
         source_names = sorted(
             set(source_names), key=source_names.index

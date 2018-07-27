@@ -53,6 +53,11 @@ function! s:suite.empty_source_option()
     call s:assert.empty(source_options)
 endfunction
 
+function! s:suite.list_source_option()
+    call curstr#custom#source_option('source_name', 'option_name', ['option1', 'option2', ['option3']])
+    call curstr#custom#get_source_options('option_name')
+endfunction
+
 function! s:suite.filetype_source()
     let filetype = 'filetype'
     let source_names = ['source_name1', 'source_name2']

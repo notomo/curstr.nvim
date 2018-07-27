@@ -96,6 +96,10 @@ function! s:validate_source_names(source_names) abort
 endfunction
 
 function! s:validate_value(value) abort
+    if s:is_type(a:value, v:t_list)
+        let values = map(copy(a:value), { _, v -> s:validate_value(v) })
+        return len(filter(values, {_, v -> v == v:false})) == 0
+    endif
     if !s:is_type(a:value, v:t_string, v:t_bool, v:t_number)
         echoerr 'value must be string or bool or number'
     endif

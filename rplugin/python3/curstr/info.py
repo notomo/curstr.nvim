@@ -1,12 +1,13 @@
 
 from itertools import chain
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 
 from neovim import Nvim
 
 from .exception import LogicException
 
-OptionValue = Union[str, bool]
+OptionValue = Union[str, bool, int, Any]
+# Recursive types not fully supported yet, nested types replaced with "Any"
 Options = Dict[str, OptionValue]
 
 

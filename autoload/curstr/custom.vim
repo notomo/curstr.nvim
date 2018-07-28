@@ -3,7 +3,12 @@ function! curstr#custom#clean() abort
     let s:execute_options = {'_':{}}
     let s:source_options = {}
     let s:filetype_aliases = {}
-    let s:source_aliases = {}
+    let s:source_aliases = {
+        \ 'vim/runtime': ['vim/runtime/pattern/file', 'vim/runtime/pattern/directory', 'vim/runtime/file', 'vim/runtime/directory'],
+        \ 'file': ['file/buffer_relative', 'file/path'],
+        \ 'directory': ['directory/buffer_relative', 'directory/path'],
+        \ 'vim/function': ['vim/autoload_function', 'vim/script_function'],
+    \ }
 endfunction
 call curstr#custom#clean()
 

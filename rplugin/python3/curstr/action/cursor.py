@@ -1,4 +1,6 @@
 
+from typing import Tuple
+
 from neovim import Nvim
 
 from curstr.echoable import Echoable
@@ -47,3 +49,23 @@ class Cursor(Echoable):
             self._vim.command('setlocal isfname-={}'.format(added))
 
         return file_path
+
+    def get_word_with_range(self) -> Tuple[str, Tuple[int, int]]:
+        current_pos = self._vim.current.window.cursor
+        word_range = self._vim.call(
+            'matchstrpos',
+            self._vim.current.line,
+            '\\v\w*%{}v\w+'.format(current_pos[1] + 1)
+        )[1:]
+
+        if word_range[0] == -1:
+            return ('', (-1, -1))
+
+        word = self.get_word()
+
+        return (word, word_range)
+
+    @target_option
+    def get_line(self) -> str:
+        line = self._vim.current.line
+        return line

@@ -48,3 +48,8 @@ class Source(Base):
                 row += 1
 
         return (0, 0)
+
+    def get_options(self):
+        return {
+            'filetyps': ['vim'],
+        }

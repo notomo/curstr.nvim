@@ -34,4 +34,5 @@ class Source(Base):
     def get_options(self):
         return {
             'exactly': False,
+            'filetyps': ['vim'],
         }

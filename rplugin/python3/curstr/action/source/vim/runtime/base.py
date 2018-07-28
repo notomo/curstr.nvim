@@ -17,3 +17,8 @@ class BaseSource(Base):
             for runtime_path
             in self._vim.options['runtimepath'].split(',')
         ))
+
+    def get_options(self):
+        return {
+            'filetyps': ['vim'],
+        }

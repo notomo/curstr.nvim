@@ -29,3 +29,8 @@ class Source(Base):
             '\\v\s*fu%[nction]!?\s*s:\zs{}\('.format(function_name),
             'nw'
         )
+
+    def get_options(self):
+        return {
+            'filetyps': ['vim'],
+        }

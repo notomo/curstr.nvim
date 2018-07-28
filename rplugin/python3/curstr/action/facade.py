@@ -28,6 +28,8 @@ class ActionFacade(Echoable):
 
     def execute(self, info: ExecuteInfo):
         for source in self._importer.get_sources(info):
+            if not source.enabled():
+                continue
             group = source.create()
             action = Action(group, source.action_name)
             if action.is_executable():

@@ -1,4 +1,12 @@
-let s:execute_options = {'_':{}}
+
+function! curstr#custom#clean() abort
+    let s:execute_options = {'_':{}}
+    let s:source_options = {}
+    let s:filetype_aliases = {}
+    let s:source_aliases = {}
+endfunction
+call curstr#custom#clean()
+
 function! curstr#custom#get_execute_options(...) abort
     if a:0 == 1
         let source_name = a:1
@@ -26,7 +34,6 @@ function! curstr#custom#execute_option(name, value, ...) abort
 endfunction
 
 
-let s:source_options = {}
 function! curstr#custom#get_source_options(source_name) abort
     if !has_key(s:source_options, a:source_name)
         return {}
@@ -44,21 +51,6 @@ function! curstr#custom#source_option(source_name, option_name, value) abort
 endfunction
 
 
-let s:filetype_sources = {}
-function! curstr#custom#get_filetype_sources(filetype) abort
-    if !has_key(s:filetype_sources, a:filetype)
-        return []
-    endif
-    return s:filetype_sources[a:filetype]
-endfunction
-
-function! curstr#custom#filetype_source(filetype, source_names) abort
-    call s:validate_source_names(a:source_names)
-    let s:filetype_sources[a:filetype] = a:source_names
-endfunction
-
-
-let s:filetype_aliases = {}
 function! curstr#custom#get_filetype_aliase(filetype_alias_name) abort
     if !has_key(s:filetype_aliases, a:filetype_alias_name)
         return ''
@@ -74,7 +66,6 @@ function! curstr#custom#filetype_alias(filetype_alias_name, filetype) abort
 endfunction
 
 
-let s:source_aliases = {}
 function! curstr#custom#get_source_aliases(alias_name) abort
     if !has_key(s:source_aliases, a:alias_name)
         return []
@@ -125,12 +116,4 @@ function! s:is_type_list(values, type) abort
     return len(valid_values) == len(a:values)
 endfunction
 
-
-function! curstr#custom#clean() abort
-    let s:execute_options = {'_':{}}
-    let s:source_options = {}
-    let s:filetype_sources = {}
-    let s:filetype_aliases = {}
-    let s:source_aliases = {}
-endfunction
 

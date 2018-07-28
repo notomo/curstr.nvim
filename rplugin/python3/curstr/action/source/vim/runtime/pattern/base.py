@@ -24,3 +24,8 @@ class BaseSource(Base):
             (action_group_class, path)
             for path in runtime_glob_paths
         ))
+
+    def get_options(self):
+        return {
+            'filetyps': ['vim'],
+        }

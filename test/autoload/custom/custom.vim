@@ -58,20 +58,6 @@ function! s:suite.list_source_option()
     call curstr#custom#get_source_options('option_name')
 endfunction
 
-function! s:suite.filetype_source()
-    let filetype = 'filetype'
-    let source_names = ['source_name1', 'source_name2']
-    call curstr#custom#filetype_source(filetype, source_names)
-
-    let filetype_sources = curstr#custom#get_filetype_sources(filetype)
-    call s:assert.equals(filetype_sources, source_names)
-endfunction
-
-function! s:suite.empty_filetype_source()
-    let filetype_sources = curstr#custom#get_filetype_sources('filetyep')
-    call s:assert.empty(filetype_sources)
-endfunction
-
 function! s:suite.filetype_alias()
     let alias_name = 'alias_name'
     let expected_filetype = 'filetype'

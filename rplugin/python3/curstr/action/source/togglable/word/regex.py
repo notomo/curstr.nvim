@@ -10,7 +10,8 @@ from curstr.action.source.base import Source as Base
 class Source(Base):
 
     def create(self) -> ActionGroup:
-        word, word_range = self._cursor.get_word_with_range()
+        added_iskeyword = self.get_option('added_iskeyword')
+        word, word_range = self._cursor.get_word_with_range(added_iskeyword)
         patterns = self.get_option('patterns')
 
         for args in patterns:
@@ -31,4 +32,5 @@ class Source(Base):
     def get_options(self):
         return {
             'patterns': [],
+            'added_iskeyword': '',
         }

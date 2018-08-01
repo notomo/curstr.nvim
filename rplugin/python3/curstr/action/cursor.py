@@ -50,18 +50,25 @@ class Cursor(Echoable):
 
         return file_path
 
-    def get_word_with_range(self) -> Tuple[str, Tuple[int, int]]:
+    def get_word_with_range(
+        self, added_iskeyword=''
+    ) -> Tuple[str, Tuple[int, int]]:
         current_pos = self._vim.current.window.cursor
-        word_range = self._vim.call(
-            'matchstrpos',
-            self._vim.current.line,
-            '\\v\w*%{}v\w+'.format(current_pos[1] + 1)
-        )[1:]
+        added = ','.join(added_iskeyword)
+        try:
+            self._vim.command('setlocal iskeyword+={}'.format(added))
+            word_range = self._vim.call(
+                'matchstrpos',
+                self._vim.current.line,
+                '\\v\k*%{}v\k+'.format(current_pos[1] + 1)
+            )[1:]
+        finally:
+            self._vim.command('setlocal iskeyword-={}'.format(added))
 
         if word_range[0] == -1:
             return ('', (-1, -1))
 
-        word = self.get_word()
+        word = self.get_word(added_iskeyword)
 
         return (word, word_range)
 

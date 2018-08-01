@@ -26,3 +26,15 @@ function! s:suite.toggle()
     Curstr togglable/word/regex
     call s:assert.equals(expand('<cword>'), 'bar')
 endfunction
+
+function! s:suite.iskeyword_option()
+    tabe | setlocal buftype=nofile noswapfile
+    call append(0, 'foo:test')
+    call setpos('.', [0, 1, 1, 0])
+    call curstr#custom#source_option('togglable/word/regex', 'patterns', [['foo:test', 'foo;test'], ['foo;test', 'foo:test']])
+    call curstr#custom#source_option('togglable/word/regex', 'added_iskeyword', ':;')
+    Curstr togglable/word/regex
+    call s:assert.equals(getline(line('.')), 'foo;test')
+    Curstr togglable/word/regex
+    call s:assert.equals(getline(line('.')), 'foo:test')
+endfunction

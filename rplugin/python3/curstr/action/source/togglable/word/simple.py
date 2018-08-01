@@ -10,7 +10,8 @@ from curstr.action.source.base import Source as Base
 class Source(Base):
 
     def create(self) -> ActionGroup:
-        word, word_range = self._cursor.get_word_with_range()
+        added_iskeyword = self.get_option('added_iskeyword')
+        word, word_range = self._cursor.get_word_with_range(added_iskeyword)
         words = self.get_option('words')
         if self.get_option('normalized'):
             args = [
@@ -42,4 +43,5 @@ class Source(Base):
         return {
             'words': [],
             'normalized': False,
+            'added_iskeyword': '',
         }

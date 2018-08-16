@@ -60,7 +60,7 @@ class Cursor(Echoable):
             word_range = self._vim.call(
                 'matchstrpos',
                 self._vim.current.line,
-                '\\v\k*%{}v\k+'.format(current_pos[1] + 1)
+                '\\v\k*%{}c\k+'.format(current_pos[1] + 1)
             )[1:]
         finally:
             self._vim.command('setlocal iskeyword-={}'.format(added))

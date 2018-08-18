@@ -9,8 +9,10 @@ python:
     - "3.7-dev"
 
 install:
-    # from lambdalisue/install_nvim_for_ci.sh
-    - curl -sL git.io/v18DU | bash
+    - wget -nv https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    - mkdir -p ~/neovim/bin
+    - cp nvim.appimage ~/neovim/bin/nvim
+    - chmod u+x ~/neovim/bin/nvim
     - pip3 install neovim
     - pip3 install mypy
     - pip3 install flake8

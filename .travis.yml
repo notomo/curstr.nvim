@@ -8,9 +8,7 @@ python:
     - "3.7-dev"
 
 install:
-    - sudo apt-get install fuse
     - sudo modprobe fuse
-    - sudo groupadd fuse
     - user="$(whoami)"
     - sudo usermod -a -G fuse $user
     - wget -nv https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage

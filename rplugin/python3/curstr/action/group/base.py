@@ -33,3 +33,6 @@ class ActionGroup(Echoable):
 
     def call(self, action_name: str):
         return self._actions[action_name]()
+
+    def is_nothing(self) -> bool:
+        return False

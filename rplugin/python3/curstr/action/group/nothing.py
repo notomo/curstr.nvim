@@ -3,4 +3,6 @@ from .base import ActionGroup
 
 
 class Nothing(ActionGroup):
-    pass
+
+    def is_nothing(self) -> bool:
+        return True

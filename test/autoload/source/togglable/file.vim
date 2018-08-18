@@ -22,3 +22,15 @@ function! s:suite.open()
     Curstr togglable/file
     call s:assert.equals(expand('%:t'), 'togglable_file.vim')
 endfunction
+
+function! s:suite.create()
+    call curstr#custom#source_option('togglable/file', 'pattern_groups', [['new_%.vim', '%.vim']])
+    call curstr#custom#source_option('togglable/file', 'create', v:true)
+
+    Curstr togglable/file
+    call s:assert.equals(expand('%:t'), 'new_togglable_file.vim')
+    Curstr togglable/file
+    call s:assert.equals(expand('%:t'), 'togglable_file.vim')
+
+    call delete(s:root . '/test/autoload/_test_data/new_togglable_file.vim')
+endfunction

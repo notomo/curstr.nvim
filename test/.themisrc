@@ -16,6 +16,7 @@ endfunction
 
 function! CurstrTestAfterEach() abort
     %bwipeout!
+    call curstr#custom#clean()
     execute 'cd ' . s:root
 endfunction
 

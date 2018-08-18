@@ -7,6 +7,7 @@ from curstr.action.source.base import Source as Base
 
 Matches = Union[None, List[str]]
 
+
 class Source(Base):
 
     DISPATCHER_CLASS = FileDispatcher

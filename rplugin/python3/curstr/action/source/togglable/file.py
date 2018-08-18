@@ -25,28 +25,39 @@ class Source(Base):
                 absolute_path = join(
                     self._vim.call('expand', '%:p:h'), path
                 )
-                return self._dispatcher.dispatch_one(
-                    FileDispatcher.File,
-                    absolute_path
-                )
+                return self._dispatch(absolute_path)
 
         path = ''
         buffer_path = self._vim.call('expand', '%:p')
         for patterns in pattern_groups:
             path = self._get_path(patterns, buffer_path, offset)
             if path != '':
-                continue
+                break
 
-        return self._dispatcher.dispatch_one(
-            FileDispatcher.File,
-            path
-        )
+        return self._dispatch(path)
 
     def get_options(self):
         return {
             'pattern_groups': [],
             'offset': 1,
+            'create': False,
         }
+
+    def _dispatch(self, path: str):
+        group = self._dispatcher.dispatch_one(
+            FileDispatcher.File,
+            path
+        )
+        if not group.is_nothing():
+            return group
+
+        if self.get_option('create'):
+            return self._dispatcher.dispatch_one(
+                FileDispatcher.NewFile,
+                path
+            )
+
+        return self._dispatcher.nothing()
 
     def _get_path(self, patterns: List[str], path: str, offset: int) -> str:
         index, matches = self._get_current_pattern_matches(patterns, path)

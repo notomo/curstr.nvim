@@ -8,6 +8,7 @@ from .file import File
 from .file_position import FilePosition
 from .help import Help
 from .helps import Helps
+from .new_file import NewFile
 from .nothing import Nothing
 from .position import Position
 from .tag import Tag
@@ -18,6 +19,7 @@ __all__ = [
     'Command',
     'Directory',
     'File',
+    'NewFile',
     'FilePosition',
     'Help',
     'Helps',

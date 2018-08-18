@@ -14,6 +14,9 @@ lint:
 	flake8 rplugin/python3/
 	mypy --ignore-missing-imports rplugin/python3/
 
+tag:
+	ctags --options=.ctags
+
 .PHONY: test
 .PHONY: python_test
 .PHONY: vim_test

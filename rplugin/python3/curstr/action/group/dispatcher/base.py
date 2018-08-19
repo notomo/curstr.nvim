@@ -1,9 +1,13 @@
 
+from typing import Callable, Dict, Type, TypeVar, Union
+
 from neovim import Nvim
 
 from curstr.action.group.base import ActionGroup
 from curstr.action.group.nothing import Nothing
 from curstr.echoable import Echoable
+
+T = TypeVar('T', bound=ActionGroup)
 
 
 class Dispatcher(Echoable):
@@ -11,7 +15,7 @@ class Dispatcher(Echoable):
     def __init__(self, vim: Nvim) -> None:
         self._vim = vim
 
-    def dispatch(self, class_and_args):
+    def dispatch(self, class_and_args) -> ActionGroup:
 
         mapper = {
             str(key): value
@@ -37,11 +41,11 @@ class Dispatcher(Echoable):
         except StopIteration:
             return self.nothing()
 
-    def dispatch_one(self, cls, *args):
+    def dispatch_one(self, cls: Type[T], *args) -> Union[T, Nothing]:
         return self.dispatch(((cls, *args),))
 
-    def nothing(self):
+    def nothing(self) -> Nothing:
         return Nothing(self._vim)
 
-    def _mapper(self):
+    def _mapper(self) -> Dict[Type[ActionGroup], Callable]:
         return {}

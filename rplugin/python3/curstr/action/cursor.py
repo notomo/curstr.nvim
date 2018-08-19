@@ -14,7 +14,7 @@ class Cursor(Echoable):
         self._info = info
 
     def target_option(func):
-        def wrapper(self, *args, **kwargs):
+        def wrapper(self, *args, **kwargs) -> str:
             target_string = self._info.string
             if target_string:
                 return target_string

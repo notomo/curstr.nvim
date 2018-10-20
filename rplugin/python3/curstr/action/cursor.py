@@ -1,4 +1,5 @@
 
+import re
 from typing import Tuple
 
 from neovim import Nvim
@@ -49,6 +50,25 @@ class Cursor(Echoable):
             self._vim.command('setlocal isfname-={}'.format(added))
 
         return file_path
+
+    def get_file_path_with_position(
+        self, added_isfname=''
+    ) -> Tuple[str, Tuple[int, int]]:
+        file_path = self.get_file_path(added_isfname)
+
+        cword = self._vim.call('expand', '<cWORD>')
+        pattern = '{}:(\d+)(,\d+)?'.format(file_path)
+        match = re.match(pattern, cword)
+        if match is None:
+            return (file_path, (-1, -1))
+
+        row = int(match.group(1))
+        if match.group(2) is None:
+            return (file_path, (row, 1))
+
+        column = int(match.group(2)[1:])
+        position = (row, column)
+        return (file_path, position)
 
     def get_word_with_range(
         self, added_iskeyword=''

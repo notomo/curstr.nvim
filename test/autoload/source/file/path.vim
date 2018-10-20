@@ -54,3 +54,18 @@ function! s:suite.not_found()
     call s:assert.equals(expand('%:t'), 'entry.txt')
     call s:assert.equals(getpos('.'), position)
 endfunction
+
+function! s:suite.open_with_row()
+    call cursor(8, 1)
+    Curstr file/path
+    call s:assert.equals(expand('%:t'), 'opened.txt')
+    call s:assert.equals(line('.'), '3')
+endfunction
+
+function! s:suite.open_with_position()
+    call cursor(9, 1)
+    Curstr file/path
+    call s:assert.equals(expand('%:t'), 'opened.txt')
+    call s:assert.equals(line('.'), '3')
+    call s:assert.equals(col('.'), '4')
+endfunction

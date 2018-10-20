@@ -8,9 +8,10 @@ class Source(Base):
     DISPATCHER_CLASS = FileDispatcher
 
     def create(self) -> ActionGroup:
-        path = self._cursor.get_file_path()
+        path, position = self._cursor.get_file_path_with_position()
         absolute_path = self._vim.call('fnamemodify', path, ':p')
-        return self._dispatcher.dispatch_one(
-            FileDispatcher.File,
-            absolute_path
-        )
+
+        return self._dispatcher.dispatch((
+            (FileDispatcher.FilePosition, absolute_path, *position),
+            (FileDispatcher.File, absolute_path)
+        ))

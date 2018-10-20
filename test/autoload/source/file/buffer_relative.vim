@@ -18,3 +18,18 @@ function! s:suite.default()
     Curstr file/buffer_relative
     call s:assert.equals(expand('%:t'), 'opened.txt')
 endfunction
+
+function! s:suite.open_with_row()
+    call cursor(8, 1)
+    Curstr file/buffer_relative
+    call s:assert.equals(expand('%:t'), 'opened.txt')
+    call s:assert.equals(line('.'), '3')
+endfunction
+
+function! s:suite.open_with_position()
+    call cursor(9, 1)
+    Curstr file/buffer_relative
+    call s:assert.equals(expand('%:t'), 'opened.txt')
+    call s:assert.equals(line('.'), '3')
+    call s:assert.equals(col('.'), '4')
+endfunction

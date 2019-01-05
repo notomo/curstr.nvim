@@ -1,6 +1,6 @@
 [run]
 branch = True
-omit = test/*
+omit = test/*,curstr_env/*
 source = rplugin/python3/
 
 [html]

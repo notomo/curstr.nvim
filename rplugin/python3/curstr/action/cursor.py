@@ -57,7 +57,7 @@ class Cursor(Echoable):
         file_path = self.get_file_path(added_isfname)
 
         cword = self._vim.call('expand', '<cWORD>')
-        pattern = '{}:(\d+)(,\d+)?'.format(file_path)
+        pattern = '{}:(\\d+)(,\\d+)?'.format(file_path)
         match = re.match(pattern, cword)
         if match is None:
             return (file_path, (-1, -1))
@@ -80,7 +80,7 @@ class Cursor(Echoable):
             word_range = self._vim.call(
                 'matchstrpos',
                 self._vim.current.line,
-                '\\v\k*%{}c\k+'.format(current_pos[1] + 1)
+                '\\v\\k*%{}c\\k+'.format(current_pos[1] + 1)
             )[1:]
         finally:
             self._vim.command('setlocal iskeyword-={}'.format(added))

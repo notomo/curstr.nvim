@@ -2,11 +2,8 @@ set encoding=utf-8
 
 call themis#option('recursive', 1)
 
-
-doautocmd FuncUndefined _curstr_execute
-doautocmd FuncUndefined _curstr_custom
+let g:python3_host_prog = expand('<sfile>:h:h') . '/curstr_env/bin/python3'
 runtime! plugin/rplugin.vim
-UpdateRemotePlugins
 
 call curstr#test#start_testing()
 function! CurstrTestBefore() abort

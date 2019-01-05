@@ -15,8 +15,7 @@ install:
     - mkdir -p ~/neovim/bin
     - cp nvim.appimage ~/neovim/bin/nvim
     - chmod u+x ~/neovim/bin/nvim
-    - mkdir -p curstr_env
-    - ln -s $VIRTUAL_ENV/bin ./curstr_env/bin
+    - ln -s $VIRTUAL_ENV ./curstr_env
     - ./curstr_env/bin/pip install -r ./requirements.txt
     - ./curstr_env/bin/pip install codecov
     - git clone --depth 1 https://github.com/thinca/vim-themis vim-themis

@@ -39,7 +39,9 @@ class Source(Base):
             row = 1
             while line:
                 match = re.match(
-                    '\s*fu(nction)?!?\s*(?P<name>{})\('.format(function_name),
+                    '\\s*fu(nction)?!?\\s*(?P<name>{})\\('.format(
+                        function_name
+                    ),
                     line
                 )
                 if match is not None:

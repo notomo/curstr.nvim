@@ -129,8 +129,8 @@ class Importer(Echoable, MetaPathFinder):
             for name, cls
             in group_module.__dict__.items()
             if (
-                isinstance(cls, type) and
-                cls.__module__.startswith('curstr.action.group')
+                isinstance(cls, type) and cls.__module__.startswith(
+                    'curstr.action.group')
             )
         ]
         for name, cls in groups:

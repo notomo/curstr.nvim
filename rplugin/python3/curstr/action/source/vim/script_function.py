@@ -20,13 +20,13 @@ class Source(Base):
         )
 
     def __search_function_position(self, name: str) -> Tuple[int, int]:
-        match = re.match('(s:|<SID>)(?P<name>\S+)', name)
+        match = re.match('(s:|<SID>)(?P<name>\\S+)', name)
         if match is None:
             return (0, 0)
         function_name = match.group('name')
         return self._vim.call(
             'searchpos',
-            '\\v\s*fu%[nction]!?\s*s:\zs{}\('.format(function_name),
+            '\\v\\s*fu%[nction]!?\\s*s:\\zs{}\\('.format(function_name),
             'nw'
         )
 

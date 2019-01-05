@@ -15,14 +15,10 @@ install:
     - mkdir -p ~/neovim/bin
     - cp nvim.appimage ~/neovim/bin/nvim
     - chmod u+x ~/neovim/bin/nvim
-    - pip3 install neovim
-    - pip3 install mypy
-    - pip3 install flake8
-    - pip3 install vim-vint
-    - pip3 install pytest
-    - pip3 install pytest-cov
-    - pip3 install codecov
-    - pip3 install covimerage
+    - mkdir -p curstr_env
+    - ln -s $VIRTUAL_ENV/bin ./curstr_env/bin
+    - ./curstr_env/bin/pip install -r ./requirements.txt
+    - ./curstr_env/bin/pip install codecov
     - git clone --depth 1 https://github.com/thinca/vim-themis vim-themis
 
 env:
@@ -36,7 +32,7 @@ script:
     - PATH="./vim-themis/bin:$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis make test
 
 after_success:
-    - covimerage write_coverage $THEMIS_PROFILE_LOG
-    - python3 -m coverage xml --rcfile=.vim_coveragerc -o vim_coverage.xml
-    - python3 -m coverage xml --rcfile=.coveragerc -o python_coverage.xml
-    - codecov -f vim_coverage.xml python_coverage.xml
+    - ./curstr_env/bin/covimerage write_coverage $THEMIS_PROFILE_LOG
+    - ./curstr_env/bin/coverage xml --rcfile=.vim_coveragerc -o vim_coverage.xml
+    - ./curstr_env/bin/coverage xml --rcfile=.coveragerc -o python_coverage.xml
+    - ./curstr_env/bin/codecov -f vim_coverage.xml python_coverage.xml

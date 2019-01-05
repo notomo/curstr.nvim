@@ -2,7 +2,7 @@
 test: python_test vim_test
 
 python_test:
-	./curstr_env/bin/python -m pytest
+	./curstr_env/bin/pytest
 
 vim_test:
 	NVIM_RPLUGIN_MANIFEST=$(HOME)/rplugin.vim nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q

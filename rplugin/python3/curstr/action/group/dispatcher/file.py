@@ -21,18 +21,24 @@ class FileDispatcher(Dispatcher):
 
     def _mapper(self):
         return {
-            File: isfile,
-            Directory: isdir,
+            File: self.is_file,
+            Directory: self.is_directory,
             FilePosition: self.is_file_position,
             Position: self.is_position,
             NewFile: self.is_creatable,
         }
 
+    def is_file(self, path: str) -> bool:
+        return isfile(self._vim.call('expand', path))
+
+    def is_directory(self, path: str) -> bool:
+        return isdir(self._vim.call('expand', path))
+
     def is_position(self, row: int, column: int) -> bool:
         return row > 0 and column > 0
 
     def is_file_position(self, path: str, row: int, column: int) -> bool:
-        return isfile(path) and self.is_position(row, column)
+        return self.is_file(path) and self.is_position(row, column)
 
     def is_creatable(self, path: str) -> bool:
         dir_path = os.path.split(path)[0]

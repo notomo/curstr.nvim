@@ -6,7 +6,7 @@ class File(ActionGroup):
 
     def __init__(self, vim, path) -> None:
         super().__init__(vim)
-        self._path = path
+        self._path = vim.call('expand', path)
 
     @property
     def path(self):

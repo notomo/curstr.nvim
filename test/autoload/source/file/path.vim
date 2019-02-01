@@ -69,3 +69,10 @@ function! s:suite.open_with_position()
     call s:assert.equals(line('.'), '3')
     call s:assert.equals(col('.'), '4')
 endfunction
+
+function! s:suite.open_with_env_expand()
+    let $RPLUGIN_PATH = 'rplugin/python3'
+    call cursor(10, 1)
+    Curstr file/path
+    call s:assert.equals(expand('%:t'), '__init__.py')
+endfunction

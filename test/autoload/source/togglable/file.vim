@@ -23,6 +23,15 @@ function! s:suite.open()
     call s:assert.equals(expand('%:t'), 'togglable_file.vim')
 endfunction
 
+function! s:suite.open_include_not_matched_pattern()
+    call curstr#custom#source_option('togglable/file', 'pattern_groups', [['not_matched_pattern%', 'test_%.vim', 'not_matched_pattern%', '%.vim']])
+
+    Curstr togglable/file
+    call s:assert.equals(expand('%:t'), 'test_togglable_file.vim')
+    Curstr togglable/file
+    call s:assert.equals(expand('%:t'), 'togglable_file.vim')
+endfunction
+
 function! s:suite.create()
     call curstr#custom#source_option('togglable/file', 'pattern_groups', [['new_%.vim', '%.vim']])
     call curstr#custom#source_option('togglable/file', 'create', v:true)

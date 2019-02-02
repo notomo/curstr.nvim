@@ -1,4 +1,5 @@
 
+import math
 from os.path import join
 from typing import List, Tuple, Union
 
@@ -17,24 +18,19 @@ class Source(Base):
         pattern_groups = self.get_option('pattern_groups')
         offset = self.get_option('offset')
 
-        path = ''
         buffer_name = self._vim.call('expand', '%:t')
         for patterns in pattern_groups:
-            path = self._get_path(patterns, buffer_name, offset)
-            if path != '':
-                absolute_path = join(
-                    self._vim.call('expand', '%:p:h'), path
-                )
-                return self._dispatch(absolute_path)
+            group = self._get_group(patterns, buffer_name, offset, True)
+            if not group.is_nothing():
+                return group
 
-        path = ''
         buffer_path = self._vim.call('expand', '%:p')
         for patterns in pattern_groups:
-            path = self._get_path(patterns, buffer_path, offset)
-            if path != '':
-                break
+            group = self._get_group(patterns, buffer_path, offset, False)
+            if not group.is_nothing():
+                return group
 
-        return self._dispatch(path)
+        return self._dispatcher.nothing()
 
     def get_options(self):
         return {
@@ -59,13 +55,28 @@ class Source(Base):
 
         return self._dispatcher.nothing()
 
-    def _get_path(self, patterns: List[str], path: str, offset: int) -> str:
+    def _get_group(
+        self, patterns: List[str], path: str, offset: int, to_abspath: bool
+    ) -> ActionGroup:
         index, matches = self._get_current_pattern_matches(patterns, path)
         if matches is None:
-            return ''
+            return self._dispatcher.nothing()
 
-        pattern = patterns[(index + offset) % len(patterns)]
-        return pattern.replace(self.PLACE_HOLDER, '{}').format(*matches)
+        limit = int(math.floor((len(patterns) - 1) / abs(offset)))
+        for i in range(1, limit + 1):
+            pattern = patterns[(index + offset * i) % len(patterns)]
+            match_path = pattern.replace(
+                self.PLACE_HOLDER, '{}').format(*matches)
+            if to_abspath:
+                match_path = join(
+                    self._vim.call('expand', '%:p:h'),
+                    match_path
+                )
+            group = self._dispatch(match_path)
+            if not group.is_nothing():
+                return group
+
+        return self._dispatcher.nothing()
 
     def _get_current_pattern_matches(
         self, patterns: List[str], path: str

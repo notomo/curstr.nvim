@@ -17,6 +17,7 @@ def get_source():
     cursor = Mock(spec=Cursor)
     return Source(vim, dispatcher, info, cursor)
 
+
 @pytest.mark.parametrize('expected,path,pattern', [
     ([], '', ''),
     (['path'], 'path', '%'),
@@ -30,6 +31,7 @@ def test_find_matches(expected, path, pattern):
     result = source._find_matches(path, pattern)
     assert expected == result
 
+
 @pytest.mark.parametrize('expected,patterns,path', [
     ((0, ['test']), ['%.py'], 'test.py'),
     ((1, ['test']), ['%.py', '%.vim'], 'test.vim'),
@@ -38,15 +40,4 @@ def test_find_matches(expected, path, pattern):
 def test_get_current_pattern_matches(expected, patterns, path):
     source = get_source()
     result = source._get_current_pattern_matches(patterns, path)
-    assert expected == result
-
-@pytest.mark.parametrize('expected,patterns,path,offset', [
-    ('', [], '', 1),
-    ('test.py', ['%.py', '%.vim', '%.ini'], 'test.vim', -1),
-    ('hoge', ['foo', 'hoge'], 'foo', 1),
-    ('hoge.vim', ['test_%.vim', '%.vim'], 'test_hoge.vim', 1),
-])
-def test_get_path(expected, patterns, path, offset):
-    source = get_source()
-    result = source._get_path(patterns, path, offset)
     assert expected == result

@@ -1,3 +1,4 @@
+scriptencoding utf-8
 
 let s:suite = themis#suite('togglable/word/simple')
 let s:assert = themis#helper('assert')
@@ -8,6 +9,7 @@ endfunction
 
 function! s:suite.before_each()
     call curstr#custom#source_option('togglable/word/simple', 'words', [])
+    call curstr#custom#source_option('togglable/word/simple', 'char_pattern', '[:alnum:]_')
 endfunction
 
 function! s:suite.after_each()
@@ -54,14 +56,25 @@ function! s:suite.normalized_toggle()
     call s:assert.equals(expand('<cword>'), 'True')
 endfunction
 
-function! s:suite.iskeyword_option()
+function! s:suite.char_pattern_option()
     tabe | setlocal buftype=nofile noswapfile
     call append(0, 'foo:test')
     call setpos('.', [0, 1, 1, 0])
     call curstr#custom#source_option('togglable/word/simple', 'words', ['foo:test', 'foo;test'])
-    call curstr#custom#source_option('togglable/word/simple', 'added_iskeyword', ':;')
+    call curstr#custom#source_option('togglable/word/simple', 'char_pattern', '[:alnum:]_;:')
     Curstr togglable/word/simple
     call s:assert.equals(getline(line('.')), 'foo;test')
     Curstr togglable/word/simple
     call s:assert.equals(getline(line('.')), 'foo:test')
+endfunction
+
+function! s:suite.with_multibyte()
+    tabe | setlocal buftype=nofile noswapfile
+    call append(0, 'あああfalseあああ')
+    call setpos('.', [0, 1, 10, 0])
+    call curstr#custom#source_option('togglable/word/simple', 'words', ['true', 'false'])
+    Curstr togglable/word/simple
+    call s:assert.equals(getline(line('.')), 'あああtrueあああ')
+    Curstr togglable/word/simple
+    call s:assert.equals(getline(line('.')), 'あああfalseあああ')
 endfunction

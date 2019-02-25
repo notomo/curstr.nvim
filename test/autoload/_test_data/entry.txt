@@ -8,3 +8,4 @@ rplugin/python3/curstr/*/group
 opened.txt:3
 opened.txt:3,4
 $RPLUGIN_PATH/curstr/__init__.py
+./pattern.txt#target_pattern

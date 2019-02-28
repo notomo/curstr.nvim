@@ -45,3 +45,11 @@ function! s:suite.not_found()
 
     call s:assert.equals(expand('%:t'), 'entry.txt')
 endfunction
+
+function! s:suite.file_not_found()
+    call cursor(12, 1)
+
+    Curstr file/pattern
+
+    call s:assert.equals(expand('%:t'), 'entry.txt')
+endfunction

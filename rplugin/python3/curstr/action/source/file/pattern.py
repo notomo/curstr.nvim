@@ -1,4 +1,5 @@
 
+import os.path
 from typing import Tuple
 
 from curstr.action.group import ActionGroup, FileDispatcher
@@ -37,7 +38,7 @@ class Source(Base):
     def __search_position(
         self, search: str, search_pattern: str, path: str
     ) -> Tuple[int, int]:
-        if search_pattern == '':
+        if search_pattern == '' or not os.path.isfile(path):
             return (0, 0)
 
         with open(path, 'r') as f:

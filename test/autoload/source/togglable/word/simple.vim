@@ -78,3 +78,14 @@ function! s:suite.with_multibyte()
     Curstr togglable/word/simple
     call s:assert.equals(getline(line('.')), 'あああfalseあああ')
 endfunction
+
+function! s:suite.nomodifiable()
+    tabe | setlocal buftype=nofile noswapfile
+    call append(0, 'public')
+    call setpos('.', [0, 1, 1, 0])
+    call curstr#custom#source_option('togglable/word/simple', 'words', ['public', 'protected'])
+    setlocal nomodifiable
+
+    Curstr togglable/word/simple
+    call s:assert.equals(expand('<cword>'), 'public')
+endfunction

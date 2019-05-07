@@ -10,12 +10,12 @@ class Line(ActionGroup):
         super().__init__(vim)
         self._new_string = new_string
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def toggle(self):
         line_number = self._vim.current.window.cursor[0] - 1
         self._vim.current.buffer[line_number] = self._new_string
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def append(self):
         line_number = self._vim.current.window.cursor[0] - 1
         self._vim.current.buffer[line_number:line_number + 1] = [
@@ -23,6 +23,6 @@ class Line(ActionGroup):
             self._new_string,
         ]
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def default(self):
         self.toggle()

@@ -12,13 +12,13 @@ class Word(ActionGroup):
         self._start = start
         self._end = end
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def toggle(self):
         new_line = self._make_new_line()
         line_number = self._vim.current.window.cursor[0] - 1
         self._vim.current.buffer[line_number] = new_line
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def append(self):
         new_line = self._make_new_line()
         line_number = self._vim.current.window.cursor[0] - 1
@@ -35,6 +35,6 @@ class Word(ActionGroup):
             line[self._end:]
         )
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def default(self):
         self.toggle()

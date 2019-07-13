@@ -4,4 +4,4 @@ if exists('g:loaded_curstr')
 endif
 let g:loaded_curstr = 1
 
-command! -nargs=+ Curstr call curstr#execute(<q-args>)
+command! -nargs=+ -range Curstr call curstr#execute(<q-args>, <line1>, <line2>)

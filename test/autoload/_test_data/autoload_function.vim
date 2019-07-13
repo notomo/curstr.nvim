@@ -3,7 +3,7 @@
 
 
 
-call curstr#execute('')
+call curstr#execute('', 1, 2)
 
 
 

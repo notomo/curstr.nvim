@@ -15,4 +15,4 @@ class CurstrHandler(object):
 
     @neovim.function('_curstr_execute', sync=True)
     def execute(self, args):
-        self._curstr.execute(args[0])
+        self._curstr.execute(args[0], args[1], args[2])

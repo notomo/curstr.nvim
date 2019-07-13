@@ -11,6 +11,7 @@ from .helps import Helps
 from .new_file import NewFile
 from .nothing import Nothing
 from .position import Position
+from .range import Range
 from .tag import Tag
 from .tags import Tags
 
@@ -25,6 +26,7 @@ __all__ = [
     'Helps',
     'Nothing',
     'Position',
+    'Range',
     'Tag',
     'Tags',
     'Dispatcher',

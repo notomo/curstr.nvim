@@ -52,6 +52,20 @@ class SourceExecuteInfo(object):
             raise LogicException('action_name must be str')
         return action_name
 
+    @property
+    def first_line(self) -> int:
+        first_line = self._execute_options['_first_line']
+        if not isinstance(first_line, int):
+            raise LogicException('first_line must be int')
+        return first_line
+
+    @property
+    def last_line(self) -> int:
+        last_line = self._execute_options['_last_line']
+        if not isinstance(last_line, int):
+            raise LogicException('last_line must be int')
+        return last_line
+
 
 class ExecuteInfo(object):
 
@@ -59,6 +73,8 @@ class ExecuteInfo(object):
         'use-cache': True,
         'action': 'default',
         'string': '',
+        '_first_line': -1,
+        '_last_line': -1,
     }  # type: Options
 
     def __init__(
@@ -88,7 +104,9 @@ class ExecuteInfo(object):
         )))
 
     @classmethod
-    def from_arg_string(cls, vim: Nvim, arg_string: str) -> 'ExecuteInfo':
+    def from_arg_string(
+        cls, vim: Nvim, arg_string: str, first_line: int, last_line: int
+    ) -> 'ExecuteInfo':
         source_names = []
         options = {}  # type: Options
         for arg in arg_string.split(' '):
@@ -100,6 +118,9 @@ class ExecuteInfo(object):
                 options[key[1:]] = key_value[1]
             else:
                 options[key[1:]] = True
+
+        options['_first_line'] = first_line
+        options['_last_line'] = last_line
 
         source_names = list(filter(
             lambda x: len(x) != 0, source_names

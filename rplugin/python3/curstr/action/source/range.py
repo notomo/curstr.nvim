@@ -13,8 +13,6 @@ class Source(Base):
         separator = self.get_option('separator')
         if separator is None:
             separator = self._vim.call('input', 'Separator: ')
-            if separator == '':
-                return self._dispatcher.nothing()
 
         return Range(
             self._vim, self._info.first_line, self._info.last_line, separator

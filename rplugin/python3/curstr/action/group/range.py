@@ -20,19 +20,23 @@ class Range(ActionGroup):
         if self._fist_line == self._last_line:
             last_line = self._fist_line + 1
 
-        lines: List[str] = self._vim.call(
+        raw_lines: List[str] = self._vim.call(
             'getline',
             self._fist_line,
             last_line,
         )
-        line = self._separator.join(map(
+        first = raw_lines[0]
+        others = list(map(
             lambda line: line.lstrip(),
-            lines
+            raw_lines[1:]
         ))
+
+        lines = [first]
+        lines.extend(filter(lambda x: len(x) != 0, others))
 
         self._vim.current.buffer[
             self._fist_line - 1:last_line
-        ] = [line]
+        ] = [self._separator.join(lines)]
 
     @ActionGroup.action()
     def default(self):

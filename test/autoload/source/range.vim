@@ -7,7 +7,7 @@ function! s:suite.before()
 endfunction
 
 function! s:suite.before_each()
-    call curstr#custom#source_option('range', 'separator', '+')
+    call curstr#custom#action_option('range', 'separator', '+')
 endfunction
 
 function! s:suite.after_each()
@@ -36,7 +36,7 @@ endfunction
 
 function! s:suite.join_with_empty_separator()
     tabe | setlocal buftype=nofile noswapfile
-    call curstr#custom#source_option('range', 'separator', '')
+    call curstr#custom#action_option('range', 'separator', '')
     call append(0, '    1')
     call append(1, '    2')
     call setpos('.', [0, 1, 1, 0])

@@ -1,4 +1,6 @@
 
+import pathlib
+
 from neovim import Nvim
 
 from .file import File
@@ -10,6 +12,9 @@ class FilePosition(File):
         super().__init__(vim, path)
         self._row = row
         self._column = column
+
+    def name(self):
+        return pathlib.Path(__file__).stem
 
     @property
     def row(self):

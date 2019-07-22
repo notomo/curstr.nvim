@@ -31,6 +31,7 @@ class ActionFacade(Echoable):
             if not source.enabled():
                 continue
             group = source.create()
+            group.apply_options(info.action_options)
             action = Action(group, source.action_name)
             if action.is_executable():
                 return action.execute()

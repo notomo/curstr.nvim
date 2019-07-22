@@ -1,4 +1,6 @@
 
+import pathlib
+
 from curstr.action.group import ActionGroup
 
 
@@ -9,6 +11,9 @@ class Line(ActionGroup):
     ) -> None:
         super().__init__(vim)
         self._new_string = new_string
+
+    def name(self):
+        return pathlib.Path(__file__).stem
 
     @ActionGroup.action(modify=True)
     def toggle(self):

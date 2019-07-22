@@ -10,10 +10,11 @@ from curstr.info import ExecuteInfo
 class ExecuteInfoMock(ExecuteInfo):
 
     def __init__(
-        self, vim, source_names, execute_options
+        self, vim, source_names, execute_options, action_options
     ) -> None:
         self._source_names = source_names
         self._execute_options = execute_options
+        self._action_options = action_options
 
     @property
     def source_names(self):

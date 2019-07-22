@@ -2,6 +2,7 @@
 function! curstr#custom#clean() abort
     let s:execute_options = {'_':{}}
     let s:source_options = {}
+    let s:action_options = {}
     let s:filetype_aliases = {}
     let s:source_aliases = {
         \ 'vim/runtime': ['vim/runtime/pattern/file', 'vim/runtime/pattern/directory', 'vim/runtime/file', 'vim/runtime/directory'],
@@ -53,6 +54,20 @@ function! curstr#custom#source_option(source_name, option_name, value) abort
         let s:source_options[a:source_name] = {}
     endif
     let s:source_options[a:source_name][a:option_name] = a:value
+endfunction
+
+
+function! curstr#custom#get_action_options() abort
+    return s:action_options
+endfunction
+
+function! curstr#custom#action_option(group_name, option_name, value) abort
+    call s:validate_value(a:value)
+
+    if !has_key(s:action_options, a:group_name)
+        let s:action_options[a:group_name] = {}
+    endif
+    let s:action_options[a:group_name][a:option_name] = a:value
 endfunction
 
 

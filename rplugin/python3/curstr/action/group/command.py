@@ -1,4 +1,6 @@
 
+import pathlib
+
 from .base import ActionGroup
 
 
@@ -7,6 +9,9 @@ class Command(ActionGroup):
     def __init__(self, vim, command: str) -> None:
         super().__init__(vim)
         self._command = command
+
+    def name(self):
+        return pathlib.Path(__file__).stem
 
     @ActionGroup.action()
     def open(self):

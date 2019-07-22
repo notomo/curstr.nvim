@@ -1,4 +1,7 @@
 
+
+import pathlib
+
 from .base import ActionGroup
 
 
@@ -7,6 +10,9 @@ class File(ActionGroup):
     def __init__(self, vim, path) -> None:
         super().__init__(vim)
         self._path = vim.call('expand', path)
+
+    def name(self):
+        return pathlib.Path(__file__).stem
 
     @property
     def path(self):

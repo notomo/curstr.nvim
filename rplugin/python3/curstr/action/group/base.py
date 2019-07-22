@@ -1,12 +1,15 @@
 
 import inspect
+from abc import ABCMeta, abstractmethod
 
 from neovim import Nvim
 
 from curstr.echoable import Echoable
+from curstr.exception import LogicException
+from curstr.info import Options  # noqa
 
 
-class ActionGroup(Echoable):
+class ActionGroup(Echoable, metaclass=ABCMeta):
 
     def __init__(self, vim: Nvim) -> None:
         self._vim = vim
@@ -16,6 +19,11 @@ class ActionGroup(Echoable):
             in inspect.getmembers(self)
             if hasattr(method[1], '_is_action')
         }
+        self._options: Options = {}
+
+    @abstractmethod
+    def name(self) -> str:
+        pass
 
     def action(name=None, modify=False):
         def decorator(func):
@@ -37,6 +45,24 @@ class ActionGroup(Echoable):
 
     def is_nothing(self) -> bool:
         return False
+
+    def apply_options(self, options: Options):
+        self._options = options
+
+    def get_options(self):
+        return {}
+
+    def get_option(self, name: str):
+        group_options = self._options.get(self.name(), {})
+        options = {
+            **self.get_options(),
+            **group_options,
+        }
+
+        if name not in options:
+            raise LogicException(f'Not exist option: {name}')
+
+        return options[name]
 
     def _modifiable(self, action_name: str) -> bool:
         modify = self._actions[action_name]._modify

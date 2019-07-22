@@ -58,6 +58,16 @@ function! s:suite.list_source_option()
     call curstr#custom#get_source_options('option_name')
 endfunction
 
+function! s:suite.action_option()
+    let group_name = 'group_name'
+    let option_name = 'string'
+    let option_value = 'test'
+    call curstr#custom#action_option(group_name, option_name, option_value)
+
+    let action_options = curstr#custom#get_action_options()
+    call s:assert.equals(action_options[group_name][option_name], option_value)
+endfunction
+
 function! s:suite.filetype_alias()
     let alias_name = 'alias_name'
     let expected_filetype = 'filetype'

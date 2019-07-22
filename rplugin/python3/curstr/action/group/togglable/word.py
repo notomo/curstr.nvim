@@ -1,4 +1,6 @@
 
+import pathlib
+
 from curstr.action.group import ActionGroup
 
 
@@ -11,6 +13,9 @@ class Word(ActionGroup):
         self._new_string = new_string
         self._start = start
         self._end = end
+
+    def name(self):
+        return pathlib.Path(__file__).stem
 
     @ActionGroup.action(modify=True)
     def toggle(self):

@@ -81,7 +81,8 @@ class ExecuteInfo(object):
         self,
         vim: Nvim,
         source_names: List[str],
-        execute_options: Options
+        execute_options: Options,
+        action_options: Options
     ) -> None:
         self._vim = vim
 
@@ -102,6 +103,11 @@ class ExecuteInfo(object):
             )
             for name in source_names
         )))
+
+        user_action_options = vim.call('curstr#custom#get_action_options')
+        self._action_options = {
+            **user_action_options, **action_options,
+        }
 
     @classmethod
     def from_arg_string(
@@ -126,7 +132,7 @@ class ExecuteInfo(object):
             lambda x: len(x) != 0, source_names
         ))
 
-        return cls(vim, source_names, options)
+        return cls(vim, source_names, options, {})
 
     def _resolve_source_name(
         self,
@@ -176,3 +182,7 @@ class ExecuteInfo(object):
     @property
     def source_execute_infos(self) -> List[SourceExecuteInfo]:
         return self._source_execute_infos
+
+    @property
+    def action_options(self) -> Options:
+        return self._action_options

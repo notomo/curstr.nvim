@@ -1,6 +1,7 @@
 
 import inspect
 from abc import ABCMeta, abstractmethod
+from typing import Mapping
 
 from neovim import Nvim
 
@@ -19,7 +20,7 @@ class ActionGroup(Echoable, metaclass=ABCMeta):
             in inspect.getmembers(self)
             if hasattr(method[1], '_is_action')
         }
-        self._options: Options = {}
+        self._options: Mapping[str, Options] = {}
 
     @abstractmethod
     def name(self) -> str:
@@ -46,10 +47,10 @@ class ActionGroup(Echoable, metaclass=ABCMeta):
     def is_nothing(self) -> bool:
         return False
 
-    def apply_options(self, options: Options):
+    def apply_options(self, options: Mapping[str, Options]):
         self._options = options
 
-    def get_options(self):
+    def get_options(self) -> Options:
         return {}
 
     def get_option(self, name: str):

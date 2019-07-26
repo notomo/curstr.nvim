@@ -17,7 +17,7 @@ class Range(ActionGroup):
     def name(self):
         return pathlib.Path(__file__).stem
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def join(self):
         last_line = self._last_line
         if self._fist_line == self._last_line:
@@ -45,7 +45,7 @@ class Range(ActionGroup):
             self._fist_line - 1:last_line
         ] = [separator.join(lines)]
 
-    @ActionGroup.action()
+    @ActionGroup.action(modify=True)
     def default(self):
         self.join()
 

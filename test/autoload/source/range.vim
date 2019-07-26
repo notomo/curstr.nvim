@@ -43,3 +43,14 @@ function! s:suite.join_with_empty_separator()
     Curstr range -action=join
     call s:assert.equals(getline(line('.')), '    12')
 endfunction
+
+function! s:suite.join_on_nomodifiable_buffer()
+    tabe
+    call curstr#custom#action_option('range', 'separator', '')
+    call append(0, '    1')
+    call append(1, '    2')
+    setlocal buftype=nofile nomodifiable
+    call setpos('.', [0, 1, 1, 0])
+    Curstr range -action=join
+    call s:assert.equals(getline(line('.')), '    1')
+endfunction

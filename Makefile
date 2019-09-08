@@ -1,5 +1,5 @@
 
-test: python_test vim_test
+test: python_test vim_test lint
 
 python_test:
 	./curstr_env/bin/pytest
@@ -11,11 +11,12 @@ vim_test:
 lint:
 	./curstr_env/bin/vint plugin/
 	./curstr_env/bin/vint autoload/
-	./curstr_env/bin/flake8 rplugin/python3/
+	./curstr_env/bin/flake8 rplugin/python3/ --ignore E203,E303,E402,W391,W503,E731 --max-line-length 88
 	./curstr_env/bin/mypy --ignore-missing-imports rplugin/python3/
+	./curstr_env/bin/black rplugin/python3/ --check
 
-tag:
-	ctags --options=.ctags
+format:
+	./curstr_env/bin/black rplugin/python3/
 
 list:
 	./curstr_env/bin/pip list --format=freeze --not-required
@@ -31,5 +32,7 @@ setup_dev:
 .PHONY: python_test
 .PHONY: vim_test
 .PHONY: lint
+.PHONY: format
+.PHONY: list
 .PHONY: package_list
 .PHONY: setup_dev

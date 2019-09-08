@@ -34,5 +34,5 @@ setup_dev:
 .PHONY: lint
 .PHONY: format
 .PHONY: list
-.PHONY: package_list
+.PHONY: update_list
 .PHONY: setup_dev

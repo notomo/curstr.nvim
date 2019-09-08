@@ -9,6 +9,7 @@ python:
 install:
     - sudo modprobe fuse
     - user="$(whoami)"
+    - sudo groupadd fuse
     - sudo usermod -a -G fuse $user
     - wget -nv https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     - mkdir -p ~/neovim/bin

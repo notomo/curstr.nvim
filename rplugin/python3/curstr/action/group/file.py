@@ -1,15 +1,12 @@
-
-
 import pathlib
 
 from .base import ActionGroup
 
 
 class File(ActionGroup):
-
     def __init__(self, vim, path) -> None:
         super().__init__(vim)
-        self._path = vim.call('expand', path)
+        self._path = vim.call("expand", path)
 
     def name(self):
         return pathlib.Path(__file__).stem
@@ -20,24 +17,22 @@ class File(ActionGroup):
 
     @ActionGroup.action()
     def open(self):
-        self._open('edit')
+        self._open("edit")
 
     @ActionGroup.action()
     def tab_open(self):
-        self._open('tabedit')
+        self._open("tabedit")
 
     @ActionGroup.action()
     def vertical_open(self):
-        self._open('vsplit')
+        self._open("vsplit")
 
     @ActionGroup.action()
     def horizontal_open(self):
-        self._open('split')
+        self._open("split")
 
     def _open(self, opener: str):
-        self._vim.command('{} {}'.format(
-            opener, self._path
-        ))
+        self._vim.command("{} {}".format(opener, self._path))
 
     @ActionGroup.action()
     def default(self):

@@ -1,5 +1,3 @@
-
-
 from typing import List, Tuple
 
 from curstr.action.group import ActionGroup
@@ -8,12 +6,11 @@ from curstr.action.source.base import Source as Base
 
 
 class Source(Base):
-
     def create(self) -> ActionGroup:
-        char_pattern = self.get_option('char_pattern')
+        char_pattern = self.get_option("char_pattern")
         word, word_range = self._cursor.get_word_with_range(char_pattern)
-        words = self.get_option('words')
-        if self.get_option('normalized'):
+        words = self.get_option("words")
+        if self.get_option("normalized"):
             args = [
                 ([w.lower() for w in words], word),
                 ([w.upper() for w in words], word),
@@ -29,9 +26,7 @@ class Source(Base):
 
         return self._dispatcher.nothing()
 
-    def _get_word(
-        self, words: List[str], word: str, word_range: Tuple[int, int]
-    ):
+    def _get_word(self, words: List[str], word: str, word_range: Tuple[int, int]):
         if word not in words:
             return self._dispatcher.nothing(), False
 
@@ -40,8 +35,4 @@ class Source(Base):
         return Word(self._vim, new_word, *word_range), True
 
     def get_options(self):
-        return {
-            'words': [],
-            'normalized': False,
-            'char_pattern': '[:alnum:]_',
-        }
+        return {"words": [], "normalized": False, "char_pattern": "[:alnum:]_"}

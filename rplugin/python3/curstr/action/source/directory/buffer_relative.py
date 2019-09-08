@@ -1,4 +1,3 @@
-
 from os.path import join
 
 from curstr.action.group import ActionGroup, FileDispatcher
@@ -11,8 +10,5 @@ class Source(Base):
 
     def create(self) -> ActionGroup:
         path = self._cursor.get_file_path()
-        absolute_path = join(self._vim.call('expand', '%:p:h'), path)
-        return self._dispatcher.dispatch_one(
-            FileDispatcher.Directory,
-            absolute_path
-        )
+        absolute_path = join(self._vim.call("expand", "%:p:h"), path)
+        return self._dispatcher.dispatch_one(FileDispatcher.Directory, absolute_path)

@@ -1,5 +1,3 @@
-
-
 from typing import List  # noqa
 
 from curstr.action.group import ActionGroup
@@ -8,10 +6,9 @@ from curstr.action.source.base import Source as Base
 
 
 class Source(Base):
-
     def create(self) -> ActionGroup:
         line = self._cursor.get_line()
-        lines = self.get_option('lines')
+        lines = self.get_option("lines")
         if line not in lines:
             return self._dispatcher.nothing()
 
@@ -20,6 +17,4 @@ class Source(Base):
         return Line(self._vim, new_line)
 
     def get_options(self):
-        return {
-            'lines': [],
-        }
+        return {"lines": []}

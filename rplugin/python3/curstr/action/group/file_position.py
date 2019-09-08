@@ -1,4 +1,3 @@
-
 import pathlib
 
 from neovim import Nvim
@@ -7,7 +6,6 @@ from .file import File
 
 
 class FilePosition(File):
-
     def __init__(self, vim: Nvim, path: str, row: int, column: int) -> None:
         super().__init__(vim, path)
         self._row = row
@@ -45,4 +43,4 @@ class FilePosition(File):
         self._goto()
 
     def _goto(self):
-        self._vim.call('cursor', self._row, self._column)
+        self._vim.call("cursor", self._row, self._column)

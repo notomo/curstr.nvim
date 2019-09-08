@@ -1,4 +1,3 @@
-
 from abc import ABCMeta, abstractmethod
 
 from neovim import Nvim
@@ -16,19 +15,13 @@ class Source(Echoable, metaclass=ABCMeta):
     DISPATCHER_CLASS = Dispatcher
 
     def __init__(
-        self,
-        vim: Nvim,
-        dispatcher: Dispatcher,
-        info: SourceExecuteInfo,
-        cursor: Cursor
+        self, vim: Nvim, dispatcher: Dispatcher, info: SourceExecuteInfo, cursor: Cursor
     ) -> None:
         self._vim = vim
         self._dispatcher = dispatcher
         self._info = info
         self._cursor = cursor
-        self._base_options = {
-            'filetypes': ['_'],
-        }  # type: Options
+        self._base_options = {"filetypes": ["_"]}  # type: Options
 
     @abstractmethod
     def create(self) -> ActionGroup:
@@ -41,25 +34,23 @@ class Source(Echoable, metaclass=ABCMeta):
         options = {
             **self._base_options,
             **self.get_options(),
-            **self._info.source_options
+            **self._info.source_options,
         }
         if name not in options:
-            raise LogicException('Not exist option: {}'.format(name))
+            raise LogicException("Not exist option: {}".format(name))
         return options[name]
 
     def enabled(self) -> bool:
-        filetypes = self.get_option('filetypes')
+        filetypes = self.get_option("filetypes")
 
-        if '_' in filetypes:
+        if "_" in filetypes:
             return True
 
-        filetype = self._vim.current.buffer.options['filetype']
+        filetype = self._vim.current.buffer.options["filetype"]
         if filetype in filetypes:
             return True
 
-        filetype_alias = self._vim.call(
-            'curstr#custom#get_filetype_aliase', filetype
-        )
+        filetype_alias = self._vim.call("curstr#custom#get_filetype_aliase", filetype)
         aliased = filetype_alias if len(filetype_alias) != 0 else filetype
         return aliased in filetypes
 

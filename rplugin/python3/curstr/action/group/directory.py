@@ -1,4 +1,3 @@
-
 import pathlib
 
 from .file import File
@@ -6,7 +5,6 @@ from .listable import Listable
 
 
 class Directory(File, Listable):
-
     def __init__(self, vim, path) -> None:
         super().__init__(vim, path)
 
@@ -16,7 +14,7 @@ class Directory(File, Listable):
     @Listable.action()
     def list(self):
         self._vim.call(
-            'denite#start',
-            [{'name': 'curstr/file', 'args': []}],
-            {'curstr__path': self._path}
+            "denite#start",
+            [{"name": "curstr/file", "args": []}],
+            {"curstr__path": self._path},
         )

@@ -1,4 +1,3 @@
-
 import os
 from os.path import isdir, isfile
 
@@ -29,10 +28,10 @@ class FileDispatcher(Dispatcher):
         }
 
     def is_file(self, path: str) -> bool:
-        return isfile(self._vim.call('expand', path))
+        return isfile(self._vim.call("expand", path))
 
     def is_directory(self, path: str) -> bool:
-        return isdir(self._vim.call('expand', path))
+        return isdir(self._vim.call("expand", path))
 
     def is_position(self, row: int, column: int) -> bool:
         return row > 0 and column > 0

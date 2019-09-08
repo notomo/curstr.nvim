@@ -1,12 +1,9 @@
-
-
 from abc import abstractmethod
 
 from .base import ActionGroup
 
 
 class Listable(ActionGroup):
-
     @abstractmethod
     def list(self):
         pass

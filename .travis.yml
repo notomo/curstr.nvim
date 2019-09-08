@@ -1,14 +1,16 @@
-dist: trusty
+dist: xenial
 
 language: python
 
 python:
     - 3.6
-    - "3.7-dev"
+    - 3.7
+    - "3.8-dev"
 
 install:
     - sudo modprobe fuse
     - user="$(whoami)"
+    - sudo groupadd fuse
     - sudo usermod -a -G fuse $user
     - wget -nv https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     - mkdir -p ~/neovim/bin
@@ -26,7 +28,6 @@ env:
         - THEMIS_PROFILE_LOG=profile.txt
 
 script:
-    - make lint
     - PATH="./vim-themis/bin:$HOME/neovim/bin:$PATH" THEMIS_HOME=./vim-themis make test
 
 after_success:

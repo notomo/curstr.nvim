@@ -1,4 +1,3 @@
-
 from neovim import Nvim
 
 from curstr.action.group import ActionGroup
@@ -8,7 +7,6 @@ from curstr.info import ExecuteInfo
 
 
 class Action(object):
-
     def __init__(self, action_group: ActionGroup, action_name: str) -> None:
         self._action_group = action_group
         self._action_name = action_name
@@ -21,7 +19,6 @@ class Action(object):
 
 
 class ActionFacade(Echoable):
-
     def __init__(self, vim: Nvim, importer: Importer) -> None:
         self._vim = vim
         self._importer = importer

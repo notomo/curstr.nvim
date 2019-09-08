@@ -1,5 +1,3 @@
-
-
 from typing import List  # noqa
 
 from curstr.action.group import ActionGroup
@@ -8,29 +6,25 @@ from curstr.action.source.base import Source as Base
 
 
 class Source(Base):
-
     def create(self) -> ActionGroup:
-        char_pattern = self.get_option('char_pattern')
+        char_pattern = self.get_option("char_pattern")
         word, word_range = self._cursor.get_word_with_range(char_pattern)
-        patterns = self.get_option('patterns')
+        patterns = self.get_option("patterns")
 
         for args in patterns:
             if len(args) == 3:
                 pattern, new_pattern, option = args
             else:
                 pattern, new_pattern = args
-                option = 'g'
+                option = "g"
 
-            if self._vim.call('match', word, pattern) != -1:
+            if self._vim.call("match", word, pattern) != -1:
                 new_word = self._vim.call(
-                    'substitute', word, pattern, new_pattern, option
+                    "substitute", word, pattern, new_pattern, option
                 )
                 return Word(self._vim, new_word, *word_range)
 
         return self._dispatcher.nothing()
 
     def get_options(self):
-        return {
-            'patterns': [],
-            'char_pattern': '[:alnum:]_',
-        }
+        return {"patterns": [], "char_pattern": "[:alnum:]_"}

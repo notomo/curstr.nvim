@@ -1,4 +1,3 @@
-
 from .base import ActionGroup
 from .command import Command
 from .directory import Directory
@@ -16,19 +15,19 @@ from .tag import Tag
 from .tags import Tags
 
 __all__ = [
-    'ActionGroup',
-    'Command',
-    'Directory',
-    'File',
-    'NewFile',
-    'FilePosition',
-    'Help',
-    'Helps',
-    'Nothing',
-    'Position',
-    'Range',
-    'Tag',
-    'Tags',
-    'Dispatcher',
-    'FileDispatcher',
+    "ActionGroup",
+    "Command",
+    "Directory",
+    "File",
+    "NewFile",
+    "FilePosition",
+    "Help",
+    "Helps",
+    "Nothing",
+    "Position",
+    "Range",
+    "Tag",
+    "Tags",
+    "Dispatcher",
+    "FileDispatcher",
 ]

@@ -1,4 +1,3 @@
-
 import inspect
 from abc import ABCMeta, abstractmethod
 from typing import Mapping
@@ -11,14 +10,12 @@ from curstr.info import Options  # noqa
 
 
 class ActionGroup(Echoable, metaclass=ABCMeta):
-
     def __init__(self, vim: Nvim) -> None:
         self._vim = vim
         self._actions = {
             method[1]._action_name: method[1]
-            for method
-            in inspect.getmembers(self)
-            if hasattr(method[1], '_is_action')
+            for method in inspect.getmembers(self)
+            if hasattr(method[1], "_is_action")
         }
         self._options: Mapping[str, Options] = {}
 
@@ -55,13 +52,10 @@ class ActionGroup(Echoable, metaclass=ABCMeta):
 
     def get_option(self, name: str):
         group_options = self._options.get(self.name(), {})
-        options = {
-            **self.get_options(),
-            **group_options,
-        }
+        options = {**self.get_options(), **group_options}
 
         if name not in options:
-            raise LogicException(f'Not exist option: {name}')
+            raise LogicException(f"Not exist option: {name}")
 
         return options[name]
 
@@ -69,4 +63,4 @@ class ActionGroup(Echoable, metaclass=ABCMeta):
         modify = self._actions[action_name]._modify
         if not modify:
             return True
-        return modify and self._vim.current.buffer.options['modifiable']
+        return modify and self._vim.current.buffer.options["modifiable"]

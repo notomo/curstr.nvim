@@ -15,7 +15,6 @@ more-itertools==7.0.0
 msgpack==0.6.1
 mypy==0.701
 mypy-extensions==0.4.1
-pkg-resources==0.0.0
 pluggy==0.11.0
 py==1.8.0
 pycodestyle==2.5.0

@@ -13,6 +13,7 @@ class Action(object):
 
     def execute(self):
         self._action_group.call(self._action_name)
+        return True
 
     def is_executable(self) -> bool:
         return self._action_group.has(self._action_name)

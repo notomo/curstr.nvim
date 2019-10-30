@@ -17,6 +17,7 @@ class Curstr(Echoable):
             info = ExecuteInfo.from_arg_string(
                 self._vim, arg_string, first_line, last_line
             )
-            self._action_facade.execute(info)
+            if self._action_facade.execute(info) is None:
+                self.echo_message("not found")
         except Exception:
             self.echo_error()

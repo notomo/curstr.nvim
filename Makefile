@@ -22,7 +22,7 @@ list:
 	./curstr_env/bin/pip list --format=freeze --not-required
 
 update_list:
-	./curstr_env/bin/pip list -o --format=freeze
+	./curstr_env/bin/pip list --outdated --format=freeze
 
 setup_dev:
 	python3 -m venv curstr_env

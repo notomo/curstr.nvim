@@ -17,11 +17,13 @@ class Cursor(Echoable):
             target_string = self._info.string
             if target_string:
                 return target_string
-            return func(self, *args, **kwargs)
+            # FIXME: ignore mypy error: "Cursor" not callable
+            # mypy #1927 ?
+            return func(self, *args, **kwargs)  # type: ignore
 
         return wrapper
 
-    @target_option
+    @target_option  # type: ignore
     def get_word(self, added_iskeyword="") -> str:
         if added_iskeyword == "":
             return self._vim.call("expand", "<cword>")
@@ -35,7 +37,7 @@ class Cursor(Echoable):
 
         return word
 
-    @target_option
+    @target_option  # type: ignore
     def get_file_path(self, added_isfname="") -> str:
         if added_isfname == "":
             return self._vim.call("expand", "<cfile>")
@@ -87,7 +89,7 @@ class Cursor(Echoable):
 
         return (word, word_range)
 
-    @target_option
+    @target_option  # type: ignore
     def get_line(self) -> str:
         line = self._vim.current.line
         return line

@@ -22,7 +22,7 @@ function! s:suite.string_option()
 
     call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
     let position = getpos('.')
-    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[1], 4)
     call s:assert.equals(position[2], 11)
 endfunction
 
@@ -31,7 +31,7 @@ function! s:suite.no_cache_option()
 
     call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
     let position = getpos('.')
-    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[1], 4)
     call s:assert.equals(position[2], 11)
 endfunction
 
@@ -40,7 +40,7 @@ function! s:suite.open()
 
     call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
     let position = getpos('.')
-    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[1], 4)
     call s:assert.equals(position[2], 11)
 endfunction
 
@@ -49,7 +49,7 @@ function! s:suite.tab_open()
 
     call s:assert.equals(expand('%:p'), s:root . '/autoload/curstr.vim')
     let position = getpos('.')
-    call s:assert.equals(position[1], 2)
+    call s:assert.equals(position[1], 4)
     call s:assert.equals(position[2], 11)
     call s:assert.equals(tabpagenr('$'), 2)
 endfunction

@@ -4,11 +4,17 @@ call themis#option('recursive', 1)
 
 let g:python3_host_prog = expand('<sfile>:h:h') . '/curstr_env/bin/python3'
 runtime! plugin/rplugin.vim
+let s:packpath = &packpath
 
 call curstr#test#start_testing()
+
 function! CurstrTestBefore() abort
     let s:root = getcwd()
     return s:root
+endfunction
+
+function! CurstrTestBeforeEach() abort
+    let &packpath = s:packpath
 endfunction
 
 function! CurstrTestAfterEach() abort

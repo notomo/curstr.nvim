@@ -3,13 +3,10 @@ let s:helper = CurstrTestHelper()
 let s:suite = s:helper.suite('range')
 let s:assert = s:helper.assert
 
-function! s:suite.before_each()
-    call s:helper.before_each()
-    call curstr#custom#action_option('range', 'separator', '+')
-    tabe | setlocal buftype=nofile noswapfile
-endfunction
-
 function! s:suite.join()
+    call curstr#custom#action_option('range', 'separator', '+')
+    tabedit | setlocal buftype=nofile noswapfile
+
     call append(0, '    1')
     call append(1, '     ')
     call append(2, '    3 ')
@@ -21,6 +18,9 @@ function! s:suite.join()
 endfunction
 
 function! s:suite.join_default()
+    call curstr#custom#action_option('range', 'separator', '+')
+    tabedit | setlocal buftype=nofile noswapfile
+
     call append(0, '    1')
     call append(1, '    2')
     call append(2, '    3 ')
@@ -33,6 +33,7 @@ endfunction
 
 function! s:suite.join_with_empty_separator()
     call curstr#custom#action_option('range', 'separator', '')
+    tabedit | setlocal buftype=nofile noswapfile
 
     call append(0, '    1')
     call append(1, '    2')

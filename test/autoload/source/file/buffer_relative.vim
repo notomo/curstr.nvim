@@ -3,19 +3,18 @@ let s:helper = CurstrTestHelper()
 let s:suite = s:helper.suite('file/buffer_relative')
 let s:assert = s:helper.assert
 
-function! s:suite.before_each()
-    call s:helper.before_each()
-    edit ./test/autoload/_test_data/entry.txt
-endfunction
-
 function! s:suite.default()
+    call s:helper.new_file('opened.txt')
+    call s:helper.open_new_file('entry', ['opened.txt'])
+
     Curstr file/buffer_relative
 
     call s:assert.file_name('opened.txt')
 endfunction
 
 function! s:suite.open_with_row()
-    call cursor(8, 1)
+    call s:helper.new_file('opened.txt', ['', '', '', ''])
+    call s:helper.open_new_file('entry', ['opened.txt:3'])
 
     Curstr file/buffer_relative
 
@@ -24,7 +23,8 @@ function! s:suite.open_with_row()
 endfunction
 
 function! s:suite.open_with_position()
-    call cursor(9, 1)
+    call s:helper.new_file('opened.txt', ['12345', '12345', '12345', '12345'])
+    call s:helper.open_new_file('entry', ['opened.txt:3,4'])
 
     Curstr file/buffer_relative
 

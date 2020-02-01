@@ -8,6 +8,7 @@ runtime! plugin/rplugin.vim
 
 let s:packpath = &packpath
 let s:root = getcwd()
+let s:test_data_dir = getcwd() . '/test/autoload/_test_data/'
 
 call curstr#test#start_testing()
 
@@ -18,6 +19,7 @@ function! CurstrTestHelper() abort
 
     function! helper.before_each() abort
         execute 'cd' s:root
+        call mkdir(s:test_data_dir, 'p')
 
         call themis#log('')
     endfunction
@@ -27,6 +29,7 @@ function! CurstrTestHelper() abort
         call curstr#custom#clean()
         execute 'cd' s:root
         let &packpath = s:packpath
+        call delete(s:test_data_dir, 'rf')
     endfunction
 
     function! helper.suite(name) abort
@@ -34,6 +37,45 @@ function! CurstrTestHelper() abort
         let suite.before_each = self.before_each
         let suite.after_each = self.after_each
         return suite
+    endfunction
+
+    function! helper.open_new_file(path, ...) abort
+        let content = len(a:000) > 0 ? a:000[0] : []
+        call self.new_file(a:path, content)
+        execute 'edit' s:test_data_dir . a:path
+    endfunction
+
+    function! helper.new_file(path, ...) abort
+        call system(['touch', s:test_data_dir . a:path])
+        if len(a:000) > 0
+            call writefile(a:000[0], s:test_data_dir . a:path)
+        endif
+    endfunction
+
+    function! helper.new_directory(path) abort
+        call mkdir(s:test_data_dir . a:path, 'p')
+    endfunction
+
+    function! helper.buffer(...) abort
+        setlocal buftype=nofile
+        call nvim_buf_set_lines(bufnr('%'), 0, -1, v:false, a:000)
+    endfunction
+
+    function! helper.add_packpath(path) abort
+        execute 'set packpath^=' . fnamemodify(s:test_data_dir . a:path, ':p')
+    endfunction
+
+    function! helper.cd_to_test_data() abort
+        execute 'cd' s:test_data_dir
+    endfunction
+
+    function! helper.search(pattern) abort
+        let result = search(a:pattern)
+        if result == 0
+            let message = printf('%s not found', a:pattern)
+            call self.assert.fail(message)
+        endif
+        return result
     endfunction
 
     return helper
@@ -61,7 +103,7 @@ function! s:assert() abort
     endfunction
 
     function! assert.current_buffer(expected) abort
-        let actual = expand('%')
+        let actual = expand('%:.')
         let message = printf('current buffer should be %s, but actual: %s', a:expected, actual)
         call self.equals(actual, a:expected, message)
     endfunction
@@ -99,6 +141,12 @@ function! s:assert() abort
     function! assert.tab_count(expected) abort
         let actual = tabpagenr('$')
         let message = printf('tab count should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.position(expected) abort
+        let actual = getpos('.')
+        let message = printf('position should be %s, but actual: %s', a:expected, actual)
         call self.equals(actual, a:expected, message)
     endfunction
 

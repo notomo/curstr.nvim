@@ -5,6 +5,8 @@ let s:suite = s:helper.suite('togglable/word/regex')
 let s:assert = s:helper.assert
 
 function! s:suite.before_each()
+    call s:helper.before_each()
+
     call curstr#custom#source_option('togglable/word/regex', 'patterns', [])
     call curstr#custom#source_option('togglable/word/regex', 'char_pattern', '[:alnum:]_')
     tabe | setlocal buftype=nofile noswapfile

@@ -5,8 +5,13 @@ let s:assert = s:helper.assert
 
 function! s:suite.before_each()
     call s:helper.before_each()
-    edit ./test/autoload/_test_data/entry.txt
-    cd ./test/autoload/_test_data
+
+    call s:helper.new_file('opened.txt', ['12345', '12345', '12345', '12345'])
+    call s:helper.new_directory('with_env')
+    call s:helper.new_file('with_env/file')
+    call s:helper.open_new_file('entry.txt', ['opened.txt', 'opened.txt:3', 'opened.txt:3,4', '$DIR_NAME/file', ''])
+
+    call s:helper.cd_to_test_data()
 endfunction
 
 function! s:suite.default()
@@ -47,17 +52,17 @@ function! s:suite.horizontal_open()
 endfunction
 
 function! s:suite.not_found()
-    let position = [0, 2, 1, 0]
-    call setpos('.', position)
+    normal! G
+    let pos = getpos('.')
 
     Curstr file/path
 
     call s:assert.file_name('entry.txt')
-    call s:assert.equals(getpos('.'), position)
+    call s:assert.position(pos)
 endfunction
 
 function! s:suite.open_with_row()
-    call cursor(8, 1)
+    call s:helper.search('opened.txt:3')
 
     Curstr file/path
 
@@ -66,7 +71,7 @@ function! s:suite.open_with_row()
 endfunction
 
 function! s:suite.open_with_position()
-    call cursor(9, 1)
+    call s:helper.search('opened.txt:3,4')
 
     Curstr file/path
 
@@ -76,11 +81,10 @@ function! s:suite.open_with_position()
 endfunction
 
 function! s:suite.open_with_env_expand()
-    let $RPLUGIN_PATH = 'rplugin/python3'
-    call cursor(10, 1)
+    let $DIR_NAME = getcwd() . '/with_env'
+    call s:helper.search('file')
 
     Curstr file/path
 
-    " FIXME: fail when you execute this test only
-    call s:assert.file_name('__init__.py')
+    call s:assert.file_name('file')
 endfunction

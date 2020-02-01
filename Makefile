@@ -7,7 +7,7 @@ _test:
 	$(MAKE) lint
 
 vim_test:
-	NVIM_RPLUGIN_MANIFEST=rplugin.vim nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
+	NVIM_RPLUGIN_MANIFEST=rplugin.vim nvim -u ./test/update_remote_plugins.vim -i NONE -n --headless +q
 	cat rplugin.vim
 	THEMIS_ARGS="-e -s --headless" NVIM_RPLUGIN_MANIFEST=rplugin.vim themis
 
@@ -32,7 +32,6 @@ setup_dev:
 	./curstr_env/bin/pip install -r ./requirements.txt
 
 .PHONY: test
-.PHONY: python_test
 .PHONY: vim_test
 .PHONY: lint
 .PHONY: format

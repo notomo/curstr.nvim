@@ -1,7 +1,0 @@
-[run]
-omit = test/*,curstr_env/*
-source = rplugin/python3/
-plugins = covimerage
-
-[html]
-directory = test/report/html/

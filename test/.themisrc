@@ -152,6 +152,3 @@ function! s:assert() abort
 
     return assert
 endfunction
-
-execute 'profile start' $THEMIS_PROFILE_LOG
-profile! file ./autoload/*

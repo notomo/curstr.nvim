@@ -1,4 +1,3 @@
-set encoding=utf-8
 
 call themis#option('recursive', 1)
 
@@ -8,23 +7,103 @@ endif
 runtime! plugin/rplugin.vim
 
 let s:packpath = &packpath
+let s:root = getcwd()
 
 call curstr#test#start_testing()
 
-function! CurstrTestBefore() abort
-    let s:root = getcwd()
-    return s:root
+function! CurstrTestHelper() abort
+    let helper = {
+        \ 'assert': s:assert(),
+    \ }
+
+    function! helper.before_each() abort
+        execute 'cd' s:root
+
+        call themis#log('')
+    endfunction
+
+    function! helper.after_each() abort
+        silent! %bwipeout!
+        call curstr#custom#clean()
+        execute 'cd' s:root
+        let &packpath = s:packpath
+    endfunction
+
+    function! helper.suite(name) abort
+        let suite = themis#suite(a:name)
+        let suite.before_each = self.before_each
+        let suite.after_each = self.after_each
+        return suite
+    endfunction
+
+    return helper
 endfunction
 
-function! CurstrTestBeforeEach() abort
-    let &packpath = s:packpath
+function! s:assert() abort
+    let assert = themis#helper('assert')
+
+    function! assert.file_name(expected) abort
+        let actual = fnamemodify(bufname('%'), ':t')
+        let message = printf('file name should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.cursor_word(expected) abort
+        let actual = expand('<cword>')
+        let message = printf('cursor word should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.current_line(expected) abort
+        let actual = getline(line('.'))
+        let message = printf('current line should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.current_buffer(expected) abort
+        let actual = expand('%')
+        let message = printf('current buffer should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.path(expected) abort
+        let actual = fnamemodify(expand('%:p'), ':.')
+        let message = printf('file path should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.not_path(expected) abort
+        let actual = fnamemodify(expand('%:p'), ':.')
+        let message = printf('file path should not be %s', a:expected)
+        call self.not_equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.line_number(expected) abort
+        let actual = line('.')
+        let message = printf('line_number should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.column_number(expected) abort
+        let actual = col('.')
+        let message = printf('column number should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.window_count(expected) abort
+        let actual = tabpagewinnr(tabpagenr(), '$')
+        let message = printf('window count must be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.tab_count(expected) abort
+        let actual = tabpagenr('$')
+        let message = printf('tab count should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    return assert
 endfunction
 
-function! CurstrTestAfterEach() abort
-    %bwipeout!
-    call curstr#custom#clean()
-    execute 'cd ' . s:root
-endfunction
-
-execute 'profile' 'start' $THEMIS_PROFILE_LOG
+execute 'profile start' $THEMIS_PROFILE_LOG
 profile! file ./autoload/*

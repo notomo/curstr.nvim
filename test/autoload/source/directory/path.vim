@@ -1,22 +1,15 @@
 
-let s:suite = themis#suite('directory/path')
-let s:assert = themis#helper('assert')
+let s:helper = CurstrTestHelper()
+let s:suite = s:helper.suite('directory/path')
+let s:assert = s:helper.assert
 
-function! s:suite.before()
-    let s:root = CurstrTestBefore()
-endfunction
-
-function! s:suite.before_each()
+function! s:suite.default()
     edit ./test/autoload/_test_data/entry.txt
     cd ./test/autoload/_test_data
     call cursor(3, 1)
-endfunction
+    let cwd = getcwd()
 
-function! s:suite.after_each()
-    call CurstrTestAfterEach()
-endfunction
-
-function! s:suite.default()
     Curstr directory/path
-    call s:assert.equals(expand('%'), s:root . '/test/autoload/_test_data/opened/')
+
+    call s:assert.current_buffer(cwd . '/opened/')
 endfunction

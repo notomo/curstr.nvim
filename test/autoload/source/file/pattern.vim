@@ -1,18 +1,12 @@
 
-let s:suite = themis#suite('file/pattern')
-let s:assert = themis#helper('assert')
-
-function! s:suite.before()
-    let s:root = CurstrTestBefore()
-endfunction
+let s:helper = CurstrTestHelper()
+let s:suite = s:helper.suite('file/pattern')
+let s:assert = s:helper.assert
 
 function! s:suite.before_each()
+    call s:helper.before_each()
     edit ./test/autoload/_test_data/entry.txt
     cd ./test/autoload/_test_data
-endfunction
-
-function! s:suite.after_each()
-    call CurstrTestAfterEach()
 endfunction
 
 function! s:suite.file()
@@ -22,8 +16,8 @@ function! s:suite.file()
 
     Curstr file/pattern
 
-    call s:assert.equals(expand('%:t'), 'pattern.txt')
-    call s:assert.equals(line('.'), 1)
+    call s:assert.file_name('pattern.txt')
+    call s:assert.line_number(1)
 endfunction
 
 function! s:suite.file_with_position()
@@ -34,8 +28,8 @@ function! s:suite.file_with_position()
 
     Curstr file/pattern
 
-    call s:assert.equals(expand('%:t'), 'pattern.txt')
-    call s:assert.equals(expand('<cword>'), 'target_pattern')
+    call s:assert.file_name('pattern.txt')
+    call s:assert.cursor_word('target_pattern')
 endfunction
 
 function! s:suite.not_found()
@@ -43,7 +37,7 @@ function! s:suite.not_found()
 
     Curstr file/pattern
 
-    call s:assert.equals(expand('%:t'), 'entry.txt')
+    call s:assert.file_name('entry.txt')
 endfunction
 
 function! s:suite.file_not_found()
@@ -51,5 +45,5 @@ function! s:suite.file_not_found()
 
     Curstr file/pattern
 
-    call s:assert.equals(expand('%:t'), 'entry.txt')
+    call s:assert.file_name('entry.txt')
 endfunction

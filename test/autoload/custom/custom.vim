@@ -1,18 +1,7 @@
 
-let s:suite = themis#suite('custom')
-let s:assert = themis#helper('assert')
-
-function! s:suite.before()
-    let s:root = CurstrTestBefore()
-endfunction
-
-function! s:suite.before_each()
-    call curstr#custom#clean()
-endfunction
-
-function! s:suite.after_each()
-    call CurstrTestAfterEach()
-endfunction
+let s:helper = CurstrTestHelper()
+let s:suite = s:helper.suite('custom')
+let s:assert = s:helper.assert
 
 function! s:suite.execute_option()
     let option_name = 'string'

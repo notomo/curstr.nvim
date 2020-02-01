@@ -2,8 +2,11 @@ set encoding=utf-8
 
 call themis#option('recursive', 1)
 
-let g:python3_host_prog = expand('<sfile>:h:h') . '/curstr_env/bin/python3'
+if exists('$CURSTR_ENV')
+    let g:python3_host_prog = expand('<sfile>:h:h') . '/curstr_env/bin/python3'
+endif
 runtime! plugin/rplugin.vim
+
 let s:packpath = &packpath
 
 call curstr#test#start_testing()

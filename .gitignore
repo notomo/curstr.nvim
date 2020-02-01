@@ -5,3 +5,4 @@ coverage.xml
 profile.txt
 vim_coverage.xml
 /curstr_env
+/rplugin.vim

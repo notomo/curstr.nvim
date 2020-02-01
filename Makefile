@@ -1,19 +1,34 @@
 
-test: python_test vim_test lint
+test:
+	CURSTR_ENV=./curstr_env/bin/ $(MAKE) _test
+
+_test:
+	$(MAKE) python_test
+	$(MAKE) vim_test
+	$(MAKE) lint
+	$(MAKE) coverage
 
 python_test:
-	./curstr_env/bin/pytest
+	$(CURSTR_ENV)pytest
 
+THEMIS_PROFILE_LOG=profile.txt
 vim_test:
-	NVIM_RPLUGIN_MANIFEST=$(HOME)/rplugin.vim nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
-	NVIM_RPLUGIN_MANIFEST=$(HOME)/rplugin.vim themis
+	NVIM_RPLUGIN_MANIFEST=rplugin.vim nvim -u ./update_remote_plugins.vim -i NONE -n --headless +q
+	cat rplugin.vim
+	THEMIS_ARGS="-e -s --headless" NVIM_RPLUGIN_MANIFEST=rplugin.vim themis
 
 lint:
-	./curstr_env/bin/vint plugin/
-	./curstr_env/bin/vint autoload/
-	./curstr_env/bin/flake8 rplugin/python3/ --ignore E203,E303,E402,W391,W503,E731 --max-line-length 88
-	./curstr_env/bin/mypy --ignore-missing-imports rplugin/python3/
-	./curstr_env/bin/black rplugin/python3/ --check
+	$(CURSTR_ENV)vint plugin/
+	$(CURSTR_ENV)vint autoload/
+	$(CURSTR_ENV)flake8 rplugin/python3/ --ignore E203,E303,E402,W391,W503,E731 --max-line-length 88
+	$(CURSTR_ENV)mypy --ignore-missing-imports rplugin/python3/
+	$(CURSTR_ENV)black rplugin/python3/ --check
+
+coverage:
+	$(CURSTR_ENV)covimerage write_coverage $(THEMIS_PROFILE_LOG)
+	$(CURSTR_ENV)coverage report --rcfile=.vim_coveragerc
+	$(CURSTR_ENV)coverage combine --append .coverage_covimerage
+	$(CURSTR_ENV)coverage report
 
 format:
 	./curstr_env/bin/black rplugin/python3/

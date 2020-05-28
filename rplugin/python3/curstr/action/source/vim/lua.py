@@ -19,4 +19,4 @@ class Source(Base):
         return self._dispatcher.nothing()
 
     def get_options(self):
-        return {"filetyps": ["lua"]}
+        return {"filetypes": ["lua", "vim"]}

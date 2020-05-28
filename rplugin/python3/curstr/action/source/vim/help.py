@@ -30,4 +30,4 @@ class Source(Base):
         return Helps(self._vim, contained)
 
     def get_options(self):
-        return {"exactly": False, "filetyps": ["vim"]}
+        return {"exactly": False, "filetypes": ["vim"]}

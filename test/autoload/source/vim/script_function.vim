@@ -6,8 +6,18 @@ let s:assert = s:helper.assert
 function! s:suite.before_each()
     call s:helper.before_each()
 
-    call s:helper.open_new_file('entry', ['', 'function! s:test() abort', "    echomsg 'test'", 'endfunction', '', 'call s:test()'])
+    filetype on
+    syntax enable
+
+    call s:helper.open_new_file('entry.vim', ['', 'function! s:test() abort', "    echomsg 'test'", 'endfunction', '', 'call s:test()'])
     call s:helper.search('call s:\zstest')
+endfunction
+
+function! s:suite.after_each()
+    call s:helper.after_each()
+
+    filetype off
+    syntax off
 endfunction
 
 function! s:assert.cursor_position() abort

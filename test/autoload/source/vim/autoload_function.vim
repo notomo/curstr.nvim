@@ -7,6 +7,7 @@ function! s:suite.before_each()
     call s:helper.before_each()
 
     call s:helper.buffer("call curstr#execute('', 1, 2)")
+    setlocal filetype=vim
     call s:helper.search('curstr')
 endfunction
 

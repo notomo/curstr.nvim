@@ -27,4 +27,4 @@ class Source(Base):
         )
 
     def get_options(self):
-        return {"filetyps": ["vim"]}
+        return {"filetypes": ["vim"]}

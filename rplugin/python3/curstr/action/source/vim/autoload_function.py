@@ -68,4 +68,4 @@ class Source(Base):
         return (0, 0)
 
     def get_options(self):
-        return {"filetyps": ["vim"], "include_packpath": False}
+        return {"filetypes": ["vim"], "include_packpath": False}

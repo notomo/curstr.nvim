@@ -16,7 +16,7 @@ class Source(Base):
         return self._dispatcher.dispatch_one(FileDispatcher.Position, *position)
 
     def __search_function_position(self, name: str) -> Tuple[int, int]:
-        match = re.match("(s:|<SID>)(?P<name>\\S+)", name)
+        match = re.match("(s:|<SID>|<sid>)(?P<name>\\S+)", name)
         if match is None:
             return (0, 0)
         function_name = match.group("name")

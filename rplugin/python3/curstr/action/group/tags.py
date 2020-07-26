@@ -14,8 +14,5 @@ class Tags(Listable):
 
     @Listable.action()
     def list(self):
-        self._vim.call(
-            "denite#start",
-            [{"name": "curstr/tag", "args": []}],
-            {"curstr__targets": self._words},
-        )
+        # TODO quickfix
+        pass

@@ -14,8 +14,5 @@ class Helps(Listable):
 
     @Listable.action()
     def list(self):
-        self._vim.call(
-            "denite#start",
-            [{"name": "curstr/help", "args": []}],
-            {"curstr__targets": self._words},
-        )
+        # TODO quickfix
+        pass

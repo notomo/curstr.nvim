@@ -13,8 +13,5 @@ class Directory(File, Listable):
 
     @Listable.action()
     def list(self):
-        self._vim.call(
-            "denite#start",
-            [{"name": "curstr/file", "args": []}],
-            {"curstr__path": self._path},
-        )
+        # TODO quickfix
+        pass

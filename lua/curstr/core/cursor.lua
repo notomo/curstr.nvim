@@ -17,7 +17,4 @@ end
 M.word_with_range = function()
 end
 
-M.line = function()
-end
-
 return M

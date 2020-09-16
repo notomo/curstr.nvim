@@ -1,4 +1,5 @@
 local modulelib = require("curstr/lib/module")
+local filelib = require("curstr/lib/file")
 local base = require("curstr/action_source/base")
 local cursor = require("curstr/core/cursor")
 
@@ -19,6 +20,7 @@ M._create = function(name, source_opts)
 
   local source = {}
   source.cursor = cursor
+  source.filelib = filelib
   source.opts = vim.tbl_extend("force", origin.opts, source_opts)
 
   return setmetatable(source, origin), nil

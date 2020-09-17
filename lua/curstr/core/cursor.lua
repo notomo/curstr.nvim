@@ -1,6 +1,6 @@
 local M = {}
 
-M.word = function(added_iskeyword)
+M.word = function(_, added_iskeyword)
   if added_iskeyword == nil then
     return vim.fn.expand("<cword>")
   end
@@ -17,7 +17,7 @@ M.word = function(added_iskeyword)
   return word
 end
 
-M.word_with_range = function(char_pattern)
+M.word_with_range = function(_, char_pattern)
   char_pattern = char_pattern or "\\k"
   local pos = vim.api.nvim_win_get_cursor(0)
   local line = vim.api.nvim_get_current_line()
@@ -33,7 +33,7 @@ M.word_with_range = function(char_pattern)
   return word, word_range
 end
 
-M.file_path = function(added_isfname)
+M.file_path = function(_, added_isfname)
   if added_isfname == nil then
     return vim.fn.expand("<cfile>")
   end
@@ -50,7 +50,7 @@ M.file_path = function(added_isfname)
   return path
 end
 
-M.file_path_with_position = function(added_isfname)
+M.file_path_with_position = function(_, added_isfname)
   local file_path = M.file_path(added_isfname)
   local cword = vim.fn.expand("<cWORD>")
   local pattern = ("\\v%s:\\zs(\\d+)(,\\d+)?"):format(file_path)

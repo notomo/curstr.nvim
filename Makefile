@@ -4,11 +4,11 @@ test:
 
 _test:
 	$(MAKE) vim_test
-	$(MAKE) lint
+	# $(MAKE) lint
 
 vim_test:
-	NVIM_RPLUGIN_MANIFEST=rplugin.vim nvim -u ./test/update_remote_plugins.vim -i NONE -n --headless +q
-	cat rplugin.vim
+	# NVIM_RPLUGIN_MANIFEST=rplugin.vim nvim -u ./test/update_remote_plugins.vim -i NONE -n --headless +q
+	# cat rplugin.vim
 	THEMIS_ARGS="-e -s --headless" NVIM_RPLUGIN_MANIFEST=rplugin.vim themis
 
 lint:

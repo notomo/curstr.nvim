@@ -23,11 +23,11 @@ M.set_base = set_base
 -- for app
 
 M.find_action_group = function(name)
-  return find("curstr/action_group" .. name)
+  return find("curstr/action_group/" .. name)
 end
 
 M.find_action_source = function(name)
-  return find("curstr/action_source" .. name)
+  return find("curstr/action_source/" .. name)
 end
 
 M.cleanup = function(name)

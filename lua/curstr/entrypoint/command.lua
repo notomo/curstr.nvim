@@ -8,7 +8,7 @@ local M = {}
 local default_opts = {action = nil}
 
 M.execute_by_excmd = function(raw_args, first_row, last_row)
-  local source_name, opts, _, parse_err = cmdparse.args(raw_args, vim.tbl_extend("force", default_opts, {}))
+  local source_name, opts, _, parse_err = cmdparse.args(vim.split(raw_args, "\\s+"), vim.tbl_extend("force", default_opts, {}))
   if parse_err ~= nil then
     return nil, messagelib.error(parse_err)
   end

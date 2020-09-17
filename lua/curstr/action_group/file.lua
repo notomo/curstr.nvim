@@ -13,22 +13,22 @@ M._adjust_cursor = function(self)
   vim.api.nvim_win_set_cursor(0, {row, range.s.column})
 end
 
-M.open = function(self)
+M.action_open = function(self)
   vim.api.nvim_command("edit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.tab_open = function(self)
+M.action_tab_open = function(self)
   vim.api.nvim_command("tabedit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.vertical_open = function(self)
+M.action_vertical_open = function(self)
   vim.api.nvim_command("vsplit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.horizontal_open = function(self)
+M.action_horizontal_open = function(self)
   vim.api.nvim_command("split " .. self.path)
   self:_adjust_cursor()
 end

@@ -5,10 +5,10 @@ function! curstr#execute(arg_string, first_line, last_line) range abort
     call _curstr_execute(a:arg_string, a:first_line, a:last_line)
 endfunction
 
-" function! curstr#execute(arg_string, first_line, last_line) range abort
-"     if get(g:, 'curstr_debug', v:false)
-"         lua require("curstr/cleanup")("curstr")
-"         doautocmd User CurstrSourceLoad
-"     endif
-"     return luaeval('require("curstr/entrypoint/command").execute(unpack(_A))', [a:arg_string, a:first_line, a:last_line])
-" endfunction
+function! curstr#execute(arg_string, first_line, last_line) range abort
+    if get(g:, 'curstr_debug', v:false)
+        lua require("curstr/cleanup")("curstr")
+        doautocmd User CurstrSourceLoad
+    endif
+    return luaeval('require("curstr/entrypoint/command").execute_by_excmd(unpack(_A))', [a:arg_string, a:first_line, a:last_line])
+endfunction

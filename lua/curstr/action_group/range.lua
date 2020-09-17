@@ -1,6 +1,6 @@
 local M = {}
 
-M.join = function(self)
+M.action_join = function(self)
   local last_line = self.last
   if self.first == last_line then
     last_line = self.first + 1

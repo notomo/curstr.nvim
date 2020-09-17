@@ -1,11 +1,11 @@
 local M = {}
 
-M.toggle = function(self)
+M.action_toggle = function(self)
   local new_line = self:_new_line()
   vim.api.nvim_set_current_line(new_line)
 end
 
-M.append = function(self)
+M.action_append = function(self)
   local new_line = self:_new_line()
   local bufnr = 0
   local row = vim.api.nvim_win_get_cursor(0)[1] - 1

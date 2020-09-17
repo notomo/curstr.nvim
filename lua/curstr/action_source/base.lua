@@ -1,4 +1,4 @@
-local group_core = require("curstr/action/group")
+local group_core = require("curstr/core/group")
 
 local M = {}
 
@@ -8,12 +8,14 @@ M.create = function()
   return nil
 end
 
-M.group = function(_, name, args)
+M.to_group = function(_, name, args)
   local group, err = group_core.create(name, args)
   if err ~= nil then
     return nil, err
   end
   return group, nil
 end
+
+M.__index = M
 
 return M

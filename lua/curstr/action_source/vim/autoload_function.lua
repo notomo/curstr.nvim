@@ -23,7 +23,7 @@ M.create = function(self)
 
   local pack_path = vim.split(vim.o.packpath, ",", true)[1]
   local package = vim.fn.fnamemodify(pack_path, ":p")
-  local pattern = self.pathlib.join(package, "pack/*/opt//*/autoload", target)
+  local pattern = self.pathlib.join(package, "pack/*/opt/*/autoload", target)
   for _, path in ipairs(vim.fn.glob(pattern)) do
     if self.filelib.readable(path) then
       local position = self._search(cword, path)
@@ -37,10 +37,10 @@ end
 M._search = function(name, path)
   local f = io.open(path, "r")
   local row = 1
-  local pattern = ("\\s*fu(nction)?!?\\s*\\zs%s\\ze\\("):format(name)
+  local pattern = ("\\v\\s*fu(nction)?!?\\s*\\zs%s\\ze\\("):format(name)
   local regex = vim.regex(pattern)
   for line in f:lines() do
-    local s = regex:match(line)
+    local s = regex:match_str(line)
     if s ~= nil then
       f:close()
       return {row, s}

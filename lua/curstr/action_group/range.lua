@@ -1,6 +1,10 @@
 local M = {}
 
 M.action_join = function(self)
+  if not vim.bo.modifiable then
+    return
+  end
+
   local last_line = self.last
   if self.first == last_line then
     last_line = self.first + 1
@@ -23,7 +27,7 @@ M.action_join = function(self)
   end
   local joined = {table.concat(lines, separator)}
 
-  vim.api.nvim_buf_set_lines(bufnr, self.first, -1, self.last, false, joined)
+  vim.api.nvim_buf_set_lines(bufnr, self.first - 1, self.last, false, joined)
 end
 
 M.default_action = "join"

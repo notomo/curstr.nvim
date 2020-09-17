@@ -6,7 +6,7 @@ local cursor = require("curstr/core/cursor")
 
 local M = {}
 
-M._create = function(name, source_opts)
+M._create = function(name, source_opts, action_opts)
   local origin
   if name == "base" then
     origin = base
@@ -24,11 +24,12 @@ M._create = function(name, source_opts)
   source.filelib = filelib
   source.pathlib = pathlib
   source.opts = vim.tbl_extend("force", origin.opts, source_opts)
+  source.action_opts = action_opts
 
   return setmetatable(source, origin), nil
 end
 
-M.all = function(name, source_opts)
+M.all = function(name, source_opts, action_opts)
   local aliased = vim.fn["curstr#custom#get_source_aliases"](name)
   local names = {name}
   if #aliased ~= 0 then
@@ -37,7 +38,7 @@ M.all = function(name, source_opts)
 
   local sources = {}
   for _, source_name in ipairs(names) do
-    local source, err = M._create(source_name, source_opts)
+    local source, err = M._create(source_name, source_opts, action_opts)
     if err ~= nil then
       return nil, err
     end

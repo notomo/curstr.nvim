@@ -17,13 +17,13 @@ function! s:suite.toggle()
     call setpos('.', [0, 1, 1, 0])
     call curstr#custom#source_option('togglable/word/regex', 'patterns', [['\vhoge|foo', 'bar'], ['bar', 'hoge']])
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.cursor_word('bar')
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.cursor_word('hoge')
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.cursor_word('bar')
 endfunction
 
@@ -33,10 +33,10 @@ function! s:suite.char_pattern_option()
     call curstr#custom#source_option('togglable/word/regex', 'patterns', [['foo:test', 'foo;test'], ['foo;test', 'foo:test']])
     call curstr#custom#source_option('togglable/word/regex', 'char_pattern', '[:alnum:]_;:')
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.current_line('foo;test')
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.current_line('foo:test')
 endfunction
 
@@ -45,9 +45,9 @@ function! s:suite.with_multibyte()
     call setpos('.', [0, 1, 10, 0])
     call curstr#custom#source_option('togglable/word/regex', 'patterns', [['\vhoge|foo', 'bar'], ['bar', 'hoge']])
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.current_line('あああbarあああ')
 
-    Curstr togglable/word/regex
+    Curstr togglable/word
     call s:assert.current_line('あああhogeあああ')
 endfunction

@@ -1,7 +1,7 @@
 local M = {}
 
 M.create = function(self, opts)
-  return self:to_group("range", {value = opts.range})
+  return self:to_group("range", {first = opts.range.first, last = opts.range.last})
 end
 
 return M

@@ -3,7 +3,7 @@ local base = require("curstr/action_group/base")
 
 local M = {}
 
-M.create = function(name, args)
+M.create = function(name, args, action_opts)
   local origin
   if name == "base" then
     origin = base
@@ -20,6 +20,7 @@ M.create = function(name, args)
   for key, value in pairs(args) do
     group[key] = value
   end
+  group.opts = vim.tbl_extend("force", origin.opts or {}, action_opts)
 
   return setmetatable(group, origin), nil
 end

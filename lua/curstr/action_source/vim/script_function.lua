@@ -11,14 +11,14 @@ M.create = function(self)
 end
 
 M._search = function(name)
-  local pattern = "(s:|<SID>|<sid>)\\zs\\S+\\ze"
+  local pattern = "\\v(s:|<SID>|<sid>)\\zs\\S+\\ze"
   local regex = vim.regex(pattern)
-  local s, e = regex:match(name)
+  local s, e = regex:match_str(name)
   if s == nil then
     return nil
   end
   local func_name = name:sub(s, e)
-  local func_pattern = ("\\v\\s*fu%[nction]!?\\s*s:\\zs%s\\("):format(func_name)
+  local func_pattern = ("\\v\\s*fu[nction]!?\\s*s:\\zs%s\\("):format(func_name)
   local position = vim.fn.searchpos(func_pattern, "nw")
   if position[1] == 0 then
     return nil

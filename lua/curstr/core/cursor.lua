@@ -38,14 +38,14 @@ M.file_path = function(_, added_isfname)
     return vim.fn.expand("<cfile>")
   end
 
-  local origin_isfname = vim.bo.isfname
+  local origin_isfname = vim.o.isfname
   local splitted = vim.split(origin_isfname, ",", true)
   vim.list_extend(splitted, vim.split(added_isfname, "", true))
   local new_isfname = table.concat(splitted, ",")
 
-  vim.bo.isfname = new_isfname
+  vim.o.isfname = new_isfname
   local path = vim.fn.expand("<cfile>")
-  vim.bo.isfname = origin_isfname
+  vim.o.isfname = origin_isfname
 
   return path
 end

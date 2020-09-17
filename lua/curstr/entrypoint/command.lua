@@ -8,7 +8,8 @@ local M = {}
 local default_opts = {action = nil}
 
 M.execute_by_excmd = function(raw_args, first_row, last_row)
-  local source_name, opts, _, parse_err = cmdparse.args(vim.split(raw_args, "\\s+"), vim.tbl_extend("force", default_opts, {}))
+  local args = vim.split(raw_args, "%s+")
+  local source_name, opts, _, parse_err = cmdparse.args(args, vim.tbl_extend("force", default_opts, {}))
   if parse_err ~= nil then
     return nil, messagelib.error(parse_err)
   end
@@ -24,7 +25,8 @@ M.execute_by_excmd = function(raw_args, first_row, last_row)
 end
 
 M._execute = function(source_name, opts, source_opts)
-  local sources, source_err = source_core.all(source_name, source_opts)
+  local action_opts = vim.fn["curstr#custom#get_action_options"]()
+  local sources, source_err = source_core.all(source_name, source_opts, action_opts)
   if source_err ~= nil then
     return nil, source_err
   end
@@ -39,7 +41,7 @@ M._execute = function(source_name, opts, source_opts)
     end
   end
 
-  return nil, "not found executable source"
+  return nil, messagelib.echo("not found metched source: " .. source_name)
 end
 
 return M

@@ -8,8 +8,9 @@ M.create = function()
   return nil
 end
 
-M.to_group = function(_, name, args)
-  local group, err = group_core.create(name, args)
+M.to_group = function(self, name, args)
+  local action_opts = self.action_opts[name] or {}
+  local group, err = group_core.create(name, args, action_opts)
   if err ~= nil then
     return nil, err
   end

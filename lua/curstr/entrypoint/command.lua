@@ -1,7 +1,7 @@
 local wraplib = require("curstr/lib/wrap")
 local messagelib = require("curstr/lib/message")
 local cmdparse = require("curstr/lib/cmdparse")
-local source_core = require("curstr/core/source")
+local source_core = require("curstr/core/action_source")
 
 local M = {}
 

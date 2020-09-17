@@ -1,4 +1,4 @@
-local group_core = require("curstr/core/group")
+local group_core = require("curstr/core/action_group")
 
 local M = {}
 

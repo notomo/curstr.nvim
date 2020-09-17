@@ -1,16 +1,15 @@
 local M = {}
 
 M._adjust_cursor = function(self)
-  if self.row == nil then
+  if self.position == nil then
     return
   end
   local count = vim.api.nvim_buf_line_count(0)
-  local row = self.row
-  if self.row > count then
+  local row = self.position[1]
+  if row > count then
     row = count
   end
-  local range = self.range or {s = {column = 0}}
-  vim.api.nvim_win_set_cursor(0, {row, range.s.column})
+  vim.api.nvim_win_set_cursor(0, {row, self.position[2] - 1})
 end
 
 M.action_open = function(self)

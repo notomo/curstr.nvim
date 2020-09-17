@@ -16,20 +16,6 @@ function! s:assert.cursor_position() abort
     call s:assert.column_number(11)
 endfunction
 
-function! s:suite.string_option()
-    Curstr vim/autoload_function -string=curstr#execute
-
-    call s:assert.path('autoload/curstr.vim')
-    call s:assert.cursor_position()
-endfunction
-
-function! s:suite.no_cache_option()
-    Curstr vim/autoload_function -no-cache
-
-    call s:assert.path('autoload/curstr.vim')
-    call s:assert.cursor_position()
-endfunction
-
 function! s:suite.open()
     Curstr vim/autoload_function
 
@@ -84,12 +70,14 @@ function! s:suite.no_include_packpath()
 
     call s:helper.new_directory('package/pack/package/opt/example/autoload')
     call s:helper.new_file('package/pack/package/opt/example/autoload/example.vim', ['', 'function! example#execute() abort', 'endfunction'])
+    call s:helper.open_new_file('call.vim', ['call example#execute()'])
+    call s:helper.search('example#execute')
     let pos = getpos('.')
 
-    Curstr vim/autoload_function -string=example#execute
+    Curstr vim/autoload_function
 
     call s:assert.position(pos)
-    call s:assert.file_name('')
+    call s:assert.file_name('call.vim')
 endfunction
 
 function! s:suite.include_packpath()
@@ -98,8 +86,10 @@ function! s:suite.include_packpath()
     call s:helper.new_directory('package/pack/package/opt/example/autoload')
     call s:helper.new_file('package/pack/package/opt/example/autoload/example.vim', ['', 'function! example#execute() abort', 'endfunction'])
     call s:helper.add_packpath('package')
+    call s:helper.open_new_file('call.vim', ['call example#execute()'])
+    call s:helper.search('example#execute')
 
-    Curstr vim/autoload_function -string=example#execute
+    Curstr vim/autoload_function
 
     call s:assert.file_name('example.vim')
 

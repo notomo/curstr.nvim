@@ -24,7 +24,7 @@ M.create = function(self)
   local pack_path = vim.split(vim.o.packpath, ",", true)[1]
   local package = vim.fn.fnamemodify(pack_path, ":p")
   local pattern = self.pathlib.join(package, "pack/*/opt/*/autoload", target)
-  for _, path in ipairs(vim.fn.glob(pattern)) do
+  for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
     if self.filelib.readable(path) then
       local position = self._search(cword, path)
       return self:to_group("file", {path = path, position = position})
@@ -43,8 +43,9 @@ M._search = function(name, path)
     local s = regex:match_str(line)
     if s ~= nil then
       f:close()
-      return {row, s}
+      return {row, s + 1}
     end
+    row = row + 1
   end
   f:close()
   return nil

@@ -61,7 +61,7 @@ M.file_path_with_position = function(_, added_isfname)
   end
   local matched = cword:sub(s + 1, e)
   local row, col = unpack(vim.split(matched, ",", true))
-  return file_path, {row, col or 1}
+  return file_path, {tonumber(row), tonumber(col or 1)}
 end
 
 return M

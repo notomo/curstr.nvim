@@ -7,7 +7,7 @@ M.create = function(self)
     return nil
   end
   local path = vim.fn.expand("%:p")
-  return self:to_group("file", {path = path, positoin = position})
+  return self:to_group("file", {path = path, position = position})
 end
 
 M._search = function(name)
@@ -17,8 +17,8 @@ M._search = function(name)
   if s == nil then
     return nil
   end
-  local func_name = name:sub(s, e)
-  local func_pattern = ("\\v\\s*fu[nction]!?\\s*s:\\zs%s\\("):format(func_name)
+  local func_name = name:sub(s + 1, e)
+  local func_pattern = ("\\v\\s*fu%%[nction]!?\\s*s:\\zs%s\\("):format(func_name)
   local position = vim.fn.searchpos(func_pattern, "nw")
   if position[1] == 0 then
     return nil

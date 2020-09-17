@@ -10,7 +10,7 @@ M.action_join = function(self)
     last_line = self.first + 1
   end
   local bufnr = 0
-  local old_lines = vim.api.nvim_buf_get_lines(bufnr, self.first, last_line, false)
+  local old_lines = vim.api.nvim_buf_get_lines(bufnr, self.first - 1, last_line, false)
   local first = table.remove(old_lines, 1)
   local others = vim.tbl_map(function(line)
     return line:gsub("^%s*", "")

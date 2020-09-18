@@ -26,8 +26,7 @@ end
 
 M._execute = function(source_name, opts)
   local action_opts = vim.fn["curstr#custom#get_action_options"]()
-  local source_opts = vim.fn["curstr#custom#get_source_options"](source_name)
-  local sources, source_err = source_core.all(source_name, source_opts, action_opts)
+  local sources, source_err = source_core.all(source_name, action_opts)
   if source_err ~= nil then
     return nil, source_err
   end
@@ -42,7 +41,7 @@ M._execute = function(source_name, opts)
     end
   end
 
-  return nil, messagelib.echo("not found metched source: " .. source_name)
+  return nil, messagelib.echo("not found matched source: " .. source_name)
 end
 
 return M

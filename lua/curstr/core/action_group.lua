@@ -20,6 +20,7 @@ M.create = function(name, args, action_opts)
   for key, value in pairs(args) do
     group[key] = value
   end
+  group.name = name
   group.opts = vim.tbl_extend("force", origin.opts or {}, action_opts)
 
   return setmetatable(group, origin), nil

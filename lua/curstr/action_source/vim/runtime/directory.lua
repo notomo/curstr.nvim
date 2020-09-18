@@ -1,7 +1,7 @@
 local M = {}
 
 M.create = function(self)
-  local path = self.cursor:file_path("*")
+  local path = self.cursor:file_path()
 
   local runtime_paths = vim.split(vim.o.runtimepath, ",", true)
   for _, rpath in ipairs(runtime_paths) do

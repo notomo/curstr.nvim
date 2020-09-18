@@ -9,5 +9,5 @@ function! s:suite.default()
 
     Curstr directory/buffer_relative
 
-    call s:assert.file_name('opened')
+    call s:assert.current_dir('opened')
 endfunction

@@ -1,11 +1,6 @@
 local M = {}
 
 M.create = function(self)
-  local search_pattern = self.opts.search_pattern
-  if search_pattern == "" then
-    return nil
-  end
-
   local source_pattern = self.opts.source_pattern
   local flags = self.opts.flags
 
@@ -16,10 +11,11 @@ M.create = function(self)
     return nil
   end
 
-  local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)
-  local position = self._search(pattern, abs_path)
-  if position == nil then
-    return nil
+  local search_pattern = self.opts.search_pattern
+  local position = nil
+  if search_pattern ~= "" then
+    local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)
+    position = self._search(pattern, abs_path)
   end
   return self:to_group("file", {path = abs_path, position = position})
 end
@@ -29,10 +25,10 @@ M._search = function(pattern, path)
   local row = 1
   local regex = vim.regex(pattern)
   for line in f:lines() do
-    local s = regex:match(line)
+    local s = regex:match_str(line)
     if s ~= nil then
       f:close()
-      return {row, s}
+      return {row, s + 1}
     end
     row = row + 1
   end
@@ -40,6 +36,6 @@ M._search = function(pattern, path)
   return nil
 end
 
-M.opts = {source_pattern = "", result_pattern = "", search_pattern = "", flags = ""}
+M.opts = {source_pattern = "", result_pattern = "", search_pattern = "", flags = "g"}
 
 return M

@@ -12,5 +12,5 @@ function! s:suite.default()
 
     Curstr directory/path
 
-    call s:assert.current_buffer('opened/')
+    call s:assert.current_dir('opened')
 endfunction

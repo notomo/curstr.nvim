@@ -8,13 +8,15 @@ runtime! plugin/rplugin.vim
 
 let s:packpath = &packpath
 let s:root = getcwd()
-let s:test_data_dir = getcwd() . '/test/autoload/_test_data/'
+let s:test_data_path = 'test/autoload/_test_data/'
+let s:test_data_dir = getcwd() .. '/' .. s:test_data_path
 
 call curstr#test#start_testing()
 
 function! CurstrTestHelper() abort
     let helper = {
         \ 'assert': s:assert(),
+        \ 'test_data_path': s:test_data_path,
     \ }
 
     function! helper.before_each() abort
@@ -147,6 +149,12 @@ function! s:assert() abort
     function! assert.position(expected) abort
         let actual = getpos('.')
         let message = printf('position should be %s, but actual: %s', a:expected, actual)
+        call self.equals(actual, a:expected, message)
+    endfunction
+
+    function! assert.current_dir(expected) abort
+        let actual = getcwd()[len(s:test_data_dir):]
+        let message = printf('current dir be %s, but actual: %s', a:expected, actual)
         call self.equals(actual, a:expected, message)
     endfunction
 

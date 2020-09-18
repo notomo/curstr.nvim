@@ -3,31 +3,42 @@ local filelib = require("curstr/lib/file")
 local pathlib = require("curstr/lib/path")
 local base = require("curstr/action_source/base")
 local cursor = require("curstr/core/cursor")
+local group_core = require("curstr/core/action_group")
 
 local M = {}
 
-M._create = function(name, source_opts, action_opts)
+M._create = function(source_name, source_opts, action_opts)
   local origin
-  if name == "base" then
+  if source_name == "base" then
     origin = base
   else
-    local found = modulelib.find_action_source(name)
+    local found = modulelib.find_action_source(source_name)
     if found == nil then
-      return nil, "not found action source: " .. name
+      return nil, "not found action source: " .. source_name
     end
     origin = setmetatable(found, base)
     origin.__index = origin
   end
 
-  local source = {}
-  source.name = name
-  source.cursor = cursor
-  source.filelib = filelib
-  source.pathlib = pathlib
-  source.opts = vim.tbl_extend("force", origin.opts, source_opts)
-  source.action_opts = action_opts
+  local tbl = {}
+  tbl.name = source_name
+  tbl.cursor = cursor
+  tbl.filelib = filelib
+  tbl.pathlib = pathlib
+  tbl.opts = vim.tbl_extend("force", origin.opts, source_opts)
+  tbl.action_opts = action_opts
 
-  return setmetatable(source, origin), nil
+  local source = setmetatable(tbl, origin)
+
+  source.to_group = function(self, group_name, args)
+    local group, err = group_core.create(group_name, args, self.action_opts[group_name] or {})
+    if err ~= nil then
+      return nil, err
+    end
+    return group, nil
+  end
+
+  return source, nil
 end
 
 local function _resolve(source_name, source_opts)

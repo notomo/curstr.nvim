@@ -4,10 +4,11 @@ M.create = function(self)
   local word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
 
   for _, args in ipairs(self.opts.patterns) do
-    local pattern, new_pattern
+    local pattern = args[1]
+    local new_pattern = args[2]
     local option = "g"
     if #args == 3 then
-      pattern, new_pattern, option = unpack(args)
+      option = args[3]
     end
 
     if vim.fn.match(word, pattern) ~= -1 then

@@ -14,9 +14,9 @@ end
 
 M._new_line = function(self)
   local line = vim.api.nvim_get_current_line()
-  local prefix = line:sub(1, self.position[1])
-  local suffix = line:sub(self.position[2])
-  return ("%s%s%s"):format(prefix, self.new_string, suffix)
+  local prefix = line:sub(1, self.range[1])
+  local suffix = line:sub(self.range[2] + 1)
+  return ("%s%s%s"):format(prefix, self.value, suffix)
 end
 
 M.default_action = "toggle"

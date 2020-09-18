@@ -21,8 +21,8 @@ M.word_with_range = function(_, char_pattern)
   char_pattern = char_pattern or "\\k"
   local pos = vim.api.nvim_win_get_cursor(0)
   local line = vim.api.nvim_get_current_line()
-  local pattern = ("\\v[{}]*%%%sc[%s]+"):format(char_pattern, pos[2] + 1, char_pattern)
-  local word, start_byte = vim.fn.matchstrpos(line, pattern)
+  local pattern = ("\\v[%s]*%%%sc[%s]+"):format(char_pattern, pos[2] + 1, char_pattern)
+  local word, start_byte = unpack(vim.fn.matchstrpos(line, pattern))
   if start_byte == -1 then
     return "", nil
   end

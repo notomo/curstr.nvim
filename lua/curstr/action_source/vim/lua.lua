@@ -2,7 +2,7 @@ local M = {}
 
 M.create = function(self)
   local cword = self.cursor:word("./")
-  local name = cword:gsub(".", "/")
+  local name = cword:gsub("%.", "/")
 
   local paths = vim.split(package.path, ";", true)
   for _, path in ipairs(paths) do

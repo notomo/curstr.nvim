@@ -1,17 +1,10 @@
 
 call themis#option('recursive', 1)
 
-if exists('$CURSTR_ENV')
-    let g:python3_host_prog = expand('<sfile>:h:h') . '/curstr_env/bin/python3'
-endif
-runtime! plugin/rplugin.vim
-
 let s:packpath = &packpath
 let s:root = getcwd()
 let s:test_data_path = 'test/autoload/_test_data/'
 let s:test_data_dir = getcwd() .. '/' .. s:test_data_path
-
-call curstr#test#start_testing()
 
 function! CurstrTestHelper() abort
     let helper = {

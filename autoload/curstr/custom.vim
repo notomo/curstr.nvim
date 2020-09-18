@@ -1,6 +1,5 @@
 
 function! curstr#custom#clean() abort
-    let s:execute_options = {'_':{}}
     let s:source_options = {}
     let s:action_options = {}
     let s:filetype_aliases = {}
@@ -12,33 +11,6 @@ function! curstr#custom#clean() abort
     \ }
 endfunction
 call curstr#custom#clean()
-
-function! curstr#custom#get_execute_options(...) abort
-    if a:0 == 1
-        let source_name = a:1
-    else
-        let source_name = '_'
-    endif
-    if !has_key(s:execute_options, source_name)
-        return {}
-    endif
-    return s:execute_options[source_name]
-endfunction
-
-function! curstr#custom#execute_option(name, value, ...) abort
-    call s:validate_value(a:value)
-
-    if a:0 == 1
-        let source_name = a:1
-    else
-        let source_name = '_'
-    endif
-    if !has_key(s:execute_options, source_name)
-        let s:execute_options[source_name] = {}
-    endif
-    let s:execute_options[source_name][a:name] = a:value
-endfunction
-
 
 function! curstr#custom#get_source_options(source_name) abort
     if !has_key(s:source_options, a:source_name)

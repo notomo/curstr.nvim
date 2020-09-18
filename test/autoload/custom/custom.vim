@@ -3,33 +3,6 @@ let s:helper = CurstrTestHelper()
 let s:suite = s:helper.suite('custom')
 let s:assert = s:helper.assert
 
-function! s:suite.execute_option()
-    let option_name = 'string'
-    let option_value = 'test'
-
-    call curstr#custom#execute_option(option_name, option_value)
-    let execute_options = curstr#custom#get_execute_options()
-
-    call s:assert.equals(execute_options[option_name], option_value)
-endfunction
-
-function! s:suite.source_execute_option()
-    let option_name = 'string'
-    let option_value = 'test'
-    let source_name = 'source_name'
-
-    call curstr#custom#execute_option(option_name, option_value, source_name)
-    let execute_options = curstr#custom#get_execute_options(source_name)
-
-    call s:assert.equals(execute_options[option_name], option_value)
-endfunction
-
-function! s:suite.empty_execute_option()
-    let execute_options = curstr#custom#get_execute_options('source_name')
-
-    call s:assert.empty(execute_options)
-endfunction
-
 function! s:suite.source_option()
     let source_name = 'source_name'
     let option_name = 'string'

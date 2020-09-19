@@ -25,8 +25,7 @@ M.execute_by_excmd = function(raw_args, first_row, last_row)
 end
 
 M._execute = function(source_name, opts)
-  local action_opts = vim.fn["curstr#custom#get_action_options"]()
-  local sources, source_err = source_core.all(source_name, action_opts)
+  local sources, source_err = source_core.all(source_name)
   if source_err ~= nil then
     return nil, source_err
   end

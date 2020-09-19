@@ -38,6 +38,10 @@ M._create = function(source_name, source_opts, action_opts)
     return group, nil
   end
 
+  source.enabled = function(self)
+    return vim.tbl_contains(self.filetypes, "_") or vim.tbl_contains(self.filetypes, vim.bo.filetype)
+  end
+
   return source, nil
 end
 
@@ -55,14 +59,18 @@ local function _resolve(source_name, source_opts)
   return resolved
 end
 
-M.all = function(name, action_opts)
+M.all = function(name)
+  local action_opts = vim.fn["curstr#custom#get_action_options"]()
+
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {})) do
     local source, err = M._create(resolved.source_name, resolved.source_opts, action_opts)
     if err ~= nil then
       return nil, err
     end
-    table.insert(sources, source)
+    if source:enabled() then
+      table.insert(sources, source)
+    end
   end
   return sources, nil
 end

@@ -87,6 +87,7 @@ function! s:suite.include_packpath()
     call s:helper.new_file('package/pack/package/opt/example/autoload/example.vim', ['', 'function! example#execute() abort', 'endfunction'])
     call s:helper.add_packpath('package')
     call s:helper.open_new_file('call.vim', ['call example#execute()'])
+    setlocal filetype=vim
     call s:helper.search('example#execute')
 
     Curstr vim/autoload_function

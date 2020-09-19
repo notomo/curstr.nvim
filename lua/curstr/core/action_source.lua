@@ -8,7 +8,7 @@ local custom = require("curstr/custom")
 
 local M = {}
 
-M._create = function(source_name, source_opts)
+M._create = function(source_name, source_opts, filetypes)
   local origin
   if source_name == "base" then
     origin = base
@@ -26,7 +26,10 @@ M._create = function(source_name, source_opts)
   tbl.cursor = cursor
   tbl.filelib = filelib
   tbl.pathlib = pathlib
-  tbl.opts = vim.tbl_extend("force", origin.opts, source_opts)
+
+  local custom_source = custom.sources[source_name] or {}
+  tbl.opts = vim.tbl_extend("force", origin.opts, source_opts, custom_source.opts or {})
+  tbl.filetypes = filetypes or custom_source.filetypes or origin.filetypes
 
   local source = setmetatable(tbl, origin)
 
@@ -45,32 +48,27 @@ M._create = function(source_name, source_opts)
   return source, nil
 end
 
-local function _resolve(source_name, source_opts)
+local function _resolve(source_name, source_opts, filetypes)
   local resolved = {}
 
   local ailias = custom.source_aliases[source_name] or {}
   local opts = vim.tbl_extend("force", source_opts, ailias.opts or {})
+  local ailias_filetypes = filetypes or ailias.filetypes
   local source_names = ailias.names or {}
   if #source_names == 0 then
-    local custom_source = custom.sources[source_name] or {}
-    return {
-      {
-        source_name = source_name,
-        source_opts = vim.tbl_extend("force", opts, custom_source.opts or {}),
-      },
-    }
+    return {{source_name = source_name, source_opts = opts, filetypes = ailias_filetypes}}
   end
 
   for _, name in ipairs(source_names) do
-    vim.list_extend(resolved, _resolve(name, opts))
+    vim.list_extend(resolved, _resolve(name, opts, ailias_filetypes))
   end
   return resolved
 end
 
 M.all = function(name)
   local sources = {}
-  for _, resolved in ipairs(_resolve(name, {})) do
-    local source, err = M._create(resolved.source_name, resolved.source_opts)
+  for _, resolved in ipairs(_resolve(name, {}, nil)) do
+    local source, err = M._create(resolved.source_name, resolved.source_opts, resolved.filetypes)
     if err ~= nil then
       return nil, err
     end

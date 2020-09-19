@@ -1,7 +1,12 @@
 local M = {}
 
 M.create = function(self)
-  local word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
+  local word, word_range
+  if self.opts.is_line then
+    word, word_range = self.cursor:line_with_range()
+  else
+    word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
+  end
 
   for _, args in ipairs(self.opts.patterns) do
     local pattern = args[1]
@@ -13,6 +18,9 @@ M.create = function(self)
 
     if vim.fn.match(word, pattern) ~= -1 then
       local new_word = vim.fn.substitute(word, pattern, new_pattern, option)
+      if self.opts.is_line then
+        return self:to_group("togglable/line", {value = new_word})
+      end
       return self:to_group("togglable/word", {value = new_word, range = word_range})
     end
   end
@@ -20,6 +28,6 @@ M.create = function(self)
   return nil
 end
 
-M.opts = {patterns = {}, char_pattern = "[:alnum:]_"}
+M.opts = {patterns = {}, char_pattern = "[:alnum:]_", is_line = false}
 
 return M

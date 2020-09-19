@@ -51,3 +51,25 @@ function! s:suite.with_multibyte()
     Curstr togglable/pattern
     call s:assert.current_line('あああhogeあああ')
 endfunction
+
+function! s:suite.toggle_line()
+    call append(0, 'hoge')
+    call search('hoge')
+    call curstr#custom#source_option('togglable/pattern', 'patterns', [['hoge', 'bar']])
+
+    Curstr togglable/pattern
+
+    call s:assert.current_line('bar')
+endfunction
+
+function! s:suite.append_line()
+    call append(0, 'hoge')
+    call search('hoge')
+    call curstr#custom#source_option('togglable/pattern', 'patterns', [['hoge', 'bar']])
+
+    Curstr togglable/pattern -action=append
+
+    call s:assert.current_line('hoge')
+    call search('bar')
+    call s:assert.current_line('bar')
+endfunction

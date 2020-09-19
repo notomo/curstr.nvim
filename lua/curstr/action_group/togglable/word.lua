@@ -1,14 +1,20 @@
 local M = {}
 
 M.action_toggle = function(self)
+  if not vim.bo.modifiable then
+    return
+  end
   local new_line = self:_new_line()
   vim.api.nvim_set_current_line(new_line)
 end
 
 M.action_append = function(self)
+  if not vim.bo.modifiable then
+    return
+  end
   local new_line = self:_new_line()
   local bufnr = 0
-  local row = vim.api.nvim_win_get_cursor(0)[1] - 1
+  local row = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(bufnr, row, row + 1, false, {new_line})
 end
 

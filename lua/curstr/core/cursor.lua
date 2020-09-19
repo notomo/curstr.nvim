@@ -64,4 +64,9 @@ M.file_path_with_position = function(_, added_isfname)
   return file_path, {tonumber(row), tonumber(col or 1)}
 end
 
+M.line_with_range = function()
+  local line = vim.api.nvim_get_current_line()
+  return line, {1, #line}
+end
+
 return M

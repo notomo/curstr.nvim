@@ -8,11 +8,12 @@ describe("vim/runtime/file", function()
   after_each(helper.after_each)
 
   it("open", function()
-    helper.set_lines("autoload/curstr.vim")
+    helper.set_lines(helper.test_data_path .. "file")
+    helper.new_file("file")
 
     command("Curstr vim/runtime/file")
 
-    assert.path("autoload/curstr.vim")
+    assert.path(helper.test_data_path .. "file")
   end)
 
 end)

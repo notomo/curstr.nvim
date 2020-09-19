@@ -15,6 +15,9 @@ M.root = get_root("curstr.nvim")
 M.test_data_path = "test/test_data/"
 M.test_data_dir = M.root .. "/" .. M.test_data_path
 
+local packpath = vim.o.packpath
+local runtimepath = vim.o.runtimepath
+
 M.command = function(cmd)
   local _, err = pcall(vim.api.nvim_command, cmd)
   if err then
@@ -30,6 +33,8 @@ M.before_each = function()
   M.command("syntax enable")
   M.new_directory("")
   vim.api.nvim_set_current_dir(M.test_data_dir)
+  vim.o.packpath = packpath
+  vim.o.runtimepath = runtimepath
 end
 
 M.after_each = function()

@@ -8,8 +8,7 @@ local M = {}
 local default_opts = {action = nil}
 
 M.execute_by_excmd = function(raw_args, first_row, last_row)
-  local args = vim.split(raw_args, "%s+")
-  local source_name, opts, _, parse_err = cmdparse.args(args, vim.tbl_extend("force", default_opts, {}))
+  local source_name, opts, _, parse_err = cmdparse.args(raw_args, vim.tbl_extend("force", default_opts, {}))
   if parse_err ~= nil then
     return nil, messagelib.error(parse_err)
   end
@@ -42,5 +41,7 @@ M._execute = function(source_name, opts)
 
   return nil, messagelib.echo("not found matched source: " .. source_name)
 end
+
+vim.api.nvim_command("doautocmd User CurstrSourceLoad")
 
 return M

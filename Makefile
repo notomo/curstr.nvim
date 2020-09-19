@@ -1,4 +1,4 @@
 
 .PHONY: test
 test:
-	THEMIS_ARGS="-e -s --headless" themis
+	vusted ./test --shuffle -v

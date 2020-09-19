@@ -6,8 +6,11 @@ M.create = function(self)
   if position == nil then
     return nil
   end
-  local path = vim.fn.expand("%:p")
-  return self:to_group("file", {path = path, position = position})
+  local abs_path = vim.fn.expand("%:p")
+  if not self.filelib.readable(abs_path) then
+    return nil
+  end
+  return self:to_group("file", {path = abs_path, position = position})
 end
 
 M._search = function(name)

@@ -50,7 +50,6 @@ M.after_each = function()
   M.command("syntax off")
   print(" ")
 
-  vim.fn["curstr#custom#clean"]()
   require("curstr/lib/module").cleanup("curstr")
   M.delete("")
 end

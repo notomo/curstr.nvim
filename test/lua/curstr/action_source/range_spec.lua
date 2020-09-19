@@ -8,7 +8,7 @@ describe("range", function()
   after_each(helper.after_each)
 
   it("join", function()
-    vim.fn["curstr#custom#action_option"]("range", "separator", "+")
+    require("curstr/custom").groups.range = {opts = {separator = "+"}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -22,7 +22,7 @@ describe("range", function()
   end)
 
   it("join_default", function()
-    vim.fn["curstr#custom#action_option"]("range", "separator", "+")
+    require("curstr/custom").groups.range = {opts = {separator = "+"}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -36,7 +36,7 @@ describe("range", function()
   end)
 
   it("join_with_empty_separator", function()
-    vim.fn["curstr#custom#action_option"]("range", "separator", "")
+    require("curstr/custom").groups.range = {opts = {separator = ""}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -49,8 +49,8 @@ describe("range", function()
   end)
 
   it("join_on_nomodifiable_buffer", function()
+    require("curstr/custom").groups.range = {opts = {separator = ""}}
     command("tabedit")
-    vim.fn["curstr#custom#action_option"]("range", "separator", "")
 
     vim.fn.append(0, "    1")
     vim.fn.append(1, "    2")

@@ -82,7 +82,7 @@ endfunction
   end)
 
   it("no_include_packpath", function()
-    vim.fn["curstr#custom#source_option"]("vim/autoload_function", "include_packpath", false)
+    require("curstr/custom").sources["vim/autoload_function"] = {opts = {include_packpath = false}}
 
     helper.new_directory("package/pack/package/opt/example/autoload")
     helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[
@@ -100,7 +100,7 @@ endfunction]])
   end)
 
   it("include_packpath", function()
-    vim.fn["curstr#custom#source_option"]("vim/autoload_function", "include_packpath", true)
+    require("curstr/custom").sources["vim/autoload_function"] = {opts = {include_packpath = true}}
 
     helper.new_directory("package/pack/package/opt/example/autoload")
     helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[

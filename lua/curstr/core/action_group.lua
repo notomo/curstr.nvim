@@ -1,11 +1,12 @@
 local modulelib = require("curstr/lib/module")
 local base = require("curstr/action_group/base")
+local custom = require("curstr/custom")
 
 local M = {}
 
 local action_prefix = "action_"
 
-M.create = function(group_name, args, action_opts)
+M.create = function(group_name, args)
   local origin
   if group_name == "base" then
     origin = base
@@ -23,7 +24,9 @@ M.create = function(group_name, args, action_opts)
     tbl[key] = value
   end
   tbl.name = group_name
-  tbl.opts = vim.tbl_extend("force", origin.opts or {}, action_opts)
+
+  local custom_group = custom.groups[group_name] or {}
+  tbl.opts = vim.tbl_extend("force", origin.opts or {}, custom_group.opts or {})
 
   local group = setmetatable(tbl, origin)
 

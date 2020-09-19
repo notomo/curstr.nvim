@@ -8,8 +8,9 @@ describe("file/search", function()
   after_each(helper.after_each)
 
   it("file_one", function()
-    vim.fn["curstr#custom#source_option"]("file/search", "source_pattern", "\\v^([^#]*)#(\\w+)$")
-    vim.fn["curstr#custom#source_option"]("file/search", "result_pattern", "\\1")
+    require("curstr/custom").sources["file/search"] = {
+      opts = {source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1"},
+    }
 
     helper.new_file("pattern.txt")
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
@@ -22,9 +23,13 @@ describe("file/search", function()
   end)
 
   it("file_with_position", function()
-    vim.fn["curstr#custom#source_option"]("file/search", "source_pattern", "\\v^([^#]*)#(\\w+)$")
-    vim.fn["curstr#custom#source_option"]("file/search", "result_pattern", "\\1")
-    vim.fn["curstr#custom#source_option"]("file/search", "search_pattern", "\\2:")
+    require("curstr/custom").sources["file/search"] = {
+      opts = {
+        source_pattern = "\\v^([^#]*)#(\\w+)$",
+        result_pattern = "\\1",
+        search_pattern = "\\2:",
+      },
+    }
 
     helper.new_file("pattern.txt", [[
 

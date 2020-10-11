@@ -54,7 +54,10 @@ M.file_path_with_position = function(_, added_isfname)
   local file_path = M.file_path(added_isfname)
   local cword = vim.fn.expand("<cWORD>")
   local pattern = ("\\v%s:\\zs(\\d+)(,\\d+)?"):format(file_path)
-  local regex = vim.regex(pattern)
+  local ok, regex = pcall(vim.regex, pattern)
+  if not ok then
+    return file_path, nil
+  end
   local s, e = regex:match_str(cword)
   if s == nil then
     return file_path, nil

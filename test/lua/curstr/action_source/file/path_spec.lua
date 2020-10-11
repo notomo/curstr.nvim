@@ -19,6 +19,7 @@ opened.txt
 opened.txt:3
 opened.txt:3,4
 $DIR_NAME/file
+\v+=
 ]])
 
     helper.cd()
@@ -98,6 +99,12 @@ $DIR_NAME/file
     command("Curstr file/path")
 
     assert.file_name("file")
+  end)
+
+  it("raises no error with invalid regex", function()
+    helper.search("+")
+
+    command("Curstr file/path")
   end)
 
 end)

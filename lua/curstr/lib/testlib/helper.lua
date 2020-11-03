@@ -1,17 +1,11 @@
 local M = {}
 
-local get_root = function(name)
-  local suffix = "/lua/%?.lua"
-  local target = ("%s%s$"):format(name, suffix)
-  for _, path in ipairs(vim.split(package.path, ";")) do
-    if path:find(target) then
-      return path:sub(1, #path - #suffix + 1)
-    end
-  end
-  error("project root directory not found")
+local root, root_err = require("curstr/lib/path").find_root("curstr/*.lua")
+if root_err ~= nil then
+  error(root_err)
 end
+M.root = root
 
-M.root = get_root("curstr.nvim")
 M.test_data_path = "test/test_data/"
 M.test_data_dir = M.root .. "/" .. M.test_data_path
 

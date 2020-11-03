@@ -4,11 +4,11 @@ M.create = function(self)
   local cword = self.cursor:word("./")
   local name = cword:gsub("%.", "/")
 
-  local paths = vim.split(package.path, ";", true)
+  local pattern = ("lua/%s.lua"):format(name)
+  local paths = vim.api.nvim_get_runtime_file(pattern, true)
   for _, path in ipairs(paths) do
-    local file_path = path:gsub("?", name)
-    if self.filelib.readable(file_path) then
-      return self:to_group("file", {path = file_path})
+    if self.filelib.readable(path) then
+      return self:to_group("file", {path = path})
     end
   end
 

@@ -1,13 +1,13 @@
 local M = {}
 
-M.action_toggle = function(self)
+function M.action_toggle(self)
   if not vim.bo.modifiable then
     return
   end
   vim.api.nvim_set_current_line(self.value)
 end
 
-M.action_append = function(self)
+function M.action_append(self)
   if not vim.bo.modifiable then
     return
   end

@@ -1,6 +1,6 @@
 local M = {}
 
-M.action_nothing = function()
+function M.action_nothing()
 end
 
 M.opts = {}

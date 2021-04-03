@@ -1,6 +1,6 @@
 local M = {}
 
-M.action_join = function(self)
+function M.action_join(self)
   if not vim.bo.modifiable then
     return
   end

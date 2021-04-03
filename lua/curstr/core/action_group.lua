@@ -1,12 +1,12 @@
-local modulelib = require("curstr/lib/module")
-local base = require("curstr/action_group/base")
-local custom = require("curstr/custom")
+local modulelib = require("curstr.lib.module")
+local base = require("curstr.action_group.base")
+local custom = require("curstr.custom")
 
 local M = {}
 
 local action_prefix = "action_"
 
-M.create = function(group_name, args)
+function M.create(group_name, args)
   local origin
   if group_name == "base" then
     origin = base

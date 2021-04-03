@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local path = self.cursor:file_path("*")
 
   local runtime_paths = vim.split(vim.o.runtimepath, ",", true)

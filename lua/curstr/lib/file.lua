@@ -1,10 +1,10 @@
 local M = {}
 
-M.readable = function(file_path)
+function M.readable(file_path)
   return vim.fn.filereadable(file_path) ~= 0
 end
 
-M.is_directory = function(file_path)
+function M.is_directory(file_path)
   return vim.fn.isdirectory(file_path) ~= 0
 end
 

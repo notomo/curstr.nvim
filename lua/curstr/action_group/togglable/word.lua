@@ -1,6 +1,6 @@
 local M = {}
 
-M.action_toggle = function(self)
+function M.action_toggle(self)
   if not vim.bo.modifiable then
     return
   end
@@ -8,7 +8,7 @@ M.action_toggle = function(self)
   vim.api.nvim_set_current_line(new_line)
 end
 
-M.action_append = function(self)
+function M.action_append(self)
   if not vim.bo.modifiable then
     return
   end
@@ -18,7 +18,7 @@ M.action_append = function(self)
   vim.api.nvim_buf_set_lines(bufnr, row, row + 1, false, {new_line})
 end
 
-M._new_line = function(self)
+function M._new_line(self)
   local line = vim.api.nvim_get_current_line()
   local prefix = line:sub(1, self.range[1])
   local suffix = line:sub(self.range[2] + 1)

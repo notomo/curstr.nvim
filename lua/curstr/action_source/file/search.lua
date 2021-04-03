@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local source_pattern = self.opts.source_pattern
   local flags = self.opts.flags
 
@@ -20,7 +20,7 @@ M.create = function(self)
   return self:to_group("file", {path = abs_path, position = position})
 end
 
-M._search = function(pattern, path)
+function M._search(pattern, path)
   local f = io.open(path, "r")
   local row = 1
   local regex = vim.regex(pattern)

@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local cword = self.cursor:word("./")
   local name = cword:gsub("%.", "/")
 

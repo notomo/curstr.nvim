@@ -1,5 +1,4 @@
-local helper = require("curstr/lib/testlib/helper")
-local assert = helper.assert
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
 
 describe("file/buffer_relative source", function()

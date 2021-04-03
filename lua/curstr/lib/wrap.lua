@@ -1,6 +1,6 @@
 local M = {}
 
-M.traceback = function(f)
+function M.traceback(f)
   local ok, result, err = xpcall(f, debug.traceback)
   if not ok then
     error(result)

@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local search_pattern = self.opts.search_pattern
   if search_pattern == "" then
     return nil

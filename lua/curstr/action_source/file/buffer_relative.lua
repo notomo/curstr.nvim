@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local path, position = self.cursor:file_path_with_position()
   local abs_path = self.pathlib.join(vim.fn.expand("%:p:h"), path)
   if not self.filelib.readable(abs_path) then

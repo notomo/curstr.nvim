@@ -1,28 +1,28 @@
 local M = {}
 
-M.after = function(_)
+function M.after(_)
 end
 
-M.action_open = function(self)
-  vim.api.nvim_command("lcd " .. self.path)
+function M.action_open(self)
+  vim.cmd("lcd " .. self.path)
   self:after(self.path)
 end
 
-M.action_tab_open = function(self)
-  vim.api.nvim_command("tabedit " .. self.path)
-  vim.api.nvim_command("lcd " .. self.path)
+function M.action_tab_open(self)
+  vim.cmd("tabedit " .. self.path)
+  vim.cmd("lcd " .. self.path)
   self:after(self.path)
 end
 
-M.action_vertical_open = function(self)
-  vim.api.nvim_command("vsplit " .. self.path)
-  vim.api.nvim_command("lcd " .. self.path)
+function M.action_vertical_open(self)
+  vim.cmd("vsplit " .. self.path)
+  vim.cmd("lcd " .. self.path)
   self:after(self.path)
 end
 
-M.action_horizontal_open = function(self)
-  vim.api.nvim_command("split " .. self.path)
-  vim.api.nvim_command("lcd " .. self.path)
+function M.action_horizontal_open(self)
+  vim.cmd("split " .. self.path)
+  vim.cmd("lcd " .. self.path)
   self:after(self.path)
 end
 

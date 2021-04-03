@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
 
   local candidates = {self.opts.words}
@@ -32,7 +32,7 @@ M.create = function(self)
   return nil
 end
 
-M._select_word = function(words, word)
+function M._select_word(words, word)
   for i, w in ipairs(words) do
     if w == word then
       return words[(i % #words) + 1]

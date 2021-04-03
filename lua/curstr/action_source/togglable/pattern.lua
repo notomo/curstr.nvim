@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local word, word_range
   if self.opts.is_line then
     word, word_range = self.cursor:line_with_range()

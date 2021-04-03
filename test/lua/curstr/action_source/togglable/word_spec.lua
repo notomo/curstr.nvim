@@ -1,13 +1,12 @@
-local helper = require("curstr/lib/testlib/helper")
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
-local assert = helper.assert
 
 describe("togglable/word", function()
 
   before_each(function()
     helper.before_each()
 
-    require("curstr/custom").sources["togglable/word"] = {
+    require("curstr.custom").sources["togglable/word"] = {
       opts = {char_pattern = "[:alnum:]_", words = {}},
     }
     command("tabe | setlocal buftype=nofile noswapfile")
@@ -17,7 +16,7 @@ describe("togglable/word", function()
   it("toggle", function()
     vim.fn.append(0, "public toggle test")
     vim.fn.setpos(".", {0, 1, 1, 0})
-    require("curstr/custom").sources["togglable/word"] = {
+    require("curstr.custom").sources["togglable/word"] = {
       opts = {words = {"public", "protected", "private"}},
     }
 
@@ -34,7 +33,7 @@ describe("togglable/word", function()
   it("append", function()
     vim.fn.append(0, "public toggle test")
     vim.fn.setpos(".", {0, 1, 1, 0})
-    require("curstr/custom").sources["togglable/word"] = {
+    require("curstr.custom").sources["togglable/word"] = {
       opts = {words = {"public", "protected", "private"}},
     }
 
@@ -48,7 +47,7 @@ describe("togglable/word", function()
   it("normalized_toggle", function()
     vim.fn.append(0, "True")
     helper.search("True")
-    require("curstr/custom").sources["togglable/word"] = {
+    require("curstr.custom").sources["togglable/word"] = {
       opts = {normalized = true, words = {"true", "false"}},
     }
 
@@ -62,7 +61,7 @@ describe("togglable/word", function()
   it("char_pattern_option", function()
     vim.fn.append(0, "foo:test")
     vim.fn.setpos(".", {0, 1, 1, 0})
-    require("curstr/custom").sources["togglable/word"] = {
+    require("curstr.custom").sources["togglable/word"] = {
       opts = {char_pattern = "[:alnum:]_;:", words = {"foo:test", "foo;test"}},
     }
 
@@ -76,7 +75,7 @@ describe("togglable/word", function()
   it("with_multibyte", function()
     vim.fn.append(0, "あああfalseあああ")
     vim.fn.setpos(".", {0, 1, 10, 0})
-    require("curstr/custom").sources["togglable/word"] = {opts = {words = {"true", "false"}}}
+    require("curstr.custom").sources["togglable/word"] = {opts = {words = {"true", "false"}}}
 
     command("Curstr togglable/word")
     assert.current_line("あああtrueあああ")
@@ -88,7 +87,7 @@ describe("togglable/word", function()
   it("nomodifiable", function()
     vim.fn.append(0, "public")
     vim.fn.setpos(".", {0, 1, 1, 0})
-    require("curstr/custom").sources["togglable/word"] = {opts = {words = {"public", "protected"}}}
+    require("curstr.custom").sources["togglable/word"] = {opts = {words = {"public", "protected"}}}
     command("setlocal nomodifiable")
 
     command("Curstr togglable/word")

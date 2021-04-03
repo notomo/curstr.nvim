@@ -1,6 +1,5 @@
-local helper = require("curstr/lib/testlib/helper")
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
-local assert = helper.assert
 
 describe("vim/autoload_function", function()
 
@@ -82,7 +81,7 @@ endfunction
   end)
 
   it("no_include_packpath", function()
-    require("curstr/custom").sources["vim/autoload_function"] = {opts = {include_packpath = false}}
+    require("curstr.custom").sources["vim/autoload_function"] = {opts = {include_packpath = false}}
 
     helper.new_directory("package/pack/package/opt/example/autoload")
     helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[
@@ -100,7 +99,7 @@ endfunction]])
   end)
 
   it("include_packpath", function()
-    require("curstr/custom").sources["vim/autoload_function"] = {opts = {include_packpath = true}}
+    require("curstr.custom").sources["vim/autoload_function"] = {opts = {include_packpath = true}}
 
     helper.new_directory("package/pack/package/opt/example/autoload")
     helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[

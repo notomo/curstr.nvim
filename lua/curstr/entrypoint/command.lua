@@ -1,13 +1,13 @@
-local wraplib = require("curstr/lib/wrap")
-local messagelib = require("curstr/lib/message")
-local cmdparse = require("curstr/lib/cmdparse")
-local source_core = require("curstr/core/action_source")
+local wraplib = require("curstr.lib.wrap")
+local messagelib = require("curstr.lib.message")
+local cmdparse = require("curstr.lib.cmdparse")
+local source_core = require("curstr.core.action_source")
 
 local M = {}
 
 local default_opts = {action = nil}
 
-M.execute_by_excmd = function(raw_args, first_row, last_row)
+function M.execute_by_excmd(raw_args, first_row, last_row)
   local source_name, opts, _, parse_err = cmdparse.args(raw_args, vim.tbl_extend("force", default_opts, {}))
   if parse_err ~= nil then
     return nil, messagelib.error(parse_err)
@@ -23,7 +23,7 @@ M.execute_by_excmd = function(raw_args, first_row, last_row)
   return result, nil
 end
 
-M._execute = function(source_name, opts)
+function M._execute(source_name, opts)
   local sources, source_err = source_core.all(source_name)
   if source_err ~= nil then
     return nil, source_err
@@ -42,6 +42,6 @@ M._execute = function(source_name, opts)
   return nil, messagelib.echo("not found matched source: " .. source_name)
 end
 
-vim.api.nvim_command("doautocmd User CurstrSourceLoad")
+vim.cmd("doautocmd User CurstrSourceLoad")
 
 return M

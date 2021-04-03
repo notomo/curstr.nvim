@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local path = self.cursor:file_path()
   local abs_path = vim.fn.fnamemodify(path, ":p")
   if not self.filelib.is_directory(abs_path) then

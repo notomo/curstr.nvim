@@ -1,14 +1,14 @@
-local modulelib = require("curstr/lib/module")
-local filelib = require("curstr/lib/file")
-local pathlib = require("curstr/lib/path")
-local base = require("curstr/action_source/base")
-local cursor = require("curstr/core/cursor")
-local group_core = require("curstr/core/action_group")
-local custom = require("curstr/custom")
+local modulelib = require("curstr.lib.module")
+local filelib = require("curstr.lib.file")
+local pathlib = require("curstr.lib.path")
+local base = require("curstr.action_source.base")
+local cursor = require("curstr.core.cursor")
+local group_core = require("curstr.core.action_group")
+local custom = require("curstr.custom")
 
 local M = {}
 
-M._create = function(source_name, source_opts, filetypes)
+function M._create(source_name, source_opts, filetypes)
   local origin
   if source_name == "base" then
     origin = base
@@ -65,7 +65,7 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
-M.all = function(name)
+function M.all(name)
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {}, nil)) do
     local source, err = M._create(resolved.source_name, resolved.source_opts, resolved.filetypes)

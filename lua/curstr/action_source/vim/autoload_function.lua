@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local cword = self.cursor:word("#")
   if cword:find("#") == nil then
     return nil
@@ -34,7 +34,7 @@ M.create = function(self)
   return nil
 end
 
-M._search = function(name, path)
+function M._search(name, path)
   local f = io.open(path, "r")
   local row = 1
   local pattern = ("\\v\\s*fu(nction)?!?\\s*\\zs%s\\ze\\("):format(name)

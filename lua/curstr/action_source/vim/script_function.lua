@@ -1,6 +1,6 @@
 local M = {}
 
-M.create = function(self)
+function M.create(self)
   local cword = self.cursor:word(":<>")
   local position = self._search(cword)
   if position == nil then
@@ -13,7 +13,7 @@ M.create = function(self)
   return self:to_group("file", {path = abs_path, position = position})
 end
 
-M._search = function(name)
+function M._search(name)
   local pattern = "\\v(s:|<SID>|<sid>)\\zs\\S+\\ze"
   local regex = vim.regex(pattern)
   local s, e = regex:match_str(name)

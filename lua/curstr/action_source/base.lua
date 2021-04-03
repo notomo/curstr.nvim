@@ -2,7 +2,7 @@ local M = {}
 
 M.opts = {}
 
-M.create = function()
+function M.create()
   return nil
 end
 

@@ -1,10 +1,6 @@
 local M = {}
 
-local root, root_err = require("curstr/lib/path").find_root("curstr/*.lua")
-if root_err ~= nil then
-  error(root_err)
-end
-M.root = root
+M.root = require("curstr.lib.path").find_root()
 
 M.test_data_path = "test/test_data/"
 M.test_data_dir = M.root .. "/" .. M.test_data_path
@@ -12,8 +8,8 @@ M.test_data_dir = M.root .. "/" .. M.test_data_path
 local packpath = vim.o.packpath
 local runtimepath = vim.o.runtimepath
 
-M.command = function(cmd)
-  local _, err = pcall(vim.api.nvim_command, cmd)
+function M.command(cmd)
+  local _, err = pcall(vim.cmd, cmd)
   if err then
     local info = debug.getinfo(2)
     local pos = ("%s:%d"):format(info.source, info.currentline)
@@ -22,7 +18,7 @@ M.command = function(cmd)
   end
 end
 
-M.before_each = function()
+function M.before_each()
   M.command("filetype on")
   M.command("syntax enable")
   M.new_directory("")
@@ -31,7 +27,7 @@ M.before_each = function()
   vim.o.runtimepath = runtimepath
 end
 
-M.after_each = function()
+function M.after_each()
   -- avoid segmentation fault??
   M.command("tabedit")
   M.command("tabprevious")
@@ -44,23 +40,23 @@ M.after_each = function()
   M.command("syntax off")
   print(" ")
 
-  require("curstr/lib/module").cleanup("curstr")
+  require("curstr.lib.module").cleanup()
   M.delete("")
 end
 
-M.buffer_log = function()
+function M.buffer_log()
   local lines = vim.fn.getbufline("%", 1, "$")
   for _, line in ipairs(lines) do
     print(line)
   end
 end
 
-M.set_lines = function(lines)
+function M.set_lines(lines)
   vim.bo.buftype = "nofile"
   vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(lines, "\n"))
 end
 
-M.search = function(pattern)
+function M.search(pattern)
   local result = vim.fn.search(pattern)
   if result == 0 then
     local info = debug.getinfo(2)
@@ -72,7 +68,7 @@ M.search = function(pattern)
   return result
 end
 
-M.new_file = function(path, ...)
+function M.new_file(path, ...)
   local f = io.open(M.test_data_dir .. path, "w")
   for _, line in ipairs({...}) do
     f:write(line .. "\n")
@@ -80,38 +76,36 @@ M.new_file = function(path, ...)
   f:close()
 end
 
-M.open_new_file = function(path, ...)
+function M.open_new_file(path, ...)
   M.new_file(path, ...)
   M.command("edit " .. M.test_data_dir .. path)
 end
 
-M.new_directory = function(path)
+function M.new_directory(path)
   vim.fn.mkdir(M.test_data_dir .. path, "p")
 end
 
-M.delete = function(path)
+function M.delete(path)
   vim.fn.delete(M.test_data_dir .. path, "rf")
 end
 
-M.cd = function(path)
+function M.cd(path)
   vim.api.nvim_set_current_dir(M.test_data_dir .. (path or ""))
 end
 
-M.path = function(path)
+function M.path(path)
   return M.test_data_dir .. (path or "")
 end
 
-M.window_count = function()
+function M.window_count()
   return vim.fn.tabpagewinnr(vim.fn.tabpagenr(), "$")
 end
 
-M.add_packpath = function(path)
+function M.add_packpath(path)
   M.command("set packpath^=" .. vim.fn.fnamemodify(M.test_data_dir .. path, ":p"))
 end
 
-local vassert = require("vusted.assert")
-local asserts = vassert.asserts
-M.assert = vassert.assert
+local asserts = require("vusted.assert").asserts
 
 asserts.create("window"):register_eq(function()
   return vim.api.nvim_get_current_win()

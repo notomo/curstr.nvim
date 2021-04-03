@@ -1,6 +1,5 @@
-local helper = require("curstr/lib/testlib/helper")
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
-local assert = helper.assert
 
 describe("file/path", function()
 

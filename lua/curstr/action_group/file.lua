@@ -1,6 +1,6 @@
 local M = {}
 
-M._adjust_cursor = function(self)
+function M._adjust_cursor(self)
   if self.position == nil then
     return
   end
@@ -12,23 +12,23 @@ M._adjust_cursor = function(self)
   vim.api.nvim_win_set_cursor(0, {row, self.position[2] - 1})
 end
 
-M.action_open = function(self)
-  vim.api.nvim_command("edit " .. self.path)
+function M.action_open(self)
+  vim.cmd("edit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.action_tab_open = function(self)
-  vim.api.nvim_command("tabedit " .. self.path)
+function M.action_tab_open(self)
+  vim.cmd("tabedit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.action_vertical_open = function(self)
-  vim.api.nvim_command("vsplit " .. self.path)
+function M.action_vertical_open(self)
+  vim.cmd("vsplit " .. self.path)
   self:_adjust_cursor()
 end
 
-M.action_horizontal_open = function(self)
-  vim.api.nvim_command("split " .. self.path)
+function M.action_horizontal_open(self)
+  vim.cmd("split " .. self.path)
   self:_adjust_cursor()
 end
 

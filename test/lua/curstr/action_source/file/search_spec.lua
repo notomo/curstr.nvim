@@ -1,6 +1,5 @@
-local helper = require("curstr/lib/testlib/helper")
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
-local assert = helper.assert
 
 describe("file/search", function()
 
@@ -8,7 +7,7 @@ describe("file/search", function()
   after_each(helper.after_each)
 
   it("file_one", function()
-    require("curstr/custom").sources["file/search"] = {
+    require("curstr.custom").sources["file/search"] = {
       opts = {source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1"},
     }
 
@@ -23,7 +22,7 @@ describe("file/search", function()
   end)
 
   it("file_with_position", function()
-    require("curstr/custom").sources["file/search"] = {
+    require("curstr.custom").sources["file/search"] = {
       opts = {
         source_pattern = "\\v^([^#]*)#(\\w+)$",
         result_pattern = "\\1",

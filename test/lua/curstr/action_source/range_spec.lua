@@ -1,6 +1,5 @@
-local helper = require("curstr/lib/testlib/helper")
+local helper = require("curstr.lib.testlib.helper")
 local command = helper.command
-local assert = helper.assert
 
 describe("range", function()
 
@@ -8,7 +7,7 @@ describe("range", function()
   after_each(helper.after_each)
 
   it("join", function()
-    require("curstr/custom").groups.range = {opts = {separator = "+"}}
+    require("curstr.custom").groups.range = {opts = {separator = "+"}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -22,7 +21,7 @@ describe("range", function()
   end)
 
   it("join_default", function()
-    require("curstr/custom").groups.range = {opts = {separator = "+"}}
+    require("curstr.custom").groups.range = {opts = {separator = "+"}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -36,7 +35,7 @@ describe("range", function()
   end)
 
   it("join_with_empty_separator", function()
-    require("curstr/custom").groups.range = {opts = {separator = ""}}
+    require("curstr.custom").groups.range = {opts = {separator = ""}}
     command("tabedit | setlocal buftype=nofile noswapfile")
 
     vim.fn.append(0, "    1")
@@ -49,7 +48,7 @@ describe("range", function()
   end)
 
   it("join_on_nomodifiable_buffer", function()
-    require("curstr/custom").groups.range = {opts = {separator = ""}}
+    require("curstr.custom").groups.range = {opts = {separator = ""}}
     command("tabedit")
 
     vim.fn.append(0, "    1")

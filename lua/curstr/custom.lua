@@ -15,5 +15,6 @@ M.source_aliases["vim/runtime"] = {
 M.source_aliases.file = {names = {"file/buffer_relative", "file/path"}}
 M.source_aliases.directory = {names = {"directory/buffer_relative", "directory/path"}}
 M.source_aliases["vim/function"] = {names = {"vim/autoload_function", "vim/script_function"}}
+M.source_aliases["lua"] = {names = {"vim/lua", "lua/luarocks"}}
 
 return M

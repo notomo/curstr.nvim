@@ -1,6 +1,5 @@
 local Source = require("curstr.core.action_source").Source
 local messagelib = require("curstr.lib.message")
-local cmdparse = require("curstr.lib.cmdparse")
 local modelib = require("curstr.lib.mode")
 
 local M = {}
@@ -33,10 +32,7 @@ function Command.execute(source_name, opts)
   end
 
   opts = opts or {}
-  opts.range = opts.range or modelib.visual_range() or {
-    first = vim.fn.line("."),
-    last = vim.fn.line("."),
-  }
+  opts.range = modelib.visual_range() or {first = vim.fn.line("."), last = vim.fn.line(".")}
 
   for _, source in ipairs(sources) do
     local group, err = source:create(opts)
@@ -49,21 +45,6 @@ function Command.execute(source_name, opts)
   end
 
   return nil, "not found matched source: " .. source_name
-end
-
-function Command.execute_by_excmd(raw_args, first_row, last_row)
-  local source_name, opts, _, parse_err = cmdparse.args(raw_args, {})
-  if parse_err ~= nil then
-    return nil, parse_err
-  end
-  opts.range = {first = first_row, last = last_row}
-
-  local result, err = Command.execute(source_name, opts)
-  if err ~= nil then
-    return nil, err
-  end
-
-  return result, nil
 end
 
 vim.cmd("doautocmd User CurstrSourceLoad")

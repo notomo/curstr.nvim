@@ -6,10 +6,6 @@ function M.visual_range()
     return nil
   end
   vim.cmd("normal! " .. ESC)
-  print(vim.inspect({
-    first = vim.api.nvim_buf_get_mark(0, "<")[1],
-    last = vim.api.nvim_buf_get_mark(0, ">")[1],
-  }))
   return {first = vim.api.nvim_buf_get_mark(0, "<")[1], last = vim.api.nvim_buf_get_mark(0, ">")[1]}
 end
 

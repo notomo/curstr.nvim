@@ -11,8 +11,4 @@ function M.warn(msg)
   vim.api.nvim_echo({{prefix .. msg, "WarningMsg"}}, true, {})
 end
 
-function M.info(msg)
-  vim.api.nvim_echo({{prefix .. msg}}, true, {})
-end
-
 return M

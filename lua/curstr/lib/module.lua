@@ -18,7 +18,6 @@ function M.cleanup()
       package.loaded[key] = nil
     end
   end
-  vim.cmd("doautocmd User CurstrSourceLoad")
 end
 
 return M

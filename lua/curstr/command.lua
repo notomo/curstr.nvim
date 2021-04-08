@@ -1,6 +1,7 @@
+local Source = require("curstr.core.action_source").Source
 local messagelib = require("curstr.lib.message")
 local cmdparse = require("curstr.lib.cmdparse")
-local Source = require("curstr.core.action_source").Source
+local modelib = require("curstr.lib.mode")
 
 local M = {}
 
@@ -16,7 +17,7 @@ function Command.new(name, ...)
 
   local ok, result, msg = xpcall(f, debug.traceback)
   if not ok then
-    return messagelib.error(msg)
+    return messagelib.error(result)
   elseif msg then
     return messagelib.warn(msg)
   end
@@ -30,6 +31,12 @@ function Command.execute(source_name, opts)
   if source_err ~= nil then
     return nil, source_err
   end
+
+  opts = opts or {}
+  opts.range = opts.range or modelib.visual_range() or {
+    first = vim.fn.line("."),
+    last = vim.fn.line("."),
+  }
 
   for _, source in ipairs(sources) do
     local group, err = source:create(opts)

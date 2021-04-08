@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("togglable/pattern", function()
 
@@ -9,7 +9,7 @@ describe("togglable/pattern", function()
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {char_pattern = "[:alnum:]_", patterns = {}},
     }
-    command("tabe | setlocal buftype=nofile noswapfile")
+    vim.cmd("tabe | setlocal buftype=nofile noswapfile")
 
     helper.cd()
   end)
@@ -22,13 +22,13 @@ describe("togglable/pattern", function()
       opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}},
     }
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.cursor_word("bar")
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.cursor_word("hoge")
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.cursor_word("bar")
   end)
 
@@ -42,10 +42,10 @@ describe("togglable/pattern", function()
       },
     }
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.current_line("foo;test")
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.current_line("foo:test")
   end)
 
@@ -56,10 +56,10 @@ describe("togglable/pattern", function()
       opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}},
     }
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.current_line("あああbarあああ")
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
     assert.current_line("あああhogeあああ")
   end)
 
@@ -70,7 +70,7 @@ describe("togglable/pattern", function()
       opts = {is_line = true, patterns = {{"hoge", "bar"}}},
     }
 
-    command("Curstr togglable/pattern")
+    curstr.execute("togglable/pattern")
 
     assert.current_line("bar")
   end)
@@ -82,7 +82,7 @@ describe("togglable/pattern", function()
       opts = {is_line = true, patterns = {{"hoge", "bar"}}},
     }
 
-    command("Curstr togglable/pattern -action=append")
+    curstr.execute("togglable/pattern", {action = "append"})
 
     assert.current_line("hoge")
     vim.fn.search("bar")

@@ -1,13 +1,13 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("vim/script_function", function()
 
   before_each(function()
     helper.before_each()
 
-    command("filetype on")
-    command("syntax enable")
+    vim.cmd("filetype on")
+    vim.cmd("syntax enable")
 
     helper.open_new_file("entry.vim", [[
 
@@ -22,8 +22,8 @@ call s:test()]])
   after_each(function()
     helper.after_each()
 
-    command("filetype off")
-    command("syntax off")
+    vim.cmd("filetype off")
+    vim.cmd("syntax off")
   end)
 
   local assert_cursor_position = function()
@@ -36,13 +36,13 @@ call s:test()]])
   end
 
   it("open", function()
-    command("Curstr vim/script_function")
+    curstr.execute("vim/script_function")
 
     assert_cursor_position()
   end)
 
   it("tab_open", function()
-    command("Curstr vim/script_function -action=tab_open")
+    curstr.execute("vim/script_function", {action = "tab_open"})
 
     assert_cursor_position()
     assert.tab_count(2)
@@ -51,30 +51,30 @@ call s:test()]])
   it("vertical_open", function()
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/script_function -action=vertical_open")
+    curstr.execute("vim/script_function", {action = "vertical_open"})
 
     assert_cursor_position()
     assert.window_count(2)
-    command("wincmd l")
+    vim.cmd("wincmd l")
     assert_position(pos)
   end)
 
   it("horizontal_open", function()
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/script_function -action=horizontal_open")
+    curstr.execute("vim/script_function", {action = "horizontal_open"})
 
     assert_cursor_position()
     assert.window_count(2)
-    command("wincmd j")
+    vim.cmd("wincmd j")
     assert_position(pos)
   end)
 
   it("not_found", function()
-    command("normal! gg")
+    vim.cmd("normal! gg")
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/script_function")
+    curstr.execute("vim/script_function")
 
     assert_position(pos)
   end)

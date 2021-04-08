@@ -28,6 +28,10 @@ function M.action_join(self)
   local joined = {table.concat(lines, separator)}
 
   vim.api.nvim_buf_set_lines(bufnr, self.first - 1, self.last, false, joined)
+
+  if vim.fn.line(".") ~= self.first then
+    vim.api.nvim_win_set_cursor(0, {self.first, 0})
+  end
 end
 
 M.default_action = "join"

@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("vim/runtime/pattern/file", function()
 
@@ -12,7 +12,7 @@ describe("vim/runtime/pattern/file", function()
     helper.new_directory("dir/child")
     helper.new_file("dir/child/file")
 
-    command("Curstr vim/runtime/pattern/file")
+    curstr.execute("vim/runtime/pattern/file")
 
     assert.path(helper.test_data_path .. "dir/child/file")
   end)

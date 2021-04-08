@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("file/search", function()
 
@@ -15,7 +15,7 @@ describe("file/search", function()
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
     helper.cd()
 
-    command("Curstr file/search")
+    curstr.execute("file/search")
 
     assert.file_name("pattern.txt")
     assert.current_row(1)
@@ -39,7 +39,7 @@ test:
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
     helper.cd()
 
-    command("Curstr file/search")
+    curstr.execute("file/search")
 
     assert.file_name("pattern.txt")
     assert.cursor_word("target_pattern")
@@ -48,7 +48,7 @@ test:
   it("not_found", function()
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
 
-    command("Curstr file/search")
+    curstr.execute("file/search")
 
     assert.file_name("entry")
   end)
@@ -56,7 +56,7 @@ test:
   it("file_not_found", function()
     helper.open_new_file("entry", "./not_found.txt")
 
-    command("Curstr file/search")
+    curstr.execute("file/search")
 
     assert.file_name("entry")
   end)

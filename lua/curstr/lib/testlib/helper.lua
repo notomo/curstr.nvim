@@ -8,19 +8,17 @@ M.test_data_dir = M.root .. "/" .. M.test_data_path
 local packpath = vim.o.packpath
 local runtimepath = vim.o.runtimepath
 
-function M.command(cmd)
-  local _, err = pcall(vim.cmd, cmd)
-  if err then
-    local info = debug.getinfo(2)
-    local pos = ("%s:%d"):format(info.source, info.currentline)
-    local msg = ("on %s: failed excmd `%s`\n%s"):format(pos, cmd, err)
-    error(msg)
-  end
+function M.require(name)
+  return setmetatable({}, {
+    __index = function(_, k)
+      return require(name)[k]
+    end,
+  })
 end
 
 function M.before_each()
-  M.command("filetype on")
-  M.command("syntax enable")
+  vim.cmd("filetype on")
+  vim.cmd("syntax enable")
   M.new_directory("")
   vim.api.nvim_set_current_dir(M.test_data_dir)
   vim.o.packpath = packpath
@@ -29,15 +27,15 @@ end
 
 function M.after_each()
   -- avoid segmentation fault??
-  M.command("tabedit")
-  M.command("tabprevious")
-  M.command("quit!")
+  vim.cmd("tabedit")
+  vim.cmd("tabprevious")
+  vim.cmd("quit!")
 
-  M.command("tabedit")
-  M.command("tabonly!")
-  M.command("silent! %bwipeout!")
-  M.command("filetype off")
-  M.command("syntax off")
+  vim.cmd("tabedit")
+  vim.cmd("tabonly!")
+  vim.cmd("silent! %bwipeout!")
+  vim.cmd("filetype off")
+  vim.cmd("syntax off")
   print(" ")
 
   require("curstr.lib.module").cleanup()
@@ -78,7 +76,7 @@ end
 
 function M.open_new_file(path, ...)
   M.new_file(path, ...)
-  M.command("edit " .. M.test_data_dir .. path)
+  vim.cmd("edit " .. M.test_data_dir .. path)
 end
 
 function M.new_directory(path)
@@ -102,7 +100,7 @@ function M.window_count()
 end
 
 function M.add_packpath(path)
-  M.command("set packpath^=" .. vim.fn.fnamemodify(M.test_data_dir .. path, ":p"))
+  vim.cmd("set packpath^=" .. vim.fn.fnamemodify(M.test_data_dir .. path, ":p"))
 end
 
 local asserts = require("vusted.assert").asserts

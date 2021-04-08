@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("vim/runtime/pattern/directory", function()
 
@@ -12,7 +12,7 @@ describe("vim/runtime/pattern/directory", function()
     helper.new_directory("dir/child")
     helper.new_directory("dir/child/child2")
 
-    command("Curstr vim/runtime/pattern/directory")
+    curstr.execute("vim/runtime/pattern/directory")
 
     assert.current_dir("dir/child/child2")
   end)

@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("directory/path source", function()
 
@@ -11,7 +11,7 @@ describe("directory/path source", function()
     helper.new_directory("path/opened")
     helper.set_lines([[./path/../path/opened]])
 
-    command("Curstr directory/path")
+    curstr.execute("directory/path")
 
     assert.current_dir("path/opened")
   end)

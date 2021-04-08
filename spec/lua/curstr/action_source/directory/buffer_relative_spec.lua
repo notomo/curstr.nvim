@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("directory/buffer_relative source", function()
 
@@ -10,7 +10,7 @@ describe("directory/buffer_relative source", function()
     helper.new_directory("opened")
     helper.set_lines([[opened]])
 
-    command("Curstr directory/buffer_relative")
+    curstr.execute("directory/buffer_relative")
 
     assert.current_dir("opened")
   end)

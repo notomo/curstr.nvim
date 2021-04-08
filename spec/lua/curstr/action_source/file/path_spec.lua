@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("file/path", function()
 
@@ -26,47 +26,47 @@ $DIR_NAME/file
   after_each(helper.after_each)
 
   it("default", function()
-    command("Curstr file/path")
+    curstr.execute("file/path")
 
     assert.file_name("opened.txt")
   end)
 
   it("open", function()
-    command("Curstr file/path -action=open")
+    curstr.execute("file/path", {action = "open"})
 
     assert.file_name("opened.txt")
   end)
 
   it("tab_open", function()
-    command("Curstr file/path -action=tab_open")
+    curstr.execute("file/path", {action = "tab_open"})
 
     assert.file_name("opened.txt")
     assert.tab_count(2)
   end)
 
   it("vertical_open", function()
-    command("Curstr file/path -action=vertical_open")
+    curstr.execute("file/path", {action = "vertical_open"})
 
     assert.file_name("opened.txt")
     assert.window_count(2)
-    command("wincmd l")
+    vim.cmd("wincmd l")
     assert.file_name("entry.txt")
   end)
 
   it("horizontal_open", function()
-    command("Curstr file/path -action=horizontal_open")
+    curstr.execute("file/path", {action = "horizontal_open"})
 
     assert.file_name("opened.txt")
     assert.window_count(2)
-    command("wincmd j")
+    vim.cmd("wincmd j")
     assert.file_name("entry.txt")
   end)
 
   it("not_found", function()
-    command("normal! G")
+    vim.cmd("normal! G")
     local pos = vim.fn.getpos(".")
 
-    command("Curstr file/path")
+    curstr.execute("file/path")
 
     assert.file_name("entry.txt")
     assert.same(pos, vim.fn.getpos("."))
@@ -75,7 +75,7 @@ $DIR_NAME/file
   it("open_with_row", function()
     helper.search("opened.txt:3")
 
-    command("Curstr file/path")
+    curstr.execute("file/path")
 
     assert.file_name("opened.txt")
     assert.current_row(3)
@@ -84,7 +84,7 @@ $DIR_NAME/file
   it("open_with_position", function()
     helper.search("opened.txt:3,4")
 
-    command("Curstr file/path")
+    curstr.execute("file/path")
 
     assert.file_name("opened.txt")
     assert.current_row(3)
@@ -92,10 +92,10 @@ $DIR_NAME/file
   end)
 
   it("open_with_env_expand", function()
-    command("let $DIR_NAME = getcwd() . '/with_env'")
+    vim.cmd("let $DIR_NAME = getcwd() . '/with_env'")
     helper.search("file")
 
-    command("Curstr file/path")
+    curstr.execute("file/path")
 
     assert.file_name("file")
   end)
@@ -103,7 +103,7 @@ $DIR_NAME/file
   it("raises no error with invalid regex", function()
     helper.search("+")
 
-    command("Curstr file/path")
+    curstr.execute("file/path")
   end)
 
 end)

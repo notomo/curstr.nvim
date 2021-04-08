@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("vim/autoload_function", function()
 
@@ -17,7 +17,7 @@ endfunction
 ]])
 
     helper.set_lines("call curstr_test_plugin#execute()")
-    command("setlocal filetype=vim")
+    vim.cmd("setlocal filetype=vim")
     helper.search("curstr")
   end)
   after_each(helper.after_each)
@@ -32,14 +32,14 @@ endfunction
   end
 
   it("open", function()
-    command("Curstr vim/autoload_function")
+    curstr.execute("vim/autoload_function")
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
   end)
 
   it("tab_open", function()
-    command("Curstr vim/autoload_function -action=tab_open")
+    curstr.execute("vim/autoload_function", {action = "tab_open"})
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
@@ -49,24 +49,24 @@ endfunction
   it("vertical_open", function()
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/autoload_function -action=vertical_open")
+    curstr.execute("vim/autoload_function", {action = "vertical_open"})
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
-    command("wincmd l")
+    vim.cmd("wincmd l")
     assert_position(pos)
   end)
 
   it("horizontal_open", function()
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/autoload_function -action=horizontal_open")
+    curstr.execute("vim/autoload_function", {action = "horizontal_open"})
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
-    command("wincmd j")
+    vim.cmd("wincmd j")
     assert_position(pos)
   end)
 
@@ -74,7 +74,7 @@ endfunction
     helper.search("call")
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/autoload_function")
+    curstr.execute("vim/autoload_function")
 
     assert_position(pos)
     assert.file_name("")
@@ -92,7 +92,7 @@ endfunction]])
     helper.search("example#execute")
     local pos = vim.fn.getpos(".")
 
-    command("Curstr vim/autoload_function")
+    curstr.execute("vim/autoload_function")
 
     assert_position(pos)
     assert.file_name("call.vim")
@@ -109,10 +109,10 @@ endfunction
 ]])
     helper.add_packpath("package")
     helper.open_new_file("call.vim", "vim.fn.example#execute()")
-    command("setlocal filetype=vim")
+    vim.cmd("setlocal filetype=vim")
     helper.search("example#execute")
 
-    command("Curstr vim/autoload_function")
+    curstr.execute("vim/autoload_function")
 
     assert.file_name("example.vim")
 

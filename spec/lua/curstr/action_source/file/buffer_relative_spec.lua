@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("file/buffer_relative source", function()
 
@@ -10,7 +10,7 @@ describe("file/buffer_relative source", function()
     helper.new_file("opened")
     helper.set_lines([[opened]])
 
-    command("Curstr file/buffer_relative")
+    curstr.execute("file/buffer_relative")
 
     assert.file_name("opened")
   end)
@@ -23,7 +23,7 @@ describe("file/buffer_relative source", function()
 4]])
     helper.set_lines([[opened:3]])
 
-    command("Curstr file/buffer_relative")
+    curstr.execute("file/buffer_relative")
 
     assert.file_name("opened")
     assert.current_row(3)
@@ -37,7 +37,7 @@ describe("file/buffer_relative source", function()
 12345]])
     helper.set_lines([[opened:3,4]])
 
-    command("Curstr file/buffer_relative")
+    curstr.execute("file/buffer_relative")
 
     assert.file_name("opened")
     assert.current_row(3)

@@ -1,5 +1,5 @@
 local helper = require("curstr.lib.testlib.helper")
-local command = helper.command
+local curstr = helper.require("curstr")
 
 describe("vim/search", function()
 
@@ -16,7 +16,7 @@ hoge
 hoge:hoge]])
     helper.cd()
 
-    command("Curstr vim/search")
+    curstr.execute("vim/search")
 
     assert.current_row(3)
     assert.current_line("hoge:hoge")
@@ -25,7 +25,7 @@ hoge:hoge]])
   it("not_found", function()
     helper.open_new_file("entry")
 
-    command("Curstr vim/search")
+    curstr.execute("vim/search")
 
     assert.current_row(1)
   end)

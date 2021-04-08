@@ -9,7 +9,7 @@ M.ActionGroup = ActionGroup
 function ActionGroup.new(name, args)
   vim.validate({name = {name, "string"}, args = {args, "table"}})
 
-  local action_group = modulelib.find_action_group(name)
+  local action_group = modulelib.find("curstr.action_group." .. name)
   if action_group == nil then
     return nil, "not found action group: " .. name
   end

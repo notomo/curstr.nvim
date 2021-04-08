@@ -1,7 +1,7 @@
 local wraplib = require("curstr.lib.wrap")
 local messagelib = require("curstr.lib.message")
 local cmdparse = require("curstr.lib.cmdparse")
-local source_core = require("curstr.core.action_source")
+local Source = require("curstr.core.action_source").Source
 
 local M = {}
 
@@ -24,7 +24,7 @@ function M.execute_by_excmd(raw_args, first_row, last_row)
 end
 
 function M._execute(source_name, opts)
-  local sources, source_err = source_core.all(source_name)
+  local sources, source_err = Source.all(source_name)
   if source_err ~= nil then
     return nil, source_err
   end

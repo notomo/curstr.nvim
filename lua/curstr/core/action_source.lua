@@ -1,51 +1,55 @@
 local modulelib = require("curstr.lib.module")
 local filelib = require("curstr.lib.file")
 local pathlib = require("curstr.lib.path")
-local base = require("curstr.action_source.base")
 local cursor = require("curstr.core.cursor")
 local ActionGroup = require("curstr.core.action_group").ActionGroup
 local custom = require("curstr.custom")
 
 local M = {}
 
-function M._create(source_name, source_opts, filetypes)
-  local origin
-  if source_name == "base" then
-    origin = base
-  else
-    local found = modulelib.find_action_source(source_name)
-    if found == nil then
-      return nil, "not found action source: " .. source_name
-    end
-    origin = setmetatable(found, base)
-    origin.__index = origin
+local Source = {}
+M.Source = Source
+
+function Source.new(name, source_opts, filetypes)
+  vim.validate({
+    name = {name, "string"},
+    source_opts = {source_opts, "table"},
+    filetypes = {filetypes, "table", true},
+  })
+
+  local source = modulelib.find("curstr.action_source." .. name)
+  if source == nil then
+    return nil, "not found action source: " .. name
   end
 
-  local tbl = {}
-  tbl.name = source_name
-  tbl.cursor = cursor
-  tbl.filelib = filelib
-  tbl.pathlib = pathlib
+  local custom_source = custom.sources[name] or {}
+  local tbl = {
+    name = name,
+    opts = vim.tbl_extend("force", source.opts or {}, source_opts, custom_source.opts or {}),
+    filetypes = filetypes or custom_source.filetypes or source.filetypes,
+    cursor = cursor,
+    filelib = filelib,
+    pathlib = pathlib,
+    _source = source,
+  }
+  return setmetatable(tbl, Source)
+end
 
-  local custom_source = custom.sources[source_name] or {}
-  tbl.opts = vim.tbl_extend("force", origin.opts, source_opts, custom_source.opts or {})
-  tbl.filetypes = filetypes or custom_source.filetypes or origin.filetypes
-
-  local source = setmetatable(tbl, origin)
-
-  source.to_group = function(_, group_name, args)
-    local group, err = ActionGroup.new(group_name, args)
-    if err ~= nil then
-      return nil, err
-    end
-    return group, nil
+function Source.to_group(_, group_name, args)
+  local group, err = ActionGroup.new(group_name, args)
+  if err ~= nil then
+    return nil, err
   end
+  return group, nil
+end
 
-  source.enabled = function(self)
-    return vim.tbl_contains(self.filetypes, "_") or vim.tbl_contains(self.filetypes, vim.bo.filetype)
-  end
+function Source.enabled(self)
+  return vim.tbl_contains(self.filetypes, "_") or vim.tbl_contains(self.filetypes, vim.bo.filetype)
+end
 
-  return source, nil
+local base = require("curstr.action_source.base")
+function Source.__index(self, k)
+  return rawget(Source, k) or self._source[k] or base[k]
 end
 
 local function _resolve(source_name, source_opts, filetypes)
@@ -65,10 +69,10 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
-function M.all(name)
+function Source.all(name)
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {}, nil)) do
-    local source, err = M._create(resolved.source_name, resolved.source_opts, resolved.filetypes)
+    local source, err = Source.new(resolved.source_name, resolved.source_opts, resolved.filetypes)
     if err ~= nil then
       return nil, err
     end

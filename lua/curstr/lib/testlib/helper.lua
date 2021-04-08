@@ -2,7 +2,7 @@ local M = {}
 
 M.root = require("curstr.lib.path").find_root()
 
-M.test_data_path = "test/test_data/"
+M.test_data_path = "spec/test_data/"
 M.test_data_dir = M.root .. "/" .. M.test_data_path
 
 local packpath = vim.o.packpath

@@ -14,7 +14,7 @@ describe("togglable/word", function()
   after_each(helper.after_each)
 
   it("toggle", function()
-    vim.fn.append(0, "public toggle test")
+    helper.set_lines([[public toggle test]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/word"] = {
       opts = {words = {"public", "protected", "private"}},
@@ -31,7 +31,7 @@ describe("togglable/word", function()
   end)
 
   it("append", function()
-    vim.fn.append(0, "public toggle test")
+    helper.set_lines([[public toggle test]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/word"] = {
       opts = {words = {"public", "protected", "private"}},
@@ -45,7 +45,7 @@ describe("togglable/word", function()
   end)
 
   it("normalized_toggle", function()
-    vim.fn.append(0, "True")
+    helper.set_lines([[True]])
     helper.search("True")
     require("curstr.custom").sources["togglable/word"] = {
       opts = {normalized = true, words = {"true", "false"}},
@@ -59,7 +59,7 @@ describe("togglable/word", function()
   end)
 
   it("char_pattern_option", function()
-    vim.fn.append(0, "foo:test")
+    helper.set_lines([[foo:test]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/word"] = {
       opts = {char_pattern = "[:alnum:]_;:", words = {"foo:test", "foo;test"}},
@@ -73,7 +73,7 @@ describe("togglable/word", function()
   end)
 
   it("with_multibyte", function()
-    vim.fn.append(0, "あああfalseあああ")
+    helper.set_lines([[あああfalseあああ]])
     vim.fn.setpos(".", {0, 1, 10, 0})
     require("curstr.custom").sources["togglable/word"] = {opts = {words = {"true", "false"}}}
 
@@ -85,7 +85,7 @@ describe("togglable/word", function()
   end)
 
   it("nomodifiable", function()
-    vim.fn.append(0, "public")
+    helper.set_lines([[public]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/word"] = {opts = {words = {"public", "protected"}}}
     vim.cmd("setlocal nomodifiable")

@@ -16,7 +16,7 @@ describe("togglable/pattern", function()
   after_each(helper.after_each)
 
   it("toggle", function()
-    vim.fn.append(0, "foo test")
+    helper.set_lines([[foo test]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}},
@@ -33,7 +33,7 @@ describe("togglable/pattern", function()
   end)
 
   it("char_pattern_option", function()
-    vim.fn.append(0, "foo:test")
+    helper.set_lines([[foo:test]])
     vim.fn.setpos(".", {0, 1, 1, 0})
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {
@@ -50,7 +50,7 @@ describe("togglable/pattern", function()
   end)
 
   it("with_multibyte", function()
-    vim.fn.append(0, "あああfooあああ")
+    helper.set_lines([[あああfooあああ]])
     vim.fn.setpos(".", {0, 1, 10, 0})
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}},
@@ -64,7 +64,7 @@ describe("togglable/pattern", function()
   end)
 
   it("toggle_line", function()
-    vim.fn.append(0, "hoge")
+    helper.set_lines([[hoge]])
     vim.fn.search("hoge")
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {is_line = true, patterns = {{"hoge", "bar"}}},
@@ -76,7 +76,7 @@ describe("togglable/pattern", function()
   end)
 
   it("append_line", function()
-    vim.fn.append(0, "hoge")
+    helper.set_lines([[hoge]])
     vim.fn.search("hoge")
     require("curstr.custom").sources["togglable/pattern"] = {
       opts = {is_line = true, patterns = {{"hoge", "bar"}}},

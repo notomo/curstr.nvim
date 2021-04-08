@@ -10,9 +10,10 @@ describe("range", function()
     require("curstr.custom").groups.range = {opts = {separator = "+"}}
     vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
 
-    vim.fn.append(0, "    1")
-    vim.fn.append(1, "     ")
-    vim.fn.append(2, "    3 ")
+    helper.set_lines([[
+    1
+     
+    3 ]])
     vim.fn.setpos(".", {0, 1, 1, 0})
 
     vim.cmd("normal! 1gg")
@@ -27,9 +28,10 @@ describe("range", function()
     require("curstr.custom").groups.range = {opts = {separator = "+"}}
     vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
 
-    vim.fn.append(0, "    1")
-    vim.fn.append(1, "    2")
-    vim.fn.append(2, "    3 ")
+    helper.set_lines([[
+    1
+    2
+    3 ]])
     vim.fn.setpos(".", {0, 2, 1, 0})
 
     curstr.execute("range", {action = "join"})
@@ -41,8 +43,9 @@ describe("range", function()
     require("curstr.custom").groups.range = {opts = {separator = ""}}
     vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
 
-    vim.fn.append(0, "    1")
-    vim.fn.append(1, "    2")
+    helper.set_lines([[
+    1
+    2]])
     vim.fn.setpos(".", {0, 1, 1, 0})
 
     curstr.execute("range", {action = "join"})
@@ -54,8 +57,9 @@ describe("range", function()
     require("curstr.custom").groups.range = {opts = {separator = ""}}
     vim.cmd("tabedit")
 
-    vim.fn.append(0, "    1")
-    vim.fn.append(1, "    2")
+    helper.set_lines([[
+    1
+    2]])
     vim.cmd("setlocal buftype=nofile nomodifiable")
     vim.fn.setpos(".", {0, 1, 1, 0})
 

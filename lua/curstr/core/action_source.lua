@@ -3,7 +3,7 @@ local filelib = require("curstr.lib.file")
 local pathlib = require("curstr.lib.path")
 local base = require("curstr.action_source.base")
 local cursor = require("curstr.core.cursor")
-local group_core = require("curstr.core.action_group")
+local ActionGroup = require("curstr.core.action_group").ActionGroup
 local custom = require("curstr.custom")
 
 local M = {}
@@ -34,7 +34,7 @@ function M._create(source_name, source_opts, filetypes)
   local source = setmetatable(tbl, origin)
 
   source.to_group = function(_, group_name, args)
-    local group, err = group_core.create(group_name, args)
+    local group, err = ActionGroup.new(group_name, args)
     if err ~= nil then
       return nil, err
     end

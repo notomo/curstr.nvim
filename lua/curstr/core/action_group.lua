@@ -1,46 +1,47 @@
 local modulelib = require("curstr.lib.module")
-local base = require("curstr.action_group.base")
 local custom = require("curstr.custom")
 
 local M = {}
 
-local action_prefix = "action_"
+local ActionGroup = {}
+M.ActionGroup = ActionGroup
 
-function M.create(group_name, args)
-  local origin
-  if group_name == "base" then
-    origin = base
-  else
-    local found = modulelib.find_action_group(group_name)
-    if found == nil then
-      return nil, "not found action group: " .. group_name
-    end
-    origin = setmetatable(found, base)
-    origin.__index = origin
+function ActionGroup.new(name, args)
+  vim.validate({name = {name, "string"}, args = {args, "table"}})
+
+  local action_group = modulelib.find_action_group(name)
+  if action_group == nil then
+    return nil, "not found action group: " .. name
   end
 
-  local tbl = {}
-  for key, value in pairs(args) do
-    tbl[key] = value
+  local custom_group = custom.groups[name] or {}
+  local tbl = {
+    name = name,
+    opts = vim.tbl_deep_extend("force", action_group.opts or {}, custom_group.opts or {}),
+    _action_group = action_group,
+  }
+  tbl = vim.tbl_deep_extend("keep", tbl, args)
+
+  return setmetatable(tbl, ActionGroup), nil
+end
+
+local ACTION_PREFIX = "action_"
+function ActionGroup.execute(self, name)
+  vim.validate({name = {name, "string", true}})
+
+  name = name or self.default_action
+  local key = ACTION_PREFIX .. name
+  local action = self[key]
+  if action == nil then
+    return nil, "not found action: " .. name
   end
-  tbl.name = group_name
 
-  local custom_group = custom.groups[group_name] or {}
-  tbl.opts = vim.tbl_extend("force", origin.opts or {}, custom_group.opts or {})
+  return action(self)
+end
 
-  local group = setmetatable(tbl, origin)
-
-  group.execute = function(self, name)
-    name = name or self.default_action
-    local action_name = action_prefix .. name
-    local action = self[action_name]
-    if action == nil then
-      return nil, "not found action: " .. name
-    end
-    return action(self)
-  end
-
-  return group, nil
+local base = require("curstr.action_group.base")
+function ActionGroup.__index(self, k)
+  return rawget(ActionGroup, k) or self._action_group[k] or base[k]
 end
 
 return M

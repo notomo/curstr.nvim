@@ -7,8 +7,9 @@ describe("vim/search", function()
   after_each(helper.after_each)
 
   it("file_one", function()
-    require("curstr.custom").sources["vim/search"] = {opts = {source_pattern = "\\v\\k+"}}
-    require("curstr.custom").sources["vim/search"] = {opts = {search_pattern = "\\1:\\1"}}
+    curstr.setup({
+      sources = {["vim/search"] = {opts = {source_pattern = "\\v\\k+", search_pattern = "\\1:\\1"}}},
+    })
 
     helper.open_new_file("entry", [[
 hoge

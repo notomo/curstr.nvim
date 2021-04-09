@@ -1,4 +1,5 @@
 local Source = require("curstr.core.action_source").Source
+local custom = require("curstr.core.custom")
 local messagelib = require("curstr.lib.message")
 local modelib = require("curstr.lib.mode")
 
@@ -9,6 +10,11 @@ Command.__index = Command
 M.Command = Command
 
 function Command.new(name, ...)
+  if not M._loaded then
+    M._loaded = true
+    vim.cmd("doautocmd <nomodeline> User CurstrSourceLoad")
+  end
+
   local args = {...}
   local f = function()
     return Command[name](unpack(args))
@@ -47,6 +53,9 @@ function Command.execute(source_name, opts)
   return nil, "not found matched source: " .. source_name
 end
 
-vim.cmd("doautocmd User CurstrSourceLoad")
+function Command.setup(config)
+  vim.validate({config = {config, "table"}})
+  custom.set(config)
+end
 
 return M

@@ -7,9 +7,11 @@ describe("file/search", function()
   after_each(helper.after_each)
 
   it("file_one", function()
-    require("curstr.custom").sources["file/search"] = {
-      opts = {source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1"},
-    }
+    curstr.setup({
+      sources = {
+        ["file/search"] = {opts = {source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1"}},
+      },
+    })
 
     helper.new_file("pattern.txt")
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
@@ -22,13 +24,17 @@ describe("file/search", function()
   end)
 
   it("file_with_position", function()
-    require("curstr.custom").sources["file/search"] = {
-      opts = {
-        source_pattern = "\\v^([^#]*)#(\\w+)$",
-        result_pattern = "\\1",
-        search_pattern = "\\2:",
+    curstr.setup({
+      sources = {
+        ["file/search"] = {
+          opts = {
+            source_pattern = "\\v^([^#]*)#(\\w+)$",
+            result_pattern = "\\1",
+            search_pattern = "\\2:",
+          },
+        },
       },
-    }
+    })
 
     helper.new_file("pattern.txt", [[
 

@@ -1,5 +1,4 @@
 local modulelib = require("curstr.lib.module")
-local custom = require("curstr.custom")
 
 local M = {}
 
@@ -14,7 +13,7 @@ function ActionGroup.new(name, args)
     return nil, "not found action group: " .. name
   end
 
-  local custom_group = custom.groups[name] or {}
+  local custom_group = require("curstr.core.custom").config.groups[name] or {}
   local tbl = {
     name = name,
     opts = vim.tbl_deep_extend("force", action_group.opts or {}, custom_group.opts or {}),

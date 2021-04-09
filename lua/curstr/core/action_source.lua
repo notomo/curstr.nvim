@@ -3,7 +3,6 @@ local filelib = require("curstr.lib.file")
 local pathlib = require("curstr.lib.path")
 local cursor = require("curstr.core.cursor")
 local ActionGroup = require("curstr.core.action_group").ActionGroup
-local custom = require("curstr.custom")
 
 local M = {}
 
@@ -22,7 +21,7 @@ function Source.new(name, source_opts, filetypes)
     return nil, "not found action source: " .. name
   end
 
-  local custom_source = custom.sources[name] or {}
+  local custom_source = require("curstr.core.custom").config.sources[name] or {}
   local tbl = {
     name = name,
     opts = vim.tbl_extend("force", source.opts or {}, source_opts, custom_source.opts or {}),
@@ -55,7 +54,7 @@ end
 local function _resolve(source_name, source_opts, filetypes)
   local resolved = {}
 
-  local ailias = custom.source_aliases[source_name] or {}
+  local ailias = require("curstr.core.custom").config.source_aliases[source_name] or {}
   local opts = vim.tbl_extend("force", source_opts, ailias.opts or {})
   local ailias_filetypes = filetypes or ailias.filetypes
   local source_names = ailias.names or {}

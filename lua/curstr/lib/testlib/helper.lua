@@ -1,20 +1,13 @@
-local M = {}
+local plugin_name = vim.split((...):gsub("%.", "/"), "/", true)[1]
+local M = require("vusted.helper")
 
-M.root = require("curstr.lib.path").find_root()
+M.root = M.find_plugin_root(plugin_name)
 
 M.test_data_path = "spec/test_data/"
 M.test_data_dir = M.root .. "/" .. M.test_data_path
 
 local packpath = vim.o.packpath
 local runtimepath = vim.o.runtimepath
-
-function M.require(name)
-  return setmetatable({}, {
-    __index = function(_, k)
-      return require(name)[k]
-    end,
-  })
-end
 
 function M.before_each()
   vim.cmd("filetype on")
@@ -38,7 +31,7 @@ function M.after_each()
   vim.cmd("syntax off")
   print(" ")
 
-  require("curstr.lib.module").cleanup()
+  M.cleanup_loaded_modules(plugin_name)
   M.delete("")
 end
 

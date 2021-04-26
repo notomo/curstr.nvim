@@ -1,0 +1,161 @@
+*curstr.nvim.txt*
+
+==============================================================================
+Lua module: curstr                                        *curstr.nvim-curstr*
+
+execute({source_name}, {opts})                              *curstr.execute()*
+  Get action from source and execute it.
+
+  Parameters: ~
+    {source_name} (string) source name
+    {opts} (table|nil) {action = string} |curstr.nvim-ACTIONS|
+
+setup({config})                                               *curstr.setup()*
+  Setup configuration.
+
+  Parameters: ~
+    {config} (string) |curstr.nvim-setup-config|
+
+==============================================================================
+PARAMETERS                                            *curstr.nvim-PARAMETERS*
+
+Configurations                                      *curstr.nvim-setup-config*
+
+- {source_aliases} (table | nil): can define alias names
+  - {names} (string[]): source names. curstr try to execute by this order.
+  - {filetypes} (string[] | nil): if not nil, this alias is enabled only on the filetypes.
+  - {opts} (table | nil): source specific options.
+
+- {sources} (table | nil): can change source settings
+  - {filetypes} (string[] | nil)
+  - {opts} (table | nil)
+
+==============================================================================
+ACTION SOURCES                                    *curstr.nvim-ACTION-SOURCES*
+
+`directory/buffer_relative`          *curstr-source-directory/buffer_relative*
+  TODO
+
+`directory/path`                                *curstr-source-directory/path*
+  TODO
+
+`file/buffer_relative`                    *curstr-source-file/buffer_relative*
+  TODO
+
+`file/path`                                          *curstr-source-file/path*
+  TODO
+
+`file/search`                                      *curstr-source-file/search*
+  TODO
+
+`lua/luarocks`                                    *curstr-source-lua/luarocks*
+  TODO
+
+`range`                                                  *curstr-source-range*
+  TODO
+
+`togglable/pattern`                          *curstr-source-togglable/pattern*
+  TODO
+
+`togglable/word`                                *curstr-source-togglable/word*
+  TODO
+
+`vim/autoload_function`                  *curstr-source-vim/autoload_function*
+  TODO
+
+`vim/lua`                                              *curstr-source-vim/lua*
+  TODO
+
+`vim/runtime/directory`                  *curstr-source-vim/runtime/directory*
+  TODO
+
+`vim/runtime/file`                            *curstr-source-vim/runtime/file*
+  TODO
+
+`vim/runtime/pattern/directory`  *curstr-source-vim/runtime/pattern/directory*
+  TODO
+
+`vim/runtime/pattern/file`            *curstr-source-vim/runtime/pattern/file*
+  TODO
+
+`vim/script_function`                      *curstr-source-vim/script_function*
+  TODO
+
+`vim/search`                                        *curstr-source-vim/search*
+  TODO
+
+==============================================================================
+DEFAULT SOURCE ALIASES                    *curstr.nvim-DEFAULT-SOURCE-ALIASES*
+
+`directory` alias to 
+- directory/buffer_relative
+- directory/path
+
+`file` alias to 
+- file/buffer_relative
+- file/path
+
+`lua` alias to 
+- vim/lua
+- lua/luarocks
+
+`vim/function` alias to 
+- vim/autoload_function
+- vim/script_function
+
+`vim/runtime` alias to 
+- vim/runtime/pattern/file
+- vim/runtime/pattern/directory
+- vim/runtime/file
+- vim/runtime/directory
+
+==============================================================================
+ACTIONS                                                  *curstr.nvim-ACTIONS*
+
+`directory` actions                            *curstr-action-group-directory*
+- horizontal_open
+- open
+- tab_open
+- vertical_open
+
+`file` actions                                      *curstr-action-group-file*
+- horizontal_open
+- open
+- tab_open
+- vertical_open
+
+`range` actions                                    *curstr-action-group-range*
+- join
+
+`togglable/line` actions                  *curstr-action-group-togglable/line*
+- append
+- toggle
+
+`togglable/word` actions                  *curstr-action-group-togglable/word*
+- append
+- toggle
+
+==============================================================================
+EXAMPLES                                                *curstr.nvim-EXAMPLES*
+
+>
+  lua << EOF
+  require("curstr").setup({
+    source_aliases = {
+      openable = {names = {"vim/function", "lua", "file", "directory", "vim/runtime"}},
+    },
+    sources = {
+      ["vim/autoload_function"] = {
+        opts = {include_packpath = true},
+        filetypes = {"vim", "python", "lua"},
+      },
+    },
+  })
+  EOF
+
+  nnoremap gf <Cmd>lua require("curstr").execute("openable")<CR>
+  nnoremap gF <Cmd>lua require("curstr").execute("openable", {action = "vertical_open"})<CR>
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help

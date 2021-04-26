@@ -68,7 +68,7 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
-function Source.all(name)
+function Source.resolve(name)
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {}, nil)) do
     local source, err = Source.new(resolved.source_name, resolved.source_opts, resolved.filetypes)
@@ -80,6 +80,18 @@ function Source.all(name)
     end
   end
   return sources, nil
+end
+
+function Source.all()
+  local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true)
+  local sources = vim.tbl_map(function(path)
+    local file = vim.split(pathlib.adjust_sep(path), "lua/curstr/action_source/", true)[2]
+    local name = file:sub(1, #file - 4)
+    return Source.new(name, {})
+  end, paths)
+  return vim.tbl_filter(function(source)
+    return source.name ~= "base"
+  end, sources)
 end
 
 return M

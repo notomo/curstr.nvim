@@ -1,4 +1,5 @@
 local modulelib = require("curstr.lib.module")
+local pathlib = require("curstr.lib.path")
 
 local M = {}
 
@@ -38,9 +39,36 @@ function ActionGroup.execute(self, name)
   return action(self)
 end
 
+function ActionGroup.actions(self)
+  local names = {}
+  local keys = vim.tbl_keys(self._action_group)
+  table.sort(keys, function(a, b)
+    return a < b
+  end)
+  for _, key in ipairs(keys) do
+    if vim.startswith(key, ACTION_PREFIX) then
+      local name = key:gsub("^" .. ACTION_PREFIX, "")
+      table.insert(names, name)
+    end
+  end
+  return names
+end
+
 local base = require("curstr.action_group.base")
 function ActionGroup.__index(self, k)
   return rawget(ActionGroup, k) or self._action_group[k] or base[k]
+end
+
+function ActionGroup.all()
+  local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true)
+  local groups = vim.tbl_map(function(path)
+    local file = vim.split(pathlib.adjust_sep(path), "lua/curstr/action_group/", true)[2]
+    local name = file:sub(1, #file - 4)
+    return ActionGroup.new(name, {})
+  end, paths)
+  return vim.tbl_filter(function(group)
+    return group.name ~= "base"
+  end, groups)
 end
 
 return M

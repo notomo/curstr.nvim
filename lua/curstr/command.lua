@@ -32,7 +32,7 @@ end
 function Command.execute(source_name, opts)
   vim.validate({source_name = {source_name, "string"}, opts = {opts, "table", true}})
 
-  local sources, source_err = Source.all(source_name)
+  local sources, source_err = Source.resolve(source_name)
   if source_err ~= nil then
     return nil, source_err
   end

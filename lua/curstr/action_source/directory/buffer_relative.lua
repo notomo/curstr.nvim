@@ -9,4 +9,6 @@ function M.create(self)
   return self:to_group("directory", {path = abs_path})
 end
 
+M.description = [[uses relative directory path with current buffer]]
+
 return M

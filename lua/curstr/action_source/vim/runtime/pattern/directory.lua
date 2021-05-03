@@ -17,4 +17,6 @@ function M.create(self)
   return nil
 end
 
+M.description = [[searches a vim runtime directory by glob pattern]]
+
 return M

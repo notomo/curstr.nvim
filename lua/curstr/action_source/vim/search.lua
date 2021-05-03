@@ -19,4 +19,6 @@ end
 
 M.opts = {source_pattern = "", search_pattern = "", flags = ""}
 
+M.description = [[searchs a file matched with vim.fn.search()]]
+
 return M

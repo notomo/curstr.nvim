@@ -31,4 +31,6 @@ end
 
 M.filetypes = {"vim"}
 
+M.description = [[searches vim script local functions]]
+
 return M

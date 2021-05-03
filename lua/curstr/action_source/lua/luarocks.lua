@@ -15,4 +15,6 @@ end
 
 M.filetypes = {"lua", "vim"}
 
+M.description = [[uses `luarocks which` command outputs]]
+
 return M

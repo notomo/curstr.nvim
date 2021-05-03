@@ -10,4 +10,6 @@ function M.create(self)
   return self:to_group("file", {path = target})
 end
 
+M.description = [[searchs a file from vim runtime]]
+
 return M

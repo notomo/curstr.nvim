@@ -55,4 +55,6 @@ M.opts = {include_packpath = false}
 
 M.filetypes = {"vim"}
 
+M.description = [[searches a vim autoload function]]
+
 return M

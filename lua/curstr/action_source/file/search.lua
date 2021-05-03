@@ -38,4 +38,6 @@ end
 
 M.opts = {source_pattern = "", result_pattern = "", search_pattern = "", flags = "g"}
 
+M.description = [[searches a file matched with `s/{source_pattern}/{result_pattern}/{flags}` result]]
+
 return M

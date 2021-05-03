@@ -30,4 +30,6 @@ end
 
 M.opts = {patterns = {}, char_pattern = "[:alnum:]_", is_line = false}
 
+M.description = [[uses string matched with option patterns]]
+
 return M

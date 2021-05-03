@@ -14,4 +14,6 @@ function M.create(self)
   return nil
 end
 
+M.description = [[searchs a directory from vim runtime]]
+
 return M

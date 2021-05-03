@@ -34,55 +34,55 @@ Configurations                                      *curstr.nvim-setup-config*
 ACTION SOURCES                                    *curstr.nvim-ACTION-SOURCES*
 
 `directory/buffer_relative`          *curstr-source-directory/buffer_relative*
-  TODO
+  uses relative directory path with current buffer
 
 `directory/path`                                *curstr-source-directory/path*
-  TODO
+  uses a directory path
 
 `file/buffer_relative`                    *curstr-source-file/buffer_relative*
-  TODO
+  uses a relative file path with current buffer
 
 `file/path`                                          *curstr-source-file/path*
-  TODO
+  uses a relative file path
 
 `file/search`                                      *curstr-source-file/search*
-  TODO
+  searches a file matched with `s/{source_pattern}/{result_pattern}/{flags}` result
 
 `lua/luarocks`                                    *curstr-source-lua/luarocks*
-  TODO
+  uses `luarocks which` command outputs
 
 `range`                                                  *curstr-source-range*
-  TODO
+  uses the given range
 
 `togglable/pattern`                          *curstr-source-togglable/pattern*
-  TODO
+  uses string matched with option patterns
 
 `togglable/word`                                *curstr-source-togglable/word*
-  TODO
+  uses a word matched with words option
 
 `vim/autoload_function`                  *curstr-source-vim/autoload_function*
-  TODO
+  searches a vim autoload function
 
 `vim/lua`                                              *curstr-source-vim/lua*
-  TODO
+  searchs a file from vim runtime lua directory
 
 `vim/runtime/directory`                  *curstr-source-vim/runtime/directory*
-  TODO
+  searchs a directory from vim runtime
 
 `vim/runtime/file`                            *curstr-source-vim/runtime/file*
-  TODO
+  searchs a file from vim runtime
 
 `vim/runtime/pattern/directory`  *curstr-source-vim/runtime/pattern/directory*
-  TODO
+  searches a vim runtime directory by glob pattern
 
 `vim/runtime/pattern/file`            *curstr-source-vim/runtime/pattern/file*
-  TODO
+  searches a vim runtime file by glob pattern
 
 `vim/script_function`                      *curstr-source-vim/script_function*
-  TODO
+  searches vim script local functions
 
 `vim/search`                                        *curstr-source-vim/search*
-  TODO
+  searchs a file matched with vim.fn.search()
 
 ==============================================================================
 DEFAULT SOURCE ALIASES                    *curstr.nvim-DEFAULT-SOURCE-ALIASES*

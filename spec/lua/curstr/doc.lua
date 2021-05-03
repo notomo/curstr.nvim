@@ -35,12 +35,11 @@ require("genvdoc").generate("curstr.nvim", {
       end,
     },
     {
-      -- TODO source details?
       name = "ACTION SOURCES",
       body = function(ctx)
         local sections = {}
         for _, source in ipairs(require("curstr.core.action_source").Source.all()) do
-          table.insert(sections, util.help_tagged(ctx, ("`%s`"):format(source.name), "curstr-source-" .. source.name) .. util.indent("TODO\n", 2))
+          table.insert(sections, util.help_tagged(ctx, ("`%s`"):format(source.name), "curstr-source-" .. source.name) .. util.indent(source.description, 2) .. "\n")
         end
         return vim.trim(table.concat(sections, "\n"))
       end,
@@ -67,7 +66,6 @@ require("genvdoc").generate("curstr.nvim", {
       end,
     },
     {
-      -- TODO action details?
       name = "ACTIONS",
       body = function(ctx)
         local sections = {}
@@ -84,7 +82,7 @@ require("genvdoc").generate("curstr.nvim", {
     {
       name = "EXAMPLES",
       body = function()
-        return require("genvdoc.util").help_code_block_from_file(example_path)
+        return util.help_code_block_from_file(example_path)
       end,
     },
   },

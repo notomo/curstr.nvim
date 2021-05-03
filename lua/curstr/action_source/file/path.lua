@@ -9,4 +9,6 @@ function M.create(self)
   return self:to_group("file", {path = abs_path, position = position})
 end
 
+M.description = [[uses a relative file path]]
+
 return M

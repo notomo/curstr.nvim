@@ -43,4 +43,6 @@ end
 
 M.opts = {words = {}, normalized = false, char_pattern = "[:alnum:]_"}
 
+M.description = [[uses a word matched with words option]]
+
 return M

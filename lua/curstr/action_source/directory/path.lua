@@ -9,4 +9,6 @@ function M.create(self)
   return self:to_group("directory", {path = abs_path})
 end
 
+M.description = [[uses a directory path]]
+
 return M

@@ -10,11 +10,6 @@ Command.__index = Command
 M.Command = Command
 
 function Command.new(name, ...)
-  if not M._loaded then
-    M._loaded = true
-    vim.cmd("doautocmd <nomodeline> User CurstrSourceLoad")
-  end
-
   local args = {...}
   local f = function()
     return Command[name](unpack(args))

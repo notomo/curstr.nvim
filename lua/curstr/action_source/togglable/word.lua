@@ -3,7 +3,7 @@ local M = {}
 function M.create(self)
   local word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
 
-  local candidates = {self.opts.words}
+  local candidates = { self.opts.words }
   if self.opts.normalized then
     candidates = {
       vim.tbl_map(function(w)
@@ -25,7 +25,7 @@ function M.create(self)
   for _, words in ipairs(candidates) do
     local new_word = self._select_word(words, word)
     if new_word ~= nil then
-      return self:to_group("togglable/word", {value = new_word, range = word_range})
+      return self:to_group("togglable/word", { value = new_word, range = word_range })
     end
   end
 
@@ -41,7 +41,7 @@ function M._select_word(words, word)
   return nil
 end
 
-M.opts = {words = {}, normalized = false, char_pattern = "[:alnum:]_"}
+M.opts = { words = {}, normalized = false, char_pattern = "[:alnum:]_" }
 
 M.description = [[uses a word matched with words option]]
 

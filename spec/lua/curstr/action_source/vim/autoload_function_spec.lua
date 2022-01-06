@@ -2,19 +2,21 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("vim/autoload_function", function()
-
   before_each(function()
     helper.before_each()
 
     helper.new_directory("test_plugin")
     vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data_dir .. "test_plugin"
     helper.new_directory("test_plugin/autoload")
-    helper.new_file("test_plugin/autoload/curstr_test_plugin.vim", [[
+    helper.new_file(
+      "test_plugin/autoload/curstr_test_plugin.vim",
+      [[
 
 function! curstr_test_plugin#execute()
 endfunction
 
-]])
+]]
+    )
 
     helper.set_lines("call curstr_test_plugin#execute()")
     vim.cmd("setlocal filetype=vim")
@@ -39,7 +41,7 @@ endfunction
   end)
 
   it("tab_open", function()
-    curstr.execute("vim/autoload_function", {action = "tab_open"})
+    curstr.execute("vim/autoload_function", { action = "tab_open" })
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
@@ -49,7 +51,7 @@ endfunction
   it("vertical_open", function()
     local pos = vim.fn.getpos(".")
 
-    curstr.execute("vim/autoload_function", {action = "vertical_open"})
+    curstr.execute("vim/autoload_function", { action = "vertical_open" })
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
@@ -61,7 +63,7 @@ endfunction
   it("horizontal_open", function()
     local pos = vim.fn.getpos(".")
 
-    curstr.execute("vim/autoload_function", {action = "horizontal_open"})
+    curstr.execute("vim/autoload_function", { action = "horizontal_open" })
 
     assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
@@ -81,13 +83,16 @@ endfunction
   end)
 
   it("no_include_packpath", function()
-    curstr.setup({sources = {["vim/autoload_function"] = {opts = {include_packpath = false}}}})
+    curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = false } } } })
 
     helper.new_directory("package/pack/package/opt/example/autoload")
-    helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[
+    helper.new_file(
+      "package/pack/package/opt/example/autoload/example.vim",
+      [[
 
 function! example#execute() abort
-endfunction]])
+endfunction]]
+    )
     helper.open_new_file("call.vim", "vim.fn.example#execute()")
     helper.search("example#execute")
     local pos = vim.fn.getpos(".")
@@ -99,14 +104,17 @@ endfunction]])
   end)
 
   it("include_packpath", function()
-    curstr.setup({sources = {["vim/autoload_function"] = {opts = {include_packpath = true}}}})
+    curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = true } } } })
 
     helper.new_directory("package/pack/package/opt/example/autoload")
-    helper.new_file("package/pack/package/opt/example/autoload/example.vim", [[
+    helper.new_file(
+      "package/pack/package/opt/example/autoload/example.vim",
+      [[
 
 function! example#execute() abort
 endfunction
-]])
+]]
+    )
     helper.add_packpath("package")
     helper.open_new_file("call.vim", "vim.fn.example#execute()")
     vim.cmd("setlocal filetype=vim")
@@ -120,5 +128,4 @@ endfunction
     helper.search("example#execute")
     assert_position(pos)
   end)
-
 end)

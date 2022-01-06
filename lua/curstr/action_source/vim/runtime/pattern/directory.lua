@@ -9,7 +9,7 @@ function M.create(self)
     local targets = vim.fn.glob(pattern, false, true)
     for _, target in ipairs(targets) do
       if self.filelib.is_directory(target) then
-        return self:to_group("directory", {path = target})
+        return self:to_group("directory", { path = target })
       end
     end
   end

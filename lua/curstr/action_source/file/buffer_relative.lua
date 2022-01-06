@@ -6,7 +6,7 @@ function M.create(self)
   if not self.filelib.readable(abs_path) then
     return nil
   end
-  return self:to_group("file", {path = abs_path, position = position})
+  return self:to_group("file", { path = abs_path, position = position })
 end
 
 M.description = [[uses a relative file path with current buffer]]

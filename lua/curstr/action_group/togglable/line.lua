@@ -13,7 +13,7 @@ function M.action_append(self)
   end
   local bufnr = 0
   local row = vim.api.nvim_win_get_cursor(0)[1]
-  vim.api.nvim_buf_set_lines(bufnr, row, row, false, {self.value})
+  vim.api.nvim_buf_set_lines(bufnr, row, row, false, { self.value })
 end
 
 M.default_action = "toggle"

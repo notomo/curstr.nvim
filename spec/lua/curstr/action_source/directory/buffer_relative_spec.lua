@@ -2,7 +2,6 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("directory/buffer_relative source", function()
-
   before_each(helper.before_each)
   after_each(helper.after_each)
 
@@ -14,5 +13,4 @@ describe("directory/buffer_relative source", function()
 
     assert.current_dir("opened")
   end)
-
 end)

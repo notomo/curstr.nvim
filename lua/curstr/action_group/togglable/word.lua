@@ -15,7 +15,7 @@ function M.action_append(self)
   local new_line = self:_new_line()
   local bufnr = 0
   local row = vim.api.nvim_win_get_cursor(0)[1]
-  vim.api.nvim_buf_set_lines(bufnr, row, row + 1, false, {new_line})
+  vim.api.nvim_buf_set_lines(bufnr, row, row + 1, false, { new_line })
 end
 
 function M._new_line(self)

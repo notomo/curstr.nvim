@@ -61,7 +61,7 @@ end
 
 function M.new_file(path, ...)
   local f = io.open(M.test_data_dir .. path, "w")
-  for _, line in ipairs({...}) do
+  for _, line in ipairs({ ... }) do
     f:write(line .. "\n")
   end
   f:close()
@@ -200,8 +200,8 @@ asserts.create("completion_contains"):register(function(self)
     local result = args[1]
     local expected = args[2]
     local names = vim.split(result, "\n", true)
-    self:set_positive(("completion should contain \"%s\", but actual: %s"):format(expected, vim.inspect(names)))
-    self:set_negative(("completion should not contain \"%s\", but actual: %s"):format(expected, vim.inspect(names)))
+    self:set_positive(('completion should contain "%s", but actual: %s'):format(expected, vim.inspect(names)))
+    self:set_negative(('completion should not contain "%s", but actual: %s'):format(expected, vim.inspect(names)))
     for _, name in ipairs(names) do
       if name == expected then
         return true

@@ -2,7 +2,6 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("vim/runtime/pattern/directory", function()
-
   before_each(helper.before_each)
   after_each(helper.after_each)
 
@@ -16,5 +15,4 @@ describe("vim/runtime/pattern/directory", function()
 
     assert.current_dir("dir/child/child2")
   end)
-
 end)

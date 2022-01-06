@@ -10,7 +10,7 @@ function M.create(self)
   if not self.filelib.readable(abs_path) then
     return nil
   end
-  return self:to_group("file", {path = abs_path, position = position})
+  return self:to_group("file", { path = abs_path, position = position })
 end
 
 function M._search(name)
@@ -29,7 +29,7 @@ function M._search(name)
   return position
 end
 
-M.filetypes = {"vim"}
+M.filetypes = { "vim" }
 
 M.description = [[searches vim script local functions]]
 

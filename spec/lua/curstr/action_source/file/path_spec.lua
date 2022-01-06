@@ -2,24 +2,29 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("file/path", function()
-
   before_each(function()
     helper.before_each()
 
-    helper.new_file("opened.txt", [[
+    helper.new_file(
+      "opened.txt",
+      [[
 12345
 12345
 12345
-12345]])
+12345]]
+    )
     helper.new_directory("with_env")
     helper.new_file("with_env/file")
-    helper.open_new_file("entry.txt", [[
+    helper.open_new_file(
+      "entry.txt",
+      [[
 opened.txt
 opened.txt:3
 opened.txt:3,4
 $DIR_NAME/file
 \v+=
-]])
+]]
+    )
 
     helper.cd()
   end)
@@ -32,20 +37,20 @@ $DIR_NAME/file
   end)
 
   it("open", function()
-    curstr.execute("file/path", {action = "open"})
+    curstr.execute("file/path", { action = "open" })
 
     assert.file_name("opened.txt")
   end)
 
   it("tab_open", function()
-    curstr.execute("file/path", {action = "tab_open"})
+    curstr.execute("file/path", { action = "tab_open" })
 
     assert.file_name("opened.txt")
     assert.tab_count(2)
   end)
 
   it("vertical_open", function()
-    curstr.execute("file/path", {action = "vertical_open"})
+    curstr.execute("file/path", { action = "vertical_open" })
 
     assert.file_name("opened.txt")
     assert.window_count(2)
@@ -54,7 +59,7 @@ $DIR_NAME/file
   end)
 
   it("horizontal_open", function()
-    curstr.execute("file/path", {action = "horizontal_open"})
+    curstr.execute("file/path", { action = "horizontal_open" })
 
     assert.file_name("opened.txt")
     assert.window_count(2)
@@ -105,5 +110,4 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
   end)
-
 end)

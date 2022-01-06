@@ -19,16 +19,16 @@ function M.create(self)
     if vim.fn.match(word, pattern) ~= -1 then
       local new_word = vim.fn.substitute(word, pattern, new_pattern, option)
       if self.opts.is_line then
-        return self:to_group("togglable/line", {value = new_word})
+        return self:to_group("togglable/line", { value = new_word })
       end
-      return self:to_group("togglable/word", {value = new_word, range = word_range})
+      return self:to_group("togglable/word", { value = new_word, range = word_range })
     end
   end
 
   return nil
 end
 
-M.opts = {patterns = {}, char_pattern = "[:alnum:]_", is_line = false}
+M.opts = { patterns = {}, char_pattern = "[:alnum:]_", is_line = false }
 
 M.description = [[uses string matched with option patterns]]
 

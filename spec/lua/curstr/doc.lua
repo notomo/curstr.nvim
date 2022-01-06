@@ -22,7 +22,8 @@ require("genvdoc").generate("curstr.nvim", {
     {
       name = "PARAMETERS",
       body = function(ctx)
-        return util.help_tagged(ctx, "Configurations", "curstr.nvim-setup-config") .. [[
+        return util.help_tagged(ctx, "Configurations", "curstr.nvim-setup-config")
+          .. [[
 
 - {source_aliases} (table | nil): can define alias names
   - {names} (string[]): source names. curstr try to execute by this order.
@@ -39,7 +40,12 @@ require("genvdoc").generate("curstr.nvim", {
       body = function(ctx)
         local sections = {}
         for _, source in ipairs(require("curstr.core.action_source").Source.all()) do
-          table.insert(sections, util.help_tagged(ctx, ("`%s`"):format(source.name), "curstr-source-" .. source.name) .. util.indent(source.description, 2) .. "\n")
+          table.insert(
+            sections,
+            util.help_tagged(ctx, ("`%s`"):format(source.name), "curstr-source-" .. source.name)
+              .. util.indent(source.description, 2)
+              .. "\n"
+          )
         end
         return vim.trim(table.concat(sections, "\n"))
       end,
@@ -73,7 +79,11 @@ require("genvdoc").generate("curstr.nvim", {
           local actions = vim.tbl_map(function(action)
             return "- " .. action
           end, group:actions())
-          local section = util.help_tagged(ctx, ("`%s` actions"):format(group.name), "curstr-action-group-" .. group.name) .. table.concat(actions, "\n") .. "\n"
+          local section = util.help_tagged(
+            ctx,
+            ("`%s` actions"):format(group.name),
+            "curstr-action-group-" .. group.name
+          ) .. table.concat(actions, "\n") .. "\n"
           table.insert(sections, section)
         end
         return vim.trim(table.concat(sections, "\n"))

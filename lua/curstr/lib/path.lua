@@ -1,7 +1,7 @@
 local M = {}
 
 function M.join(...)
-  return table.concat({...}, "/")
+  return table.concat({ ... }, "/")
 end
 
 if vim.fn.has("win32") == 1 then

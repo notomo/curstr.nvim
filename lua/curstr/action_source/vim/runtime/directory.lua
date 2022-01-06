@@ -7,7 +7,7 @@ function M.create(self)
   for _, rpath in ipairs(runtime_paths) do
     local target = self.pathlib.join(rpath, path)
     if self.filelib.is_directory(target) then
-      return self:to_group("directory", {path = target})
+      return self:to_group("directory", { path = target })
     end
   end
 

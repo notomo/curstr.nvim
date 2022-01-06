@@ -7,7 +7,7 @@ function M.create(self)
   if target == nil then
     return nil
   end
-  return self:to_group("file", {path = target})
+  return self:to_group("file", { path = target })
 end
 
 M.description = [[searches a vim runtime file by glob pattern]]

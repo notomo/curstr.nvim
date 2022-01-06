@@ -10,7 +10,7 @@ Command.__index = Command
 M.Command = Command
 
 function Command.new(name, ...)
-  local args = {...}
+  local args = { ... }
   local f = function()
     return Command[name](unpack(args))
   end
@@ -25,7 +25,7 @@ function Command.new(name, ...)
 end
 
 function Command.execute(source_name, opts)
-  vim.validate({source_name = {source_name, "string"}, opts = {opts, "table", true}})
+  vim.validate({ source_name = { source_name, "string" }, opts = { opts, "table", true } })
 
   local sources, source_err = Source.resolve(source_name)
   if source_err ~= nil then
@@ -33,7 +33,7 @@ function Command.execute(source_name, opts)
   end
 
   opts = opts or {}
-  opts.range = modelib.visual_range() or {first = vim.fn.line("."), last = vim.fn.line(".")}
+  opts.range = modelib.visual_range() or { first = vim.fn.line("."), last = vim.fn.line(".") }
 
   for _, source in ipairs(sources) do
     local group, err = source:create(opts)
@@ -49,7 +49,7 @@ function Command.execute(source_name, opts)
 end
 
 function Command.setup(config)
-  vim.validate({config = {config, "table"}})
+  vim.validate({ config = { config, "table" } })
   custom.set(config)
 end
 

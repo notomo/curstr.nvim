@@ -2,12 +2,11 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("togglable/pattern", function()
-
   before_each(function()
     helper.before_each()
 
     curstr.setup({
-      sources = {["togglable/pattern"] = {opts = {char_pattern = "[:alnum:]_", patterns = {}}}},
+      sources = { ["togglable/pattern"] = { opts = { char_pattern = "[:alnum:]_", patterns = {} } } },
     })
     vim.cmd("tabe | setlocal buftype=nofile noswapfile")
 
@@ -17,10 +16,10 @@ describe("togglable/pattern", function()
 
   it("toggle", function()
     helper.set_lines([[foo test]])
-    vim.fn.setpos(".", {0, 1, 1, 0})
+    vim.fn.setpos(".", { 0, 1, 1, 0 })
     curstr.setup({
       sources = {
-        ["togglable/pattern"] = {opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}}},
+        ["togglable/pattern"] = { opts = { patterns = { { "\\vhoge|foo", "bar" }, { "bar", "hoge" } } } },
       },
     })
 
@@ -36,12 +35,12 @@ describe("togglable/pattern", function()
 
   it("char_pattern_option", function()
     helper.set_lines([[foo:test]])
-    vim.fn.setpos(".", {0, 1, 1, 0})
+    vim.fn.setpos(".", { 0, 1, 1, 0 })
     curstr.setup({
       sources = {
         ["togglable/pattern"] = {
           opts = {
-            patterns = {{"foo:test", "foo;test"}, {"foo;test", "foo:test"}},
+            patterns = { { "foo:test", "foo;test" }, { "foo;test", "foo:test" } },
             char_pattern = "[:alnum:]_;:",
           },
         },
@@ -57,10 +56,10 @@ describe("togglable/pattern", function()
 
   it("with_multibyte", function()
     helper.set_lines([[あああfooあああ]])
-    vim.fn.setpos(".", {0, 1, 10, 0})
+    vim.fn.setpos(".", { 0, 1, 10, 0 })
     curstr.setup({
       sources = {
-        ["togglable/pattern"] = {opts = {patterns = {{"\\vhoge|foo", "bar"}, {"bar", "hoge"}}}},
+        ["togglable/pattern"] = { opts = { patterns = { { "\\vhoge|foo", "bar" }, { "bar", "hoge" } } } },
       },
     })
 
@@ -75,7 +74,7 @@ describe("togglable/pattern", function()
     helper.set_lines([[hoge]])
     vim.fn.search("hoge")
     curstr.setup({
-      sources = {["togglable/pattern"] = {opts = {is_line = true, patterns = {{"hoge", "bar"}}}}},
+      sources = { ["togglable/pattern"] = { opts = { is_line = true, patterns = { { "hoge", "bar" } } } } },
     })
 
     curstr.execute("togglable/pattern")
@@ -87,14 +86,13 @@ describe("togglable/pattern", function()
     helper.set_lines([[hoge]])
     vim.fn.search("hoge")
     curstr.setup({
-      sources = {["togglable/pattern"] = {opts = {is_line = true, patterns = {{"hoge", "bar"}}}}},
+      sources = { ["togglable/pattern"] = { opts = { is_line = true, patterns = { { "hoge", "bar" } } } } },
     })
 
-    curstr.execute("togglable/pattern", {action = "append"})
+    curstr.execute("togglable/pattern", { action = "append" })
 
     assert.current_line("hoge")
     vim.fn.search("bar")
     assert.current_line("bar")
   end)
-
 end)

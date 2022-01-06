@@ -2,14 +2,13 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("file/search", function()
-
   before_each(helper.before_each)
   after_each(helper.after_each)
 
   it("file_one", function()
     curstr.setup({
       sources = {
-        ["file/search"] = {opts = {source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1"}},
+        ["file/search"] = { opts = { source_pattern = "\\v^([^#]*)#(\\w+)$", result_pattern = "\\1" } },
       },
     })
 
@@ -36,12 +35,15 @@ describe("file/search", function()
       },
     })
 
-    helper.new_file("pattern.txt", [[
+    helper.new_file(
+      "pattern.txt",
+      [[
 
 test:
 
     target_pattern:
-]])
+]]
+    )
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
     helper.cd()
 
@@ -66,5 +68,4 @@ test:
 
     assert.file_name("entry")
   end)
-
 end)

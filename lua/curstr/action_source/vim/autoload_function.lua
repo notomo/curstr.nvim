@@ -13,7 +13,7 @@ function M.create(self)
   for _, path in ipairs(paths) do
     if self.filelib.readable(path) then
       local position = self._search(cword, path)
-      return self:to_group("file", {path = path, position = position})
+      return self:to_group("file", { path = path, position = position })
     end
   end
 
@@ -27,7 +27,7 @@ function M.create(self)
   for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
     if self.filelib.readable(path) then
       local position = self._search(cword, path)
-      return self:to_group("file", {path = path, position = position})
+      return self:to_group("file", { path = path, position = position })
     end
   end
 
@@ -43,7 +43,7 @@ function M._search(name, path)
     local s = regex:match_str(line)
     if s ~= nil then
       f:close()
-      return {row, s + 1}
+      return { row, s + 1 }
     end
     row = row + 1
   end
@@ -51,9 +51,9 @@ function M._search(name, path)
   return nil
 end
 
-M.opts = {include_packpath = false}
+M.opts = { include_packpath = false }
 
-M.filetypes = {"vim"}
+M.filetypes = { "vim" }
 
 M.description = [[searches a vim autoload function]]
 

@@ -2,14 +2,13 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("vim/lua", function()
-
   before_each(function()
     helper.before_each()
 
     vim.cmd("filetype on")
     vim.cmd("syntax enable")
 
-    helper.open_new_file("entry.lua", "require \"vim.lsp.util\"")
+    helper.open_new_file("entry.lua", 'require "vim.lsp.util"')
     helper.search("lsp")
   end)
 
@@ -33,5 +32,4 @@ describe("vim/lua", function()
 
     assert.file_name("entry.lua")
   end)
-
 end)

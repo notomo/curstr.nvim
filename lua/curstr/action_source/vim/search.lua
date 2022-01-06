@@ -14,10 +14,10 @@ function M.create(self)
     return nil
   end
   local path = vim.fn.expand("%:p")
-  return self:to_group("file", {path = path, position = position})
+  return self:to_group("file", { path = path, position = position })
 end
 
-M.opts = {source_pattern = "", search_pattern = "", flags = ""}
+M.opts = { source_pattern = "", search_pattern = "", flags = "" }
 
 M.description = [[searchs a file matched with vim.fn.search()]]
 

@@ -1,7 +1,6 @@
 local M = {}
 
-function M.after(_)
-end
+function M.after(_) end
 
 function M.action_open(self)
   vim.cmd("lcd " .. self.path)

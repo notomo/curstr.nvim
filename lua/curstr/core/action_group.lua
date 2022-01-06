@@ -7,7 +7,7 @@ local ActionGroup = {}
 M.ActionGroup = ActionGroup
 
 function ActionGroup.new(name, args)
-  vim.validate({name = {name, "string"}, args = {args, "table"}})
+  vim.validate({ name = { name, "string" }, args = { args, "table" } })
 
   local action_group = modulelib.find("curstr.action_group." .. name)
   if action_group == nil then
@@ -27,7 +27,7 @@ end
 
 local ACTION_PREFIX = "action_"
 function ActionGroup.execute(self, name)
-  vim.validate({name = {name, "string", true}})
+  vim.validate({ name = { name, "string", true } })
 
   name = name or self.default_action
   local key = ACTION_PREFIX .. name

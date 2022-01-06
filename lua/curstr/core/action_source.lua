@@ -11,9 +11,9 @@ M.Source = Source
 
 function Source.new(name, source_opts, filetypes)
   vim.validate({
-    name = {name, "string"},
-    source_opts = {source_opts, "table"},
-    filetypes = {filetypes, "table", true},
+    name = { name, "string" },
+    source_opts = { source_opts, "table" },
+    filetypes = { filetypes, "table", true },
   })
 
   local source = modulelib.find("curstr.action_source." .. name)
@@ -59,7 +59,7 @@ local function _resolve(source_name, source_opts, filetypes)
   local ailias_filetypes = filetypes or ailias.filetypes
   local source_names = ailias.names or {}
   if #source_names == 0 then
-    return {{source_name = source_name, source_opts = opts, filetypes = ailias_filetypes}}
+    return { { source_name = source_name, source_opts = opts, filetypes = ailias_filetypes } }
   end
 
   for _, name in ipairs(source_names) do

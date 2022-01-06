@@ -2,20 +2,22 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("vim/script_function", function()
-
   before_each(function()
     helper.before_each()
 
     vim.cmd("filetype on")
     vim.cmd("syntax enable")
 
-    helper.open_new_file("entry.vim", [[
+    helper.open_new_file(
+      "entry.vim",
+      [[
 
 function! s:test() abort
     echomsg 'test'
 endfunction
 
-call s:test()]])
+call s:test()]]
+    )
     helper.search("call s:\\zstest")
   end)
 
@@ -42,7 +44,7 @@ call s:test()]])
   end)
 
   it("tab_open", function()
-    curstr.execute("vim/script_function", {action = "tab_open"})
+    curstr.execute("vim/script_function", { action = "tab_open" })
 
     assert_cursor_position()
     assert.tab_count(2)
@@ -51,7 +53,7 @@ call s:test()]])
   it("vertical_open", function()
     local pos = vim.fn.getpos(".")
 
-    curstr.execute("vim/script_function", {action = "vertical_open"})
+    curstr.execute("vim/script_function", { action = "vertical_open" })
 
     assert_cursor_position()
     assert.window_count(2)
@@ -62,7 +64,7 @@ call s:test()]])
   it("horizontal_open", function()
     local pos = vim.fn.getpos(".")
 
-    curstr.execute("vim/script_function", {action = "horizontal_open"})
+    curstr.execute("vim/script_function", { action = "horizontal_open" })
 
     assert_cursor_position()
     assert.window_count(2)
@@ -78,5 +80,4 @@ call s:test()]])
 
     assert_position(pos)
   end)
-
 end)

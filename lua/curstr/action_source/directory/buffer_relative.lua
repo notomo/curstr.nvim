@@ -6,7 +6,7 @@ function M.create(self)
   if not self.filelib.is_directory(abs_path) then
     return nil
   end
-  return self:to_group("directory", {path = abs_path})
+  return self:to_group("directory", { path = abs_path })
 end
 
 M.description = [[uses relative directory path with current buffer]]

@@ -12,10 +12,10 @@ M.default_config = {
         "vim/runtime/directory",
       },
     },
-    file = {names = {"file/buffer_relative", "file/path"}},
-    directory = {names = {"directory/buffer_relative", "directory/path"}},
-    ["vim/function"] = {names = {"vim/autoload_function", "vim/script_function"}},
-    ["lua"] = {names = {"vim/lua", "lua/luarocks"}},
+    file = { names = { "file/buffer_relative", "file/path" } },
+    directory = { names = { "directory/buffer_relative", "directory/path" } },
+    ["vim/function"] = { names = { "vim/autoload_function", "vim/script_function" } },
+    ["lua"] = { names = { "vim/lua", "lua/luarocks" } },
   },
 }
 

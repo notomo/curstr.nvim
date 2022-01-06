@@ -6,7 +6,7 @@ function M.create()
   return nil
 end
 
-M.filetypes = {"_"}
+M.filetypes = { "_" }
 
 M.description = [[TODO]]
 

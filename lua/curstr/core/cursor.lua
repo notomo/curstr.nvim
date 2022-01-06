@@ -29,7 +29,7 @@ function M.word_with_range(_, char_pattern)
   local after_part = vim.fn.strpart(line, start_byte)
   local s = #line - #after_part
   local e = s + #word
-  local word_range = {s, e}
+  local word_range = { s, e }
   return word, word_range
 end
 
@@ -64,12 +64,12 @@ function M.file_path_with_position(_, added_isfname)
   end
   local matched = cword:sub(s + 1, e)
   local row, col = unpack(vim.split(matched, ",", true))
-  return file_path, {tonumber(row), tonumber(col or 1)}
+  return file_path, { tonumber(row), tonumber(col or 1) }
 end
 
 function M.line_with_range()
   local line = vim.api.nvim_get_current_line()
-  return line, {1, #line}
+  return line, { 1, #line }
 end
 
 return M

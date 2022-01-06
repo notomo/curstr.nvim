@@ -2,7 +2,6 @@ local helper = require("curstr.lib.testlib.helper")
 local curstr = helper.require("curstr")
 
 describe("file/buffer_relative source", function()
-
   before_each(helper.before_each)
   after_each(helper.after_each)
 
@@ -16,11 +15,14 @@ describe("file/buffer_relative source", function()
   end)
 
   it("can open with row", function()
-    helper.new_file("opened", [[
+    helper.new_file(
+      "opened",
+      [[
 1
 2
 3
-4]])
+4]]
+    )
     helper.set_lines([[opened:3]])
 
     curstr.execute("file/buffer_relative")
@@ -30,11 +32,14 @@ describe("file/buffer_relative source", function()
   end)
 
   it("can open with position", function()
-    helper.new_file("opened", [[
+    helper.new_file(
+      "opened",
+      [[
 12345
 12345
 12345
-12345]])
+12345]]
+    )
     helper.set_lines([[opened:3,4]])
 
     curstr.execute("file/buffer_relative")
@@ -43,5 +48,4 @@ describe("file/buffer_relative source", function()
     assert.current_row(3)
     assert.current_column(4)
   end)
-
 end)

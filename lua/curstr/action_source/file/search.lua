@@ -17,7 +17,7 @@ function M.create(self)
     local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)
     position = self._search(pattern, abs_path)
   end
-  return self:to_group("file", {path = abs_path, position = position})
+  return self:to_group("file", { path = abs_path, position = position })
 end
 
 function M._search(pattern, path)
@@ -28,7 +28,7 @@ function M._search(pattern, path)
     local s = regex:match_str(line)
     if s ~= nil then
       f:close()
-      return {row, s + 1}
+      return { row, s + 1 }
     end
     row = row + 1
   end
@@ -36,7 +36,7 @@ function M._search(pattern, path)
   return nil
 end
 
-M.opts = {source_pattern = "", result_pattern = "", search_pattern = "", flags = "g"}
+M.opts = { source_pattern = "", result_pattern = "", search_pattern = "", flags = "g" }
 
 M.description = [[searches a file matched with `s/{source_pattern}/{result_pattern}/{flags}` result]]
 

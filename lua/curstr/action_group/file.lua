@@ -9,7 +9,7 @@ function M._adjust_cursor(self)
   if row > count then
     row = count
   end
-  vim.api.nvim_win_set_cursor(0, {row, self.position[2] - 1})
+  vim.api.nvim_win_set_cursor(0, { row, self.position[2] - 1 })
 end
 
 function M.action_open(self)

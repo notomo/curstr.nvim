@@ -16,26 +16,29 @@ function M.action_join(self)
     return line:gsub("^%s*", "")
   end, old_lines)
 
-  local lines = {first}
-  vim.list_extend(lines, vim.tbl_filter(function(line)
-    return line ~= ""
-  end, others))
+  local lines = { first }
+  vim.list_extend(
+    lines,
+    vim.tbl_filter(function(line)
+      return line ~= ""
+    end, others)
+  )
 
   local separator = self.opts.separator
   if separator == nil then
     separator = vim.fn.input("Separator: ")
   end
-  local joined = {table.concat(lines, separator)}
+  local joined = { table.concat(lines, separator) }
 
   vim.api.nvim_buf_set_lines(bufnr, self.first - 1, self.last, false, joined)
 
   if vim.fn.line(".") ~= self.first then
-    vim.api.nvim_win_set_cursor(0, {self.first, 0})
+    vim.api.nvim_win_set_cursor(0, { self.first, 0 })
   end
 end
 
 M.default_action = "join"
 
-M.opts = {separator = nil}
+M.opts = { separator = nil }
 
 return M

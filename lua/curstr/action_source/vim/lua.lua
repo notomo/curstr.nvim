@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create(self)
-  local cword = self.cursor:word("./")
+  local cword = self.cursor:word("./-")
   local name = cword:gsub("%.", "/")
 
   local paths = vim.api.nvim_get_runtime_file(("lua/%s.lua"):format(name), true)

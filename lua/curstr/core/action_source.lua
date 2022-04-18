@@ -1,13 +1,10 @@
-local modulelib = require("curstr.lib.module")
+local modulelib = require("curstr.vendor.misclib.module")
 local filelib = require("curstr.lib.file")
 local pathlib = require("curstr.lib.path")
 local cursor = require("curstr.core.cursor")
-local ActionGroup = require("curstr.core.action_group").ActionGroup
-
-local M = {}
+local ActionGroup = require("curstr.core.action_group")
 
 local Source = {}
-M.Source = Source
 
 function Source.new(name, source_opts, filetypes)
   vim.validate({
@@ -94,4 +91,4 @@ function Source.all()
   end, sources)
 end
 
-return M
+return Source

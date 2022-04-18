@@ -1,12 +1,12 @@
-local example_path = "./spec/lua/curstr/example.vim"
 local util = require("genvdoc.util")
+local plugin_name = vim.env.PLUGIN_NAME
+local full_plugin_name = plugin_name .. ".nvim"
 
-local ok, result = pcall(vim.cmd, "source" .. example_path)
-if not ok then
-  error(result)
-end
+local example_path = ("./spec/lua/%s/example.vim"):format(plugin_name)
+vim.cmd([[source ]] .. example_path)
 
-require("genvdoc").generate("curstr.nvim", {
+require("genvdoc").generate(full_plugin_name, {
+  sources = { { name = "lua", pattern = ("lua/%s/init.lua"):format(plugin_name) } },
   chapters = {
     {
       name = function(group)
@@ -39,7 +39,7 @@ require("genvdoc").generate("curstr.nvim", {
       name = "ACTION SOURCES",
       body = function(ctx)
         local sections = {}
-        for _, source in ipairs(require("curstr.core.action_source").Source.all()) do
+        for _, source in ipairs(require("curstr.core.action_source").all()) do
           table.insert(
             sections,
             util.help_tagged(ctx, ("`%s`"):format(source.name), "curstr-source-" .. source.name)
@@ -75,7 +75,7 @@ require("genvdoc").generate("curstr.nvim", {
       name = "ACTIONS",
       body = function(ctx)
         local sections = {}
-        for _, group in ipairs(require("curstr.core.action_group").ActionGroup.all()) do
+        for _, group in ipairs(require("curstr.core.action_group").all()) do
           local actions = vim.tbl_map(function(action)
             return "- " .. action
           end, group:actions())
@@ -97,3 +97,17 @@ require("genvdoc").generate("curstr.nvim", {
     },
   },
 })
+
+local gen_readme = function()
+  local content = ([[
+# %s
+
+Curstr is a customizable `gf` like plugin.
+(`gf` is vim's builtin **g**oto **f**ile command.)
+]]):format(full_plugin_name)
+
+  local readme = io.open("README.md", "w")
+  readme:write(content)
+  readme:close()
+end
+gen_readme()

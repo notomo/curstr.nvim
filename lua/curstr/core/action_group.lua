@@ -1,10 +1,7 @@
-local modulelib = require("curstr.lib.module")
+local modulelib = require("curstr.vendor.misclib.module")
 local pathlib = require("curstr.lib.path")
 
-local M = {}
-
 local ActionGroup = {}
-M.ActionGroup = ActionGroup
 
 function ActionGroup.new(name, args)
   vim.validate({ name = { name, "string" }, args = { args, "table" } })
@@ -71,4 +68,4 @@ function ActionGroup.all()
   end, groups)
 end
 
-return M
+return ActionGroup

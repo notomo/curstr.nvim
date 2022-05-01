@@ -6,7 +6,7 @@ describe("directory/buffer_relative source", function()
   after_each(helper.after_each)
 
   it("can open default", function()
-    helper.new_directory("opened")
+    helper.test_data:create_dir("opened")
     helper.set_lines([[opened]])
 
     curstr.execute("directory/buffer_relative")

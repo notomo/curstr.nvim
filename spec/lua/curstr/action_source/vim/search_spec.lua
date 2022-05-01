@@ -17,7 +17,6 @@ hoge
 
 hoge:hoge]]
     )
-    helper.cd()
 
     curstr.execute("vim/search")
 

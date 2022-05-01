@@ -6,9 +6,9 @@ describe("vim/runtime/directory", function()
   after_each(helper.after_each)
 
   it("open", function()
-    helper.set_lines(helper.test_data_path .. "dir/child")
-    helper.new_directory("dir")
-    helper.new_directory("dir/child")
+    helper.set_lines(helper.test_data.relative_path .. "dir/child")
+    helper.test_data:create_dir("dir")
+    helper.test_data:create_dir("dir/child")
 
     curstr.execute("vim/runtime/directory")
 

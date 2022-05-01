@@ -6,7 +6,7 @@ describe("file/buffer_relative source", function()
   after_each(helper.after_each)
 
   it("can open default", function()
-    helper.new_file("opened")
+    helper.test_data:create_file("opened")
     helper.set_lines([[opened]])
 
     curstr.execute("file/buffer_relative")
@@ -15,7 +15,7 @@ describe("file/buffer_relative source", function()
   end)
 
   it("can open with row", function()
-    helper.new_file(
+    helper.test_data:create_file(
       "opened",
       [[
 1
@@ -32,7 +32,7 @@ describe("file/buffer_relative source", function()
   end)
 
   it("can open with position", function()
-    helper.new_file(
+    helper.test_data:create_file(
       "opened",
       [[
 12345

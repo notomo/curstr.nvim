@@ -1,53 +1,43 @@
 local plugin_name = vim.split((...):gsub("%.", "/"), "/", true)[1]
-local M = require("vusted.helper")
+local helper = require("vusted.helper")
 
-M.root = M.find_plugin_root(plugin_name)
-
-M.test_data_path = "spec/test_data/"
-M.test_data_dir = M.root .. "/" .. M.test_data_path
+helper.root = helper.find_plugin_root(plugin_name)
 
 local packpath = vim.o.packpath
 local runtimepath = vim.o.runtimepath
 
-function M.before_each()
+function helper.before_each()
   vim.cmd("filetype on")
   vim.cmd("syntax enable")
-  M.new_directory("")
-  vim.api.nvim_set_current_dir(M.test_data_dir)
+  helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(helper.root)
+  helper.test_data:cd("")
   vim.o.packpath = packpath
   vim.o.runtimepath = runtimepath
 end
 
-function M.after_each()
-  -- avoid segmentation fault??
-  vim.cmd("tabedit")
-  vim.cmd("tabprevious")
-  vim.cmd("quit!")
-
-  vim.cmd("tabedit")
-  vim.cmd("tabonly!")
+function helper.after_each()
   vim.cmd("silent! %bwipeout!")
   vim.cmd("filetype off")
   vim.cmd("syntax off")
   print(" ")
 
-  M.cleanup_loaded_modules(plugin_name)
-  M.delete("")
+  helper.cleanup_loaded_modules(plugin_name)
+  helper.test_data:teardown()
 end
 
-function M.buffer_log()
+function helper.buffer_log()
   local lines = vim.fn.getbufline("%", 1, "$")
   for _, line in ipairs(lines) do
     print(line)
   end
 end
 
-function M.set_lines(lines)
+function helper.set_lines(lines)
   vim.bo.buftype = "nofile"
   vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(lines, "\n"))
 end
 
-function M.search(pattern)
+function helper.search(pattern)
   local result = vim.fn.search(pattern)
   if result == 0 then
     local info = debug.getinfo(2)
@@ -59,41 +49,17 @@ function M.search(pattern)
   return result
 end
 
-function M.new_file(path, ...)
-  local f = io.open(M.test_data_dir .. path, "w")
-  for _, line in ipairs({ ... }) do
-    f:write(line .. "\n")
-  end
-  f:close()
+function helper.open_new_file(path, content)
+  helper.test_data:create_file(path, content)
+  vim.cmd("edit " .. helper.test_data.full_path .. path)
 end
 
-function M.open_new_file(path, ...)
-  M.new_file(path, ...)
-  vim.cmd("edit " .. M.test_data_dir .. path)
-end
-
-function M.new_directory(path)
-  vim.fn.mkdir(M.test_data_dir .. path, "p")
-end
-
-function M.delete(path)
-  vim.fn.delete(M.test_data_dir .. path, "rf")
-end
-
-function M.cd(path)
-  vim.api.nvim_set_current_dir(M.test_data_dir .. (path or ""))
-end
-
-function M.path(path)
-  return M.test_data_dir .. (path or "")
-end
-
-function M.window_count()
+function helper.window_count()
   return vim.fn.tabpagewinnr(vim.fn.tabpagenr(), "$")
 end
 
-function M.add_packpath(path)
-  vim.cmd("set packpath^=" .. vim.fn.fnamemodify(M.test_data_dir .. path, ":p"))
+function helper.add_packpath(path)
+  vim.cmd("set packpath^=" .. vim.fn.fnamemodify(helper.test_data.full_path .. path, ":p"))
 end
 
 local asserts = require("vusted.assert").asserts
@@ -103,7 +69,7 @@ asserts.create("window"):register_eq(function()
 end)
 
 asserts.create("window_count"):register_eq(function()
-  return M.window_count()
+  return helper.window_count()
 end)
 
 asserts.create("current_line"):register_eq(function()
@@ -143,7 +109,7 @@ asserts.create("filetype"):register_eq(function()
 end)
 
 asserts.create("path"):register_eq(function()
-  return vim.fn.expand("%:p"):gsub(M.root .. "/" .. "?", "")
+  return vim.fn.expand("%:p"):gsub(helper.root .. "/" .. "?", "")
 end)
 
 asserts.create("cursor_word"):register_eq(function()
@@ -151,7 +117,7 @@ asserts.create("cursor_word"):register_eq(function()
 end)
 
 asserts.create("current_dir"):register_eq(function()
-  return vim.fn.getcwd():gsub(M.test_data_dir .. "?", "")
+  return vim.fn.getcwd():gsub(helper.test_data.full_path .. "?", "")
 end)
 
 asserts.create("exists_pattern"):register(function(self)
@@ -211,4 +177,4 @@ asserts.create("completion_contains"):register(function(self)
   end
 end)
 
-return M
+return helper

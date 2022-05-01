@@ -5,7 +5,7 @@ describe("file/path", function()
   before_each(function()
     helper.before_each()
 
-    helper.new_file(
+    helper.test_data:create_file(
       "opened.txt",
       [[
 12345
@@ -13,8 +13,8 @@ describe("file/path", function()
 12345
 12345]]
     )
-    helper.new_directory("with_env")
-    helper.new_file("with_env/file")
+    helper.test_data:create_dir("with_env")
+    helper.test_data:create_file("with_env/file")
     helper.open_new_file(
       "entry.txt",
       [[
@@ -25,8 +25,6 @@ $DIR_NAME/file
 \v+=
 ]]
     )
-
-    helper.cd()
   end)
   after_each(helper.after_each)
 

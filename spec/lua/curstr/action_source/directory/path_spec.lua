@@ -6,8 +6,8 @@ describe("directory/path source", function()
   after_each(helper.after_each)
 
   it("can open default", function()
-    helper.new_directory("path")
-    helper.new_directory("path/opened")
+    helper.test_data:create_dir("path")
+    helper.test_data:create_dir("path/opened")
     helper.set_lines([[./path/../path/opened]])
 
     curstr.execute("directory/path")

@@ -5,10 +5,10 @@ describe("vim/autoload_function", function()
   before_each(function()
     helper.before_each()
 
-    helper.new_directory("test_plugin")
-    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data_dir .. "test_plugin"
-    helper.new_directory("test_plugin/autoload")
-    helper.new_file(
+    helper.test_data:create_dir("test_plugin")
+    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data.full_path .. "test_plugin"
+    helper.test_data:create_dir("test_plugin/autoload")
+    helper.test_data:create_file(
       "test_plugin/autoload/curstr_test_plugin.vim",
       [[
 
@@ -36,14 +36,14 @@ endfunction
   it("open", function()
     curstr.execute("vim/autoload_function")
 
-    assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
   end)
 
   it("tab_open", function()
     curstr.execute("vim/autoload_function", { action = "tab_open" })
 
-    assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.tab_count(2)
   end)
@@ -53,7 +53,7 @@ endfunction
 
     curstr.execute("vim/autoload_function", { action = "vertical_open" })
 
-    assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
     vim.cmd("wincmd l")
@@ -65,7 +65,7 @@ endfunction
 
     curstr.execute("vim/autoload_function", { action = "horizontal_open" })
 
-    assert.path(helper.test_data_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
     vim.cmd("wincmd j")
@@ -85,8 +85,8 @@ endfunction
   it("no_include_packpath", function()
     curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = false } } } })
 
-    helper.new_directory("package/pack/package/opt/example/autoload")
-    helper.new_file(
+    helper.test_data:create_dir("package/pack/package/opt/example/autoload")
+    helper.test_data:create_file(
       "package/pack/package/opt/example/autoload/example.vim",
       [[
 
@@ -106,8 +106,8 @@ endfunction]]
   it("include_packpath", function()
     curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = true } } } })
 
-    helper.new_directory("package/pack/package/opt/example/autoload")
-    helper.new_file(
+    helper.test_data:create_dir("package/pack/package/opt/example/autoload")
+    helper.test_data:create_file(
       "package/pack/package/opt/example/autoload/example.vim",
       [[
 

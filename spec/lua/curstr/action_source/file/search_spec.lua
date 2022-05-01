@@ -12,9 +12,8 @@ describe("file/search", function()
       },
     })
 
-    helper.new_file("pattern.txt")
+    helper.test_data:create_file("pattern.txt")
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
-    helper.cd()
 
     curstr.execute("file/search")
 
@@ -35,7 +34,7 @@ describe("file/search", function()
       },
     })
 
-    helper.new_file(
+    helper.test_data:create_file(
       "pattern.txt",
       [[
 
@@ -45,7 +44,6 @@ test:
 ]]
     )
     helper.open_new_file("entry", "./pattern.txt#target_pattern")
-    helper.cd()
 
     curstr.execute("file/search")
 

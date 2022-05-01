@@ -9,8 +9,6 @@ describe("togglable/pattern", function()
       sources = { ["togglable/pattern"] = { opts = { char_pattern = "[:alnum:]_", patterns = {} } } },
     })
     vim.cmd("tabe | setlocal buftype=nofile noswapfile")
-
-    helper.cd()
   end)
   after_each(helper.after_each)
 

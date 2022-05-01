@@ -6,11 +6,11 @@ describe("vim/runtime/file", function()
   after_each(helper.after_each)
 
   it("open", function()
-    helper.set_lines(helper.test_data_path .. "file")
-    helper.new_file("file")
+    helper.set_lines(helper.test_data.relative_path .. "file")
+    helper.test_data:create_file("file")
 
     curstr.execute("vim/runtime/file")
 
-    assert.path(helper.test_data_path .. "file")
+    assert.path(helper.test_data.relative_path .. "file")
   end)
 end)

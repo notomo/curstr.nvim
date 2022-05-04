@@ -3,26 +3,19 @@ local helper = require("vusted.helper")
 
 helper.root = helper.find_plugin_root(plugin_name)
 
-local packpath = vim.o.packpath
 local runtimepath = vim.o.runtimepath
 
 function helper.before_each()
-  vim.cmd("filetype on")
-  vim.cmd("syntax enable")
   helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(helper.root)
   helper.test_data:cd("")
-  vim.o.packpath = packpath
   vim.o.runtimepath = runtimepath
 end
 
 function helper.after_each()
-  vim.cmd("silent! %bwipeout!")
-  vim.cmd("filetype off")
-  vim.cmd("syntax off")
-  print(" ")
-
+  helper.cleanup()
   helper.cleanup_loaded_modules(plugin_name)
   helper.test_data:teardown()
+  print(" ")
 end
 
 function helper.buffer_log()

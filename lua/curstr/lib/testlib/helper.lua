@@ -44,7 +44,7 @@ end
 
 function helper.open_new_file(path, content)
   helper.test_data:create_file(path, content)
-  vim.cmd("edit " .. helper.test_data.full_path .. path)
+  vim.cmd.edit(helper.test_data.full_path .. path)
 end
 
 function helper.window_count()
@@ -52,7 +52,7 @@ function helper.window_count()
 end
 
 function helper.add_packpath(path)
-  vim.cmd("set packpath^=" .. vim.fn.fnamemodify(helper.test_data.full_path .. path, ":p"))
+  vim.opt.packpath:prepend(vim.fn.fnamemodify(helper.test_data.full_path .. path, ":p"))
 end
 
 local asserts = require("vusted.assert").asserts

@@ -7,7 +7,9 @@ describe("range", function()
 
   it("join", function()
     curstr.setup({ groups = { range = { opts = { separator = "+" } } } })
-    vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
+    vim.cmd.tabedit()
+    vim.opt_local.buftype = "nofile"
+    vim.opt_local.swapfile = false
 
     helper.set_lines([[
     1
@@ -15,9 +17,9 @@ describe("range", function()
     3 ]])
     vim.fn.setpos(".", { 0, 1, 1, 0 })
 
-    vim.cmd("normal! 1gg")
-    vim.cmd("normal! V")
-    vim.cmd("normal! 3gg")
+    vim.cmd.normal({ args = { "1gg" }, bang = true })
+    vim.cmd.normal({ args = { "V" }, bang = true })
+    vim.cmd.normal({ args = { "3gg" }, bang = true })
     curstr.execute("range", { action = "join" })
 
     assert.current_line("    1+3 ")
@@ -25,7 +27,9 @@ describe("range", function()
 
   it("join_default", function()
     curstr.setup({ groups = { range = { opts = { separator = "+" } } } })
-    vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
+    vim.cmd.tabedit()
+    vim.opt_local.buftype = "nofile"
+    vim.opt_local.swapfile = false
 
     helper.set_lines([[
     1
@@ -40,7 +44,9 @@ describe("range", function()
 
   it("join_with_empty_separator", function()
     curstr.setup({ groups = { range = { opts = { separator = "" } } } })
-    vim.cmd("tabedit | setlocal buftype=nofile noswapfile")
+    vim.cmd.tabedit()
+    vim.opt_local.buftype = "nofile"
+    vim.opt_local.swapfile = false
 
     helper.set_lines([[
     1
@@ -54,12 +60,13 @@ describe("range", function()
 
   it("join_on_nomodifiable_buffer", function()
     curstr.setup({ groups = { range = { opts = { separator = "" } } } })
-    vim.cmd("tabedit")
+    vim.cmd.tabedit()
 
     helper.set_lines([[
     1
     2]])
-    vim.cmd("setlocal buftype=nofile nomodifiable")
+    vim.opt_local.buftype = "nofile"
+    vim.opt_local.modifiable = false
     vim.fn.setpos(".", { 0, 1, 1, 0 })
 
     curstr.execute("range", { action = "join" })

@@ -8,7 +8,9 @@ describe("togglable/pattern", function()
     curstr.setup({
       sources = { ["togglable/pattern"] = { opts = { char_pattern = "[:alnum:]_", patterns = {} } } },
     })
-    vim.cmd("tabe | setlocal buftype=nofile noswapfile")
+    vim.cmd.tabedit()
+    vim.opt_local.buftype = "nofile"
+    vim.opt_local.swapfile = false
   end)
   after_each(helper.after_each)
 

@@ -52,7 +52,7 @@ $DIR_NAME/file
 
     assert.file_name("opened.txt")
     assert.window_count(2)
-    vim.cmd("wincmd l")
+    vim.cmd.wincmd("l")
     assert.file_name("entry.txt")
   end)
 
@@ -61,12 +61,12 @@ $DIR_NAME/file
 
     assert.file_name("opened.txt")
     assert.window_count(2)
-    vim.cmd("wincmd j")
+    vim.cmd.wincmd("j")
     assert.file_name("entry.txt")
   end)
 
   it("not_found", function()
-    vim.cmd("normal! G")
+    vim.cmd.normal({ args = { "G" }, bang = true })
     local pos = vim.fn.getpos(".")
 
     curstr.execute("file/path")
@@ -95,7 +95,7 @@ $DIR_NAME/file
   end)
 
   it("open_with_env_expand", function()
-    vim.cmd("let $DIR_NAME = getcwd() . '/with_env'")
+    vim.env.DIR_NAME = vim.fn.getcwd() .. "/with_env"
     helper.search("file")
 
     curstr.execute("file/path")

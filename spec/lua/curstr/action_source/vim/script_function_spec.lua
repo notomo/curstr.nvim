@@ -5,8 +5,8 @@ describe("vim/script_function", function()
   before_each(function()
     helper.before_each()
 
-    vim.cmd("filetype on")
-    vim.cmd("syntax enable")
+    vim.cmd.filetype("on")
+    vim.cmd.syntax("enable")
 
     helper.open_new_file(
       "entry.vim",
@@ -24,8 +24,8 @@ call s:test()]]
   after_each(function()
     helper.after_each()
 
-    vim.cmd("filetype off")
-    vim.cmd("syntax off")
+    vim.cmd.filetype("off")
+    vim.cmd.syntax("off")
   end)
 
   local assert_cursor_position = function()
@@ -57,7 +57,7 @@ call s:test()]]
 
     assert_cursor_position()
     assert.window_count(2)
-    vim.cmd("wincmd l")
+    vim.cmd.wincmd("l")
     assert_position(pos)
   end)
 
@@ -68,12 +68,12 @@ call s:test()]]
 
     assert_cursor_position()
     assert.window_count(2)
-    vim.cmd("wincmd j")
+    vim.cmd.wincmd("j")
     assert_position(pos)
   end)
 
   it("not_found", function()
-    vim.cmd("normal! gg")
+    vim.cmd.normal({ args = { "gg" }, bang = true })
     local pos = vim.fn.getpos(".")
 
     curstr.execute("vim/script_function")

@@ -19,7 +19,7 @@ endfunction
     )
 
     helper.set_lines("call curstr_test_plugin#execute()")
-    vim.cmd("setlocal filetype=vim")
+    vim.opt_local.filetype = "vim"
     helper.search("curstr")
   end)
   after_each(helper.after_each)
@@ -56,7 +56,7 @@ endfunction
     assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
-    vim.cmd("wincmd l")
+    vim.cmd.wincmd("l")
     assert_position(pos)
   end)
 
@@ -68,7 +68,7 @@ endfunction
     assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
     assert_current_position()
     assert.window_count(2)
-    vim.cmd("wincmd j")
+    vim.cmd.wincmd("j")
     assert_position(pos)
   end)
 
@@ -117,7 +117,7 @@ endfunction
     )
     helper.add_packpath("package")
     helper.open_new_file("call.vim", "vim.fn.example#execute()")
-    vim.cmd("setlocal filetype=vim")
+    vim.opt_local.filetype = "vim"
     helper.search("example#execute")
 
     curstr.execute("vim/autoload_function")

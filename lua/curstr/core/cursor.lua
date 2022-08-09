@@ -33,9 +33,14 @@ function M.word_with_range(_, char_pattern)
   return word, word_range
 end
 
+local trim_prefix = function(file_path)
+  file_path = file_path:gsub("^file://", "")
+  return file_path
+end
+
 function M.file_path(_, added_isfname)
   if added_isfname == nil then
-    return vim.fn.expand("<cfile>")
+    return trim_prefix(vim.fn.expand("<cfile>"))
   end
 
   local origin_isfname = vim.o.isfname
@@ -47,13 +52,31 @@ function M.file_path(_, added_isfname)
   local path = vim.fn.expand("<cfile>")
   vim.o.isfname = origin_isfname
 
-  return path
+  return trim_prefix(path)
 end
+
+local parse_position = function(str, s, e)
+  local position = str:sub(s + 1, e)
+  local row, col = unpack(vim.split(position, "[,:]"))
+  return { tonumber(row), tonumber(col or 1) }
+end
+
+local file_path_regex = vim.regex("\\v[^:]+:\\zs(\\d+)([,:]\\d+)?")
 
 function M.file_path_with_position(_, added_isfname)
   local file_path = M.file_path(added_isfname)
-  local cword = vim.fn.expand("<cWORD>")
-  local pattern = ("\\v%s:\\zs(\\d+)(,\\d+)?"):format(file_path)
+
+  do
+    local s, e = file_path_regex:match_str(file_path)
+    if s ~= nil then
+      local path = file_path:sub(1, s - 1)
+      local position = parse_position(file_path, s, e)
+      return path, position
+    end
+  end
+
+  local cword = trim_prefix(vim.fn.expand("<cWORD>"))
+  local pattern = ("\\v%s:\\zs(\\d+)([,:]\\d+)?"):format(file_path)
   local ok, regex = pcall(vim.regex, pattern)
   if not ok then
     return file_path, nil
@@ -62,9 +85,7 @@ function M.file_path_with_position(_, added_isfname)
   if s == nil then
     return file_path, nil
   end
-  local matched = cword:sub(s + 1, e)
-  local row, col = unpack(vim.split(matched, ",", true))
-  return file_path, { tonumber(row), tonumber(col or 1) }
+  return file_path, parse_position(cword, s, e)
 end
 
 function M.line_with_range()

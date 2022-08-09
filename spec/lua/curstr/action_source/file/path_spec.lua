@@ -21,6 +21,8 @@ describe("file/path", function()
 opened.txt
 opened.txt:3
 opened.txt:3,4
+opened.txt:3:4
+file://./opened.txt
 $DIR_NAME/file
 \v+=
 ]]
@@ -84,7 +86,7 @@ $DIR_NAME/file
     assert.current_row(3)
   end)
 
-  it("open_with_position", function()
+  it("open_with_position separated ,", function()
     helper.search("opened.txt:3,4")
 
     curstr.execute("file/path")
@@ -94,9 +96,27 @@ $DIR_NAME/file
     assert.current_column(4)
   end)
 
+  it("open_with_position separated :", function()
+    helper.search("opened.txt:3:4")
+
+    curstr.execute("file/path")
+
+    assert.file_name("opened.txt")
+    assert.current_row(3)
+    assert.current_column(4)
+  end)
+
+  it("open with file protocol", function()
+    helper.search("file://./opened.txt")
+
+    curstr.execute("file/path")
+
+    assert.file_name("opened.txt")
+  end)
+
   it("open_with_env_expand", function()
     vim.env.DIR_NAME = vim.fn.getcwd() .. "/with_env"
-    helper.search("file")
+    helper.search("/file")
 
     curstr.execute("file/path")
 

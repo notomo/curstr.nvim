@@ -24,7 +24,7 @@ function M.leave()
   if not ok then
     return false, mode
   end
-  vim.cmd("normal! " .. ESC)
+  vim.cmd.normal({ args = { ESC }, bang = true })
   return true, mode
 end
 

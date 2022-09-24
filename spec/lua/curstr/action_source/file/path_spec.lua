@@ -83,7 +83,7 @@ $DIR_NAME/file
     curstr.execute("file/path")
 
     assert.file_name("opened.txt")
-    assert.current_row(3)
+    assert.cursor_row(3)
   end)
 
   it("open_with_position separated ,", function()
@@ -92,8 +92,8 @@ $DIR_NAME/file
     curstr.execute("file/path")
 
     assert.file_name("opened.txt")
-    assert.current_row(3)
-    assert.current_column(4)
+    assert.cursor_row(3)
+    assert.cursor_column(4)
   end)
 
   it("open_with_position separated :", function()
@@ -102,8 +102,8 @@ $DIR_NAME/file
     curstr.execute("file/path")
 
     assert.file_name("opened.txt")
-    assert.current_row(3)
-    assert.current_column(4)
+    assert.cursor_row(3)
+    assert.cursor_column(4)
   end)
 
   it("open with file protocol", function()

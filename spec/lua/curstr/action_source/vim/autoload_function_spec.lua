@@ -25,8 +25,8 @@ endfunction
   after_each(helper.after_each)
 
   local assert_current_position = function()
-    assert.current_row(2)
-    assert.current_column(11)
+    assert.cursor_row(2)
+    assert.cursor_column(11)
   end
 
   local assert_position = function(pos)

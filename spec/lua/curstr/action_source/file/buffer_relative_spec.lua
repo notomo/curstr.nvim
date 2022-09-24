@@ -28,7 +28,7 @@ describe("file/buffer_relative source", function()
     curstr.execute("file/buffer_relative")
 
     assert.file_name("opened")
-    assert.current_row(3)
+    assert.cursor_row(3)
   end)
 
   it("can open with position", function()
@@ -45,7 +45,7 @@ describe("file/buffer_relative source", function()
     curstr.execute("file/buffer_relative")
 
     assert.file_name("opened")
-    assert.current_row(3)
-    assert.current_column(4)
+    assert.cursor_row(3)
+    assert.cursor_column(4)
   end)
 end)

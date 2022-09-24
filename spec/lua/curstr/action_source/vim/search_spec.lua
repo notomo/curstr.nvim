@@ -20,7 +20,7 @@ hoge:hoge]]
 
     curstr.execute("vim/search")
 
-    assert.current_row(3)
+    assert.cursor_row(3)
     assert.current_line("hoge:hoge")
   end)
 
@@ -29,6 +29,6 @@ hoge:hoge]]
 
     curstr.execute("vim/search")
 
-    assert.current_row(1)
+    assert.cursor_row(1)
   end)
 end)

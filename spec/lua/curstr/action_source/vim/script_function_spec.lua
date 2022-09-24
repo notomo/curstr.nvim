@@ -29,8 +29,8 @@ call s:test()]]
   end)
 
   local assert_cursor_position = function()
-    assert.current_row(2)
-    assert.current_column(13)
+    assert.cursor_row(2)
+    assert.cursor_column(13)
   end
 
   local assert_position = function(pos)

@@ -18,7 +18,7 @@ describe("file/search", function()
     curstr.execute("file/search")
 
     assert.file_name("pattern.txt")
-    assert.current_row(1)
+    assert.cursor_row(1)
   end)
 
   it("file_with_position", function()

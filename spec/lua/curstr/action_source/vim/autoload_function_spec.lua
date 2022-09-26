@@ -79,7 +79,7 @@ endfunction
     curstr.execute("vim/autoload_function")
 
     assert_position(pos)
-    assert.file_name("")
+    assert.buffer_name_tail("")
   end)
 
   it("no_include_packpath", function()
@@ -100,7 +100,7 @@ endfunction]]
     curstr.execute("vim/autoload_function")
 
     assert_position(pos)
-    assert.file_name("call.vim")
+    assert.buffer_name_tail("call.vim")
   end)
 
   it("include_packpath", function()
@@ -122,7 +122,7 @@ endfunction
 
     curstr.execute("vim/autoload_function")
 
-    assert.file_name("example.vim")
+    assert.buffer_name_tail("example.vim")
 
     local pos = vim.fn.getpos(".")
     helper.search("example#execute")

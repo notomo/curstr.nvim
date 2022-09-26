@@ -55,10 +55,6 @@ local asserts = require("vusted.assert").asserts
 local asserters = require(plugin_name .. ".vendor.assertlib").list()
 require(plugin_name .. ".vendor.misclib.test.assert").register(asserts.create, asserters)
 
-asserts.create("file_name"):register_eq(function()
-  return vim.fn.fnamemodify(vim.fn.bufname("%"), ":t")
-end)
-
 asserts.create("path"):register_eq(function()
   return vim.fn.expand("%:p"):gsub(helper.root .. "/" .. "?", "")
 end)

@@ -11,7 +11,7 @@ describe("file/buffer_relative source", function()
 
     curstr.execute("file/buffer_relative")
 
-    assert.file_name("opened")
+    assert.buffer_name_tail("opened")
   end)
 
   it("can open with row", function()
@@ -27,7 +27,7 @@ describe("file/buffer_relative source", function()
 
     curstr.execute("file/buffer_relative")
 
-    assert.file_name("opened")
+    assert.buffer_name_tail("opened")
     assert.cursor_row(3)
   end)
 
@@ -44,7 +44,7 @@ describe("file/buffer_relative source", function()
 
     curstr.execute("file/buffer_relative")
 
-    assert.file_name("opened")
+    assert.buffer_name_tail("opened")
     assert.cursor_row(3)
     assert.cursor_column(4)
   end)

@@ -17,7 +17,7 @@ describe("file/search", function()
 
     curstr.execute("file/search")
 
-    assert.file_name("pattern.txt")
+    assert.buffer_name_tail("pattern.txt")
     assert.cursor_row(1)
   end)
 
@@ -47,7 +47,7 @@ test:
 
     curstr.execute("file/search")
 
-    assert.file_name("pattern.txt")
+    assert.buffer_name_tail("pattern.txt")
     assert.cursor_word("target_pattern")
   end)
 
@@ -56,7 +56,7 @@ test:
 
     curstr.execute("file/search")
 
-    assert.file_name("entry")
+    assert.buffer_name_tail("entry")
   end)
 
   it("file_not_found", function()
@@ -64,6 +64,6 @@ test:
 
     curstr.execute("file/search")
 
-    assert.file_name("entry")
+    assert.buffer_name_tail("entry")
   end)
 end)

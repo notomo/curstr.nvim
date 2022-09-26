@@ -22,7 +22,7 @@ describe("vim/lua", function()
   it("open", function()
     curstr.execute("vim/lua")
 
-    assert.file_name("util.lua")
+    assert.buffer_name_tail("util.lua")
   end)
 
   it("not_found", function()
@@ -30,6 +30,6 @@ describe("vim/lua", function()
 
     curstr.execute("vim/lua")
 
-    assert.file_name("entry.lua")
+    assert.buffer_name_tail("entry.lua")
   end)
 end)

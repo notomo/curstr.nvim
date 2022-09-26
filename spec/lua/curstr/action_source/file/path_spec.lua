@@ -33,38 +33,38 @@ $DIR_NAME/file
   it("default", function()
     curstr.execute("file/path")
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
   end)
 
   it("open", function()
     curstr.execute("file/path", { action = "open" })
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
   end)
 
   it("tab_open", function()
     curstr.execute("file/path", { action = "tab_open" })
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.tab_count(2)
   end)
 
   it("vertical_open", function()
     curstr.execute("file/path", { action = "vertical_open" })
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.window_count(2)
     vim.cmd.wincmd("l")
-    assert.file_name("entry.txt")
+    assert.buffer_name_tail("entry.txt")
   end)
 
   it("horizontal_open", function()
     curstr.execute("file/path", { action = "horizontal_open" })
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.window_count(2)
     vim.cmd.wincmd("j")
-    assert.file_name("entry.txt")
+    assert.buffer_name_tail("entry.txt")
   end)
 
   it("not_found", function()
@@ -73,7 +73,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("entry.txt")
+    assert.buffer_name_tail("entry.txt")
     assert.same(pos, vim.fn.getpos("."))
   end)
 
@@ -82,7 +82,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.cursor_row(3)
   end)
 
@@ -91,7 +91,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.cursor_row(3)
     assert.cursor_column(4)
   end)
@@ -101,7 +101,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
     assert.cursor_row(3)
     assert.cursor_column(4)
   end)
@@ -111,7 +111,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("opened.txt")
+    assert.buffer_name_tail("opened.txt")
   end)
 
   it("open_with_env_expand", function()
@@ -120,7 +120,7 @@ $DIR_NAME/file
 
     curstr.execute("file/path")
 
-    assert.file_name("file")
+    assert.buffer_name_tail("file")
   end)
 
   it("raises no error with invalid regex", function()

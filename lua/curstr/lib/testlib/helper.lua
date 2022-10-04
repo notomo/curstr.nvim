@@ -18,13 +18,6 @@ function helper.after_each()
   print(" ")
 end
 
-function helper.buffer_log()
-  local lines = vim.fn.getbufline("%", 1, "$")
-  for _, line in ipairs(lines) do
-    print(line)
-  end
-end
-
 function helper.set_lines(lines)
   vim.bo.buftype = "nofile"
   vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(lines, "\n"))

@@ -1,4 +1,4 @@
-local helper = require("curstr.lib.testlib.helper")
+local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
 
 describe("vim/search", function()

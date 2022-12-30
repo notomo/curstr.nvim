@@ -1,7 +1,6 @@
-local ReturnValue = require("curstr.vendor.misclib.error_handler").for_return_value()
-local ShowError = require("curstr.vendor.misclib.error_handler").for_show_error()
+local M = {}
 
-function ReturnValue.execute(source_name, opts)
+function M.execute(source_name, opts)
   vim.validate({ source_name = { source_name, "string" }, opts = { opts, "table", true } })
 
   local sources, source_err = require("curstr.core.action_source").resolve(source_name)
@@ -23,12 +22,12 @@ function ReturnValue.execute(source_name, opts)
     end
   end
 
-  return nil, "not found matched source: " .. source_name
+  require("curstr.vendor.misclib.message").warn("not found matched source: " .. source_name)
 end
 
-function ShowError.setup(config)
+function M.setup(config)
   vim.validate({ config = { config, "table" } })
   require("curstr.core.custom").set(config)
 end
 
-return vim.tbl_extend("force", ReturnValue:methods(), ShowError:methods())
+return M

@@ -82,7 +82,7 @@ end
 function Source.all()
   local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true)
   local sources = vim.tbl_map(function(path)
-    local file = vim.split(pathlib.normalize(path), "lua/curstr/action_source/", true)[2]
+    local file = vim.split(pathlib.normalize(path), "lua/curstr/action_source/", {plain = true})[2]
     local name = file:sub(1, #file - 4)
     return Source.new(name, {})
   end, paths)

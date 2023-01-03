@@ -6,7 +6,7 @@ function M.create(self)
     return nil
   end
 
-  local path_parts = vim.split(cword, "#", true)
+  local path_parts = vim.split(cword, "#", { plain = true })
   table.remove(path_parts, #path_parts)
   local target = ("%s.vim"):format(table.concat(path_parts, "/"))
   local paths = vim.api.nvim_get_runtime_file("autoload/" .. target, true)
@@ -21,7 +21,7 @@ function M.create(self)
     return nil
   end
 
-  local pack_path = vim.split(vim.o.packpath, ",", true)[1]
+  local pack_path = vim.split(vim.o.packpath, ",", { plain = true })[1]
   local package = vim.fn.fnamemodify(pack_path, ":p")
   local pattern = self.pathlib.join(package, "pack/*/opt/*/autoload", target)
   for _, path in ipairs(vim.fn.glob(pattern, false, true)) do

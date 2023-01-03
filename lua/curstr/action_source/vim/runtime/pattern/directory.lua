@@ -3,7 +3,7 @@ local M = {}
 function M.create(self)
   local path = self.cursor:file_path("*")
 
-  local runtime_paths = vim.split(vim.o.runtimepath, ",", true)
+  local runtime_paths = vim.split(vim.o.runtimepath, ",", {plain = true})
   for _, rpath in ipairs(runtime_paths) do
     local pattern = self.pathlib.join(rpath, path)
     local targets = vim.fn.glob(pattern, false, true)

@@ -6,8 +6,8 @@ function M.word(_, added_iskeyword)
   end
 
   local origin_iskeyword = vim.bo.iskeyword
-  local splitted = vim.split(origin_iskeyword, ",", true)
-  vim.list_extend(splitted, vim.split(added_iskeyword, "", true))
+  local splitted = vim.split(origin_iskeyword, ",", { plain = true })
+  vim.list_extend(splitted, vim.split(added_iskeyword, "", { plain = true }))
   local new_iskeyword = table.concat(splitted, ",")
 
   vim.bo.iskeyword = new_iskeyword
@@ -44,8 +44,8 @@ function M.file_path(_, added_isfname)
   end
 
   local origin_isfname = vim.o.isfname
-  local splitted = vim.split(origin_isfname, ",", true)
-  vim.list_extend(splitted, vim.split(added_isfname, "", true))
+  local splitted = vim.split(origin_isfname, ",", { plain = true })
+  vim.list_extend(splitted, vim.split(added_isfname, "", { plain = true }))
   local new_isfname = table.concat(splitted, ",")
 
   vim.o.isfname = new_isfname

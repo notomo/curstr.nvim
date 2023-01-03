@@ -59,7 +59,7 @@ end
 function ActionGroup.all()
   local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true)
   local groups = vim.tbl_map(function(path)
-    local file = vim.split(pathlib.normalize(path), "lua/curstr/action_group/", true)[2]
+    local file = vim.split(pathlib.normalize(path), "lua/curstr/action_group/", {plain = true})[2]
     local name = file:sub(1, #file - 4)
     return ActionGroup.new(name, {})
   end, paths)

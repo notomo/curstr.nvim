@@ -16,7 +16,7 @@ function M.create(self)
   end
 
   local opt_paths = {}
-  local pack_path = vim.split(vim.o.packpath, ",", true)[1]
+  local pack_path = vim.split(vim.o.packpath, ",", { plain = true })[1]
   pack_path = vim.fn.fnamemodify(pack_path, ":p")
   local pack_pattern = pack_path .. "pack/*/opt/*/"
   vim.list_extend(opt_paths, vim.fn.glob(pack_pattern .. lua, false, true))

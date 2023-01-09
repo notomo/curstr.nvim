@@ -5,9 +5,6 @@ describe("vim/autoload_function", function()
   before_each(function()
     helper.before_each()
 
-    helper.test_data:create_dir("test_plugin")
-    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data.full_path .. "test_plugin"
-    helper.test_data:create_dir("test_plugin/autoload")
     helper.test_data:create_file(
       "test_plugin/autoload/curstr_test_plugin.vim",
       [[
@@ -17,6 +14,7 @@ endfunction
 
 ]]
     )
+    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data.full_path .. "test_plugin"
 
     helper.set_lines("call curstr_test_plugin#execute()")
     vim.opt_local.filetype = "vim"
@@ -85,7 +83,6 @@ endfunction
   it("no_include_packpath", function()
     curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = false } } } })
 
-    helper.test_data:create_dir("package/pack/package/opt/example/autoload")
     helper.test_data:create_file(
       "package/pack/package/opt/example/autoload/example.vim",
       [[
@@ -106,7 +103,6 @@ endfunction]]
   it("include_packpath", function()
     curstr.setup({ sources = { ["vim/autoload_function"] = { opts = { include_packpath = true } } } })
 
-    helper.test_data:create_dir("package/pack/package/opt/example/autoload")
     helper.test_data:create_file(
       "package/pack/package/opt/example/autoload/example.vim",
       [[

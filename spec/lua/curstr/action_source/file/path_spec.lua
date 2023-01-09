@@ -13,7 +13,6 @@ describe("file/path", function()
 12345
 12345]]
     )
-    helper.test_data:create_dir("with_env")
     helper.test_data:create_file("with_env/file")
     helper.open_new_file(
       "entry.txt",

@@ -6,7 +6,6 @@ describe("directory/path source", function()
   after_each(helper.after_each)
 
   it("can open default", function()
-    helper.test_data:create_dir("path")
     helper.test_data:create_dir("path/opened")
     helper.set_lines([[./path/../path/opened]])
 

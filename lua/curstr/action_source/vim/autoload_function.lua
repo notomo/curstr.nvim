@@ -23,7 +23,7 @@ function M.create(self)
 
   local pack_path = vim.split(vim.o.packpath, ",", { plain = true })[1]
   local package = vim.fn.fnamemodify(pack_path, ":p")
-  local pattern = self.pathlib.join(package, "pack/*/opt/*/autoload", target)
+  local pattern = vim.fs.joinpath(package, "pack/*/opt/*/autoload", target)
   for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
     if self.filelib.readable(path) then
       local position = self._search(cword, path)

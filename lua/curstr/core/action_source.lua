@@ -1,6 +1,5 @@
 local modulelib = require("curstr.vendor.misclib.module")
 local filelib = require("curstr.lib.file")
-local pathlib = require("curstr.vendor.misclib.path")
 local cursor = require("curstr.core.cursor")
 local ActionGroup = require("curstr.core.action_group")
 
@@ -25,7 +24,6 @@ function Source.new(name, source_opts, filetypes)
     filetypes = filetypes or custom_source.filetypes or source.filetypes,
     cursor = cursor,
     filelib = filelib,
-    pathlib = pathlib,
     _source = source,
   }
   return setmetatable(tbl, Source)
@@ -82,7 +80,7 @@ end
 function Source.all()
   local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true)
   local sources = vim.tbl_map(function(path)
-    local file = vim.split(pathlib.normalize(path), "lua/curstr/action_source/", { plain = true })[2]
+    local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_source/", { plain = true })[2]
     local name = file:sub(1, #file - 4)
     return Source.new(name, {})
   end, paths)

@@ -5,7 +5,7 @@ function M.create(self)
 
   local runtime_paths = vim.split(vim.o.runtimepath, ",", { plain = true })
   for _, rpath in ipairs(runtime_paths) do
-    local target = self.pathlib.join(rpath, path)
+    local target = vim.fs.joinpath(rpath, path)
     if self.filelib.is_directory(target) then
       return self:to_group("directory", { path = target })
     end

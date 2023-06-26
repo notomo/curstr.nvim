@@ -36,11 +36,11 @@ end
 
 function helper.open_new_file(path, content)
   helper.test_data:create_file(path, content)
-  vim.cmd.edit(helper.test_data.full_path .. path)
+  vim.cmd.edit(helper.test_data:path(path))
 end
 
 function helper.add_packpath(path)
-  vim.opt.packpath:prepend(vim.fn.fnamemodify(helper.test_data.full_path .. path, ":p"))
+  vim.opt.packpath:prepend(vim.fn.fnamemodify(helper.test_data:path(path), ":p"))
 end
 
 local asserts = require("vusted.assert").asserts
@@ -52,7 +52,7 @@ asserts.create("path"):register_eq(function()
 end)
 
 asserts.create("current_dir"):register_eq(function()
-  return vim.fn.getcwd():gsub(helper.test_data.full_path .. "?", "")
+  return vim.fn.getcwd():gsub(helper.test_data:path("?"), "")
 end)
 
 return helper

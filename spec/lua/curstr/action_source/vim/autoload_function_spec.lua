@@ -14,7 +14,7 @@ endfunction
 
 ]]
     )
-    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data.full_path .. "test_plugin"
+    vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data:path("test_plugin")
 
     helper.set_lines("call curstr_test_plugin#execute()")
     vim.opt_local.filetype = "vim"
@@ -34,14 +34,14 @@ endfunction
   it("open", function()
     curstr.execute("vim/autoload_function")
 
-    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data:relative_path("test_plugin/autoload/curstr_test_plugin.vim"))
     assert_current_position()
   end)
 
   it("tab_open", function()
     curstr.execute("vim/autoload_function", { action = "tab_open" })
 
-    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data:relative_path("test_plugin/autoload/curstr_test_plugin.vim"))
     assert_current_position()
     assert.tab_count(2)
   end)
@@ -51,7 +51,7 @@ endfunction
 
     curstr.execute("vim/autoload_function", { action = "vertical_open" })
 
-    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data:relative_path("test_plugin/autoload/curstr_test_plugin.vim"))
     assert_current_position()
     assert.window_count(2)
     vim.cmd.wincmd("l")
@@ -63,7 +63,7 @@ endfunction
 
     curstr.execute("vim/autoload_function", { action = "horizontal_open" })
 
-    assert.path(helper.test_data.relative_path .. "test_plugin/autoload/curstr_test_plugin.vim")
+    assert.path(helper.test_data:relative_path("test_plugin/autoload/curstr_test_plugin.vim"))
     assert_current_position()
     assert.window_count(2)
     vim.cmd.wincmd("j")

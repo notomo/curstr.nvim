@@ -6,11 +6,11 @@ describe("vim/runtime/pattern/file", function()
   after_each(helper.after_each)
 
   it("open", function()
-    helper.set_lines(helper.test_data.relative_path .. "dir/*/file")
+    helper.set_lines(helper.test_data:relative_path("dir/*/file"))
     helper.test_data:create_file("dir/child/file")
 
     curstr.execute("vim/runtime/pattern/file")
 
-    assert.path(helper.test_data.relative_path .. "dir/child/file")
+    assert.path(helper.test_data:relative_path("dir/child/file"))
   end)
 end)

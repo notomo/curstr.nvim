@@ -1,3 +1,5 @@
+local filelib = require("curstr.lib.file")
+
 local M = {}
 
 function M._adjust_cursor(self)
@@ -13,22 +15,22 @@ function M._adjust_cursor(self)
 end
 
 function M.action_open(self)
-  vim.cmd.edit(self.path)
+  vim.cmd.edit(filelib.escape(self.path))
   self:_adjust_cursor()
 end
 
 function M.action_tab_open(self)
-  vim.cmd.tabedit(self.path)
+  vim.cmd.tabedit(filelib.escape(self.path))
   self:_adjust_cursor()
 end
 
 function M.action_vertical_open(self)
-  vim.cmd.vsplit(self.path)
+  vim.cmd.vsplit(filelib.escape(self.path))
   self:_adjust_cursor()
 end
 
 function M.action_horizontal_open(self)
-  vim.cmd.split(self.path)
+  vim.cmd.split(filelib.escape(self.path))
   self:_adjust_cursor()
 end
 

@@ -29,7 +29,9 @@ function M._search(name)
   return position
 end
 
-M.filetypes = { "vim" }
+M.filetypes = {
+  "vim",
+}
 
 M.description = [[searches vim script local functions]]
 

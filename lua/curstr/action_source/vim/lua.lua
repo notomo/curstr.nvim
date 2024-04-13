@@ -31,7 +31,10 @@ function M.create(self)
   return nil
 end
 
-M.filetypes = { "lua", "vim" }
+M.filetypes = {
+  "lua",
+  "vim",
+}
 
 M.description = [[searchs a file from vim runtime lua directory]]
 

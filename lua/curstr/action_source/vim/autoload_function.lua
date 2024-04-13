@@ -51,7 +51,9 @@ function M._search(name, path)
   return nil
 end
 
-M.opts = { include_packpath = false }
+M.opts = {
+  include_packpath = false,
+}
 
 M.filetypes = { "vim" }
 

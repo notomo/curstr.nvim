@@ -41,7 +41,11 @@ function M._select_word(words, word)
   return nil
 end
 
-M.opts = { words = {}, normalized = false, char_pattern = "[:alnum:]_" }
+M.opts = {
+  words = {},
+  normalized = false,
+  char_pattern = "[:alnum:]_",
+}
 
 M.description = [[uses a word matched with words option]]
 

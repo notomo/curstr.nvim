@@ -28,7 +28,11 @@ function M.create(self)
   return nil
 end
 
-M.opts = { patterns = {}, char_pattern = "[:alnum:]_", is_line = false }
+M.opts = {
+  patterns = {},
+  char_pattern = "[:alnum:]_",
+  is_line = false,
+}
 
 M.description = [[uses string matched with option patterns]]
 

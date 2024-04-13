@@ -7,7 +7,7 @@ function ActionGroup.new(name, args)
   vim.validate({ name = { name, "string" }, args = { args, "table" } })
 
   local action_group = modulelib.find("curstr.action_group." .. name)
-  if action_group == nil then
+  if not action_group then
     return "not found action group: " .. name
   end
 
@@ -29,7 +29,7 @@ function ActionGroup.execute(self, name)
   name = name or self.default_action
   local key = ACTION_PREFIX .. name
   local action = self[key]
-  if action == nil then
+  if not action then
     return "not found action: " .. name
   end
 
@@ -37,18 +37,21 @@ function ActionGroup.execute(self, name)
 end
 
 function ActionGroup.actions(self)
-  local names = {}
   local keys = vim.tbl_keys(self._action_group)
   table.sort(keys, function(a, b)
     return a < b
   end)
-  for _, key in ipairs(keys) do
-    if vim.startswith(key, ACTION_PREFIX) then
+
+  return vim
+    .iter(keys)
+    :filter(function(key)
+      return vim.startswith(key, ACTION_PREFIX)
+    end)
+    :map(function(key)
       local name = key:gsub("^" .. ACTION_PREFIX, "")
-      table.insert(names, name)
-    end
-  end
-  return names
+      return name
+    end)
+    :totable()
 end
 
 local base = require("curstr.action_group.base")
@@ -57,15 +60,17 @@ function ActionGroup.__index(self, k)
 end
 
 function ActionGroup.all()
-  local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true)
-  local groups = vim.tbl_map(function(path)
-    local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_group/", { plain = true })[2]
-    local name = file:sub(1, #file - 4)
-    return ActionGroup.new(name, {})
-  end, paths)
-  return vim.tbl_filter(function(group)
-    return group.name ~= "base"
-  end, groups)
+  return vim
+    .iter(vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true))
+    :map(function(path)
+      local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_group/", { plain = true })[2]
+      local name = file:sub(1, #file - 4)
+      if name == "base" then
+        return nil
+      end
+      return ActionGroup.new(name, {})
+    end)
+    :totable()
 end
 
 return ActionGroup

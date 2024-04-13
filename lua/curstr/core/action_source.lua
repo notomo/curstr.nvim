@@ -44,16 +44,20 @@ function Source.__index(self, k)
 end
 
 local function _resolve(source_name, source_opts, filetypes)
-  local resolved = {}
-
   local ailias = require("curstr.core.custom").config.source_aliases[source_name] or {}
   local opts = vim.tbl_extend("force", source_opts, ailias.opts or {})
   local ailias_filetypes = filetypes or ailias.filetypes
   local source_names = ailias.names or {}
   if #source_names == 0 then
-    return { { source_name = source_name, source_opts = opts, filetypes = ailias_filetypes } }
+    local resolved_one = {
+      source_name = source_name,
+      source_opts = opts,
+      filetypes = ailias_filetypes,
+    }
+    return { resolved_one }
   end
 
+  local resolved = {}
   for _, name in ipairs(source_names) do
     vim.list_extend(resolved, _resolve(name, opts, ailias_filetypes))
   end
@@ -78,15 +82,17 @@ function Source.resolve(name)
 end
 
 function Source.all()
-  local paths = vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true)
-  local sources = vim.tbl_map(function(path)
-    local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_source/", { plain = true })[2]
-    local name = file:sub(1, #file - 4)
-    return Source.new(name, {})
-  end, paths)
-  return vim.tbl_filter(function(source)
-    return source.name ~= "base"
-  end, sources)
+  return vim
+    .iter(vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true))
+    :map(function(path)
+      local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_source/", { plain = true })[2]
+      local name = file:sub(1, #file - 4)
+      if name == "base" then
+        return nil
+      end
+      return Source.new(name, {})
+    end)
+    :totable()
 end
 
 return Source

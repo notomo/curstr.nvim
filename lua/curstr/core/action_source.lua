@@ -1,6 +1,4 @@
 local modulelib = require("curstr.vendor.misclib.module")
-local filelib = require("curstr.lib.file")
-local cursor = require("curstr.core.cursor")
 local ActionGroup = require("curstr.core.action_group")
 
 local Source = {}
@@ -23,8 +21,6 @@ function Source.new(name, source_opts, filetypes)
     name = name,
     opts = vim.tbl_extend("force", source.opts or {}, source_opts, custom_source.opts or {}),
     filetypes = filetypes or custom_source.filetypes or source.filetypes,
-    cursor = cursor,
-    filelib = filelib,
     _source = source,
   }
   return setmetatable(tbl, Source)

@@ -3,9 +3,9 @@ local M = {}
 function M.create(self)
   local word, word_range
   if self.opts.is_line then
-    word, word_range = self.cursor:line_with_range()
+    word, word_range = require("curstr.core.cursor").line_with_range()
   else
-    word, word_range = self.cursor:word_with_range(self.opts.char_pattern)
+    word, word_range = require("curstr.core.cursor").word_with_range(self.opts.char_pattern)
   end
 
   for _, args in ipairs(self.opts.patterns) do

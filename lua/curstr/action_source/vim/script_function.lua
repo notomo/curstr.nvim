@@ -1,13 +1,13 @@
 local M = {}
 
 function M.create(self)
-  local cword = self.cursor:word(":<>")
+  local cword = require("curstr.core.cursor").word(":<>")
   local position = self._search(cword)
   if position == nil then
     return nil
   end
   local abs_path = vim.fn.expand("%:p")
-  if not self.filelib.readable(abs_path) then
+  if not require("curstr.lib.file").readable(abs_path) then
     return nil
   end
   return self:to_group("file", { path = abs_path, position = position })

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create(self)
-  local cword = self.cursor:word("./-")
+  local cword = require("curstr.core.cursor").word("./-")
   local name = cword:gsub("%.", "/")
 
   local lua = ("lua/%s.lua"):format(name)
@@ -10,7 +10,7 @@ function M.create(self)
   vim.list_extend(paths, vim.api.nvim_get_runtime_file(init_lua, true))
 
   for _, path in ipairs(paths) do
-    if self.filelib.readable(path) then
+    if require("curstr.lib.file").readable(path) then
       return self:to_group("file", { path = path })
     end
   end
@@ -23,7 +23,7 @@ function M.create(self)
   vim.list_extend(opt_paths, vim.fn.glob(pack_pattern .. init_lua, false, true))
 
   for _, path in ipairs(opt_paths) do
-    if self.filelib.readable(path) then
+    if require("curstr.lib.file").readable(path) then
       return self:to_group("file", { path = path })
     end
   end

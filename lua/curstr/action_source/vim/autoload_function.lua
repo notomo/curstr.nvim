@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create(self)
-  local cword = self.cursor:word("#")
+  local cword = require("curstr.core.cursor").word("#")
   if cword:find("#") == nil then
     return nil
   end
@@ -11,8 +11,8 @@ function M.create(self)
   local target = ("%s.vim"):format(table.concat(path_parts, "/"))
   local paths = vim.api.nvim_get_runtime_file("autoload/" .. target, true)
   for _, path in ipairs(paths) do
-    if self.filelib.readable(path) then
-      local position = self._search(cword, path)
+    if require("curstr.lib.file").readable(path) then
+      local position = M._search(cword, path)
       return self:to_group("file", { path = path, position = position })
     end
   end
@@ -25,8 +25,8 @@ function M.create(self)
   local package = vim.fn.fnamemodify(pack_path, ":p")
   local pattern = vim.fs.joinpath(package, "pack/*/opt/*/autoload", target)
   for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
-    if self.filelib.readable(path) then
-      local position = self._search(cword, path)
+    if require("curstr.lib.file").readable(path) then
+      local position = M._search(cword, path)
       return self:to_group("file", { path = path, position = position })
     end
   end

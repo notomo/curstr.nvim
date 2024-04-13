@@ -1,6 +1,6 @@
 local M = {}
 
-function M.word(_, added_iskeyword)
+function M.word(added_iskeyword)
   if added_iskeyword == nil then
     return vim.fn.expand("<cword>")
   end
@@ -17,7 +17,7 @@ function M.word(_, added_iskeyword)
   return word
 end
 
-function M.word_with_range(_, char_pattern)
+function M.word_with_range(char_pattern)
   char_pattern = char_pattern or "\\k"
   local pos = vim.api.nvim_win_get_cursor(0)
   local line = vim.api.nvim_get_current_line()
@@ -38,7 +38,7 @@ local trim_prefix = function(file_path)
   return file_path
 end
 
-function M.file_path(_, added_isfname)
+function M.file_path(added_isfname)
   if added_isfname == nil then
     return trim_prefix(vim.fn.expand("<cfile>"))
   end
@@ -63,7 +63,7 @@ end
 
 local file_path_regex = vim.regex("\\v[^:]+:\\zs(\\d+)([,:]\\d+)?")
 
-function M.file_path_with_position(_, added_isfname)
+function M.file_path_with_position(added_isfname)
   local file_path = M.file_path(added_isfname)
 
   do

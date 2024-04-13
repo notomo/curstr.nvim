@@ -1,9 +1,9 @@
 local M = {}
 
 function M.create(self)
-  local path, position = self.cursor:file_path_with_position()
+  local path, position = require("curstr.core.cursor").file_path_with_position()
   local modified_path = self.opts.modify(path)
-  if not self.filelib.readable(modified_path) then
+  if not require("curstr.lib.file").readable(modified_path) then
     return nil
   end
   return self:to_group("file", { path = modified_path, position = position })

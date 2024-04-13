@@ -6,7 +6,7 @@ function M.create(self)
     return nil
   end
 
-  local cword = require("curstr.core.cursor").word()
+  local cword = require("curstr.lib.cursor").word()
   local pattern = vim.fn.substitute(cword, self.opts.source_pattern, search_pattern, self.opts.flags)
 
   local position = vim.fn.searchpos(pattern, "nw")

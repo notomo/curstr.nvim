@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create()
-  local path, position = require("curstr.core.cursor").file_path_with_position()
+  local path, position = require("curstr.lib.cursor").file_path_with_position()
   local abs_path = vim.fs.joinpath(vim.fn.expand("%:p:h"), path)
   if not require("curstr.lib.file").readable(abs_path) then
     return nil

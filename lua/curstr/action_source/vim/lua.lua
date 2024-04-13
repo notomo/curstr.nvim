@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create()
-  local cword = require("curstr.core.cursor").word("./-")
+  local cword = require("curstr.lib.cursor").word("./-")
   local name = cword:gsub("%.", "/")
 
   local lua = ("lua/%s.lua"):format(name)

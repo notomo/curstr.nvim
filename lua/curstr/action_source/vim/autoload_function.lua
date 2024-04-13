@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create(self)
-  local cword = require("curstr.core.cursor").word("#")
+  local cword = require("curstr.lib.cursor").word("#")
   if cword:find("#") == nil then
     return nil
   end

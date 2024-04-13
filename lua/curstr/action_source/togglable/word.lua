@@ -1,7 +1,7 @@
 local M = {}
 
 function M.create(self)
-  local word, word_range = require("curstr.core.cursor").word_with_range(self.opts.char_pattern)
+  local word, word_range = require("curstr.lib.cursor").word_with_range(self.opts.char_pattern)
 
   local candidates = { self.opts.words }
   if self.opts.normalized then

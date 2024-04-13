@@ -14,7 +14,7 @@ setup({config})                                               *curstr.setup()*
   Setup configuration.
 
   Parameters: ~
-    {config} (string) |curstr.nvim-setup-config|
+    {config} (table) |curstr.nvim-setup-config|
 
 ==============================================================================
 PARAMETERS                                            *curstr.nvim-PARAMETERS*

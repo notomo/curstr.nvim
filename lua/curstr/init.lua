@@ -11,7 +11,7 @@ function curstr.execute(source_name, opts)
 end
 
 --- Setup configuration.
---- @param config string: |curstr.nvim-setup-config|
+--- @param config table: |curstr.nvim-setup-config|
 function curstr.setup(config)
   require("curstr.command").setup(config)
 end

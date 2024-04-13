@@ -20,7 +20,7 @@ function M.execute(source_name, opts)
       return err
     end
     if group then
-      return group:execute(opts.action)
+      return require("curstr.core.action_group").execute(group, opts.action)
     end
   end
 

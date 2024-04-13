@@ -12,7 +12,3 @@ function ActionSource.create(self, opts) end
 
 --- @return boolean
 function ActionSource.enabled(self) end
-
---- @param opts table
---- @return string|nil
-function ActionGroup.execute(self, opts) end

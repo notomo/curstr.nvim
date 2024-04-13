@@ -12,37 +12,34 @@ function ActionGroup.new(name, args)
   end
 
   local custom_group = require("curstr.core.custom").config.groups[name] or {}
-  local tbl = {
+  return {
     name = name,
     opts = vim.tbl_deep_extend("force", action_group.opts or {}, custom_group.opts or {}),
-    _args = args,
-    _action_group = action_group,
+    args = args,
+    origin = action_group,
   }
-  tbl = vim.tbl_deep_extend("keep", tbl, args)
-
-  return setmetatable(tbl, ActionGroup)
 end
 
 local ACTION_PREFIX = "action_"
-function ActionGroup.execute(self, name)
-  vim.validate({ name = { name, "string", true } })
+function ActionGroup.execute(group, action_name)
+  vim.validate({ action_name = { action_name, "string", true } })
 
-  name = name or self.default_action
-  local key = ACTION_PREFIX .. name
-  local action = self[key]
+  action_name = action_name or group.origin.default_action
+  local key = ACTION_PREFIX .. action_name
+  local action = group.origin[key]
   if not action then
-    return "not found action: " .. name
+    return "not found action: " .. action_name
   end
 
   local ctx = {
-    args = self._args,
-    opts = self.opts,
+    args = group.args,
+    opts = group.opts,
   }
   return action(ctx)
 end
 
-function ActionGroup.actions(self)
-  local keys = vim.tbl_keys(self._action_group)
+function ActionGroup.actions(group)
+  local keys = vim.tbl_keys(group.origin)
   table.sort(keys, function(a, b)
     return a < b
   end)
@@ -59,20 +56,12 @@ function ActionGroup.actions(self)
     :totable()
 end
 
-local base = require("curstr.action_group.base")
-function ActionGroup.__index(self, k)
-  return rawget(ActionGroup, k) or self._action_group[k] or base[k]
-end
-
 function ActionGroup.all()
   return vim
     .iter(vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true))
     :map(function(path)
       local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_group/", { plain = true })[2]
       local name = file:sub(1, #file - 4)
-      if name == "base" then
-        return nil
-      end
       return ActionGroup.new(name, {})
     end)
     :totable()

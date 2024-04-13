@@ -26,10 +26,6 @@ function Source.new(name, source_opts, filetypes)
   return setmetatable(tbl, Source)
 end
 
-function Source.to_group(_, group_name, args)
-  return ActionGroup.new(group_name, args)
-end
-
 function Source.enabled(self)
   return vim.tbl_contains(self.filetypes, "_") or vim.tbl_contains(self.filetypes, vim.bo.filetype)
 end

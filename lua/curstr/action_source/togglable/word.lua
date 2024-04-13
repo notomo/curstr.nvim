@@ -23,9 +23,9 @@ function M.create(self)
   end
 
   for _, words in ipairs(candidates) do
-    local new_word = self._select_word(words, word)
+    local new_word = M._select_word(words, word)
     if new_word ~= nil then
-      return self:to_group("togglable/word", { value = new_word, range = word_range })
+      return { group_name = "togglable/word", value = new_word, range = word_range }
     end
   end
 

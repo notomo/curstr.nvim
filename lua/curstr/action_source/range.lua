@@ -1,7 +1,7 @@
 local M = {}
 
-function M.create(self, opts)
-  return self:to_group("range", { first = opts.range.first, last = opts.range.last })
+function M.create(_, opts)
+  return { group_name = "range", first = opts.range.first, last = opts.range.last }
 end
 
 M.description = [[uses the given range]]

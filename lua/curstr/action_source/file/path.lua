@@ -6,7 +6,7 @@ function M.create(self)
   if not require("curstr.lib.file").readable(modified_path) then
     return nil
   end
-  return self:to_group("file", { path = modified_path, position = position })
+  return { group_name = "file", path = modified_path, position = position }
 end
 
 M.opts = {

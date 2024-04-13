@@ -14,7 +14,7 @@ function M.create(self)
     return nil
   end
   local path = vim.fn.expand("%:p")
-  return self:to_group("file", { path = path, position = position })
+  return { group_name = "file", path = path, position = position }
 end
 
 M.opts = {

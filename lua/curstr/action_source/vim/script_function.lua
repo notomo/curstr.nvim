@@ -10,7 +10,7 @@ function M.create(self)
   if not require("curstr.lib.file").readable(abs_path) then
     return nil
   end
-  return self:to_group("file", { path = abs_path, position = position })
+  return { group_name = "file", path = abs_path, position = position }
 end
 
 function M._search(name)

@@ -15,9 +15,9 @@ function M.create(self)
   local position = nil
   if search_pattern ~= "" then
     local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)
-    position = self._search(pattern, abs_path)
+    position = M._search(pattern, abs_path)
   end
-  return self:to_group("file", { path = abs_path, position = position })
+  return { group_name = "file", path = abs_path, position = position }
 end
 
 function M._search(pattern, path)

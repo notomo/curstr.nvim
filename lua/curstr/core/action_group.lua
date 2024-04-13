@@ -1,45 +1,46 @@
 local modulelib = require("curstr.vendor.misclib.module")
 
-local ActionGroup = {}
+local M = {}
 
---- @return CurstrActionGroup|string
-function ActionGroup.new(name, args)
-  vim.validate({ name = { name, "string" }, args = { args, "table" } })
-
-  local action_group = modulelib.find("curstr.action_group." .. name)
-  if not action_group then
-    return "not found action group: " .. name
+local find_group = function(group_name)
+  local group = modulelib.find("curstr.action_group." .. group_name)
+  if not group then
+    return "not found action group: " .. group_name
   end
-
-  local custom_group = require("curstr.core.custom").config.groups[name] or {}
-  return {
-    name = name,
-    opts = vim.tbl_deep_extend("force", action_group.opts or {}, custom_group.opts or {}),
-    args = args,
-    origin = action_group,
-  }
+  group.name = group_name
+  return group
 end
 
 local ACTION_PREFIX = "action_"
-function ActionGroup.execute(group, action_name)
+
+function M.execute(raw_group, action_name)
   vim.validate({ action_name = { action_name, "string", true } })
 
-  action_name = action_name or group.origin.default_action
+  local group = find_group(raw_group.group_name)
+  if type(group) == "string" then
+    local err = group
+    return err
+  end
+
+  local custom_group = require("curstr.core.custom").config.groups[group.name] or {}
+  local opts = vim.tbl_deep_extend("force", group.opts or {}, custom_group.opts or {})
+
+  action_name = action_name or group.default_action
   local key = ACTION_PREFIX .. action_name
-  local action = group.origin[key]
+  local action = group[key]
   if not action then
     return "not found action: " .. action_name
   end
 
   local ctx = {
-    args = group.args,
-    opts = group.opts,
+    args = raw_group,
+    opts = opts,
   }
   return action(ctx)
 end
 
-function ActionGroup.actions(group)
-  local keys = vim.tbl_keys(group.origin)
+local collect_actions = function(group)
+  local keys = vim.tbl_keys(group)
   table.sort(keys, function(a, b)
     return a < b
   end)
@@ -56,15 +57,19 @@ function ActionGroup.actions(group)
     :totable()
 end
 
-function ActionGroup.all()
+function M.all()
   return vim
     .iter(vim.api.nvim_get_runtime_file("lua/curstr/action_group/**/*.lua", true))
     :map(function(path)
       local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_group/", { plain = true })[2]
       local name = file:sub(1, #file - 4)
-      return ActionGroup.new(name, {})
+      local group = find_group(name)
+      return {
+        name = group.name,
+        actions = collect_actions(group),
+      }
     end)
     :totable()
 end
 
-return ActionGroup
+return M

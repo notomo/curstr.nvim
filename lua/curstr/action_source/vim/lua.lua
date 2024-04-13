@@ -1,6 +1,6 @@
 local M = {}
 
-function M.create(self)
+function M.create()
   local cword = require("curstr.core.cursor").word("./-")
   local name = cword:gsub("%.", "/")
 
@@ -11,7 +11,7 @@ function M.create(self)
 
   for _, path in ipairs(paths) do
     if require("curstr.lib.file").readable(path) then
-      return self:to_group("file", { path = path })
+      return { group_name = "file", path = path }
     end
   end
 
@@ -24,7 +24,7 @@ function M.create(self)
 
   for _, path in ipairs(opt_paths) do
     if require("curstr.lib.file").readable(path) then
-      return self:to_group("file", { path = path })
+      return { group_name = "file", path = path }
     end
   end
 

@@ -14,13 +14,13 @@ function M.execute(source_name, opts)
     or { first = vim.fn.line("."), last = vim.fn.line(".") }
 
   for _, source in ipairs(sources) do
-    local group = source:create(opts)
-    if type(group) == "string" then
-      local err = group
+    local raw_group = source:create(opts)
+    if type(raw_group) == "string" then
+      local err = raw_group
       return err
     end
-    if group then
-      return require("curstr.core.action_group").execute(group, opts.action)
+    if raw_group then
+      return require("curstr.core.action_group").execute(raw_group, opts.action)
     end
   end
 

@@ -1,37 +1,14 @@
 local modulelib = require("curstr.vendor.misclib.module")
-local ActionGroup = require("curstr.core.action_group")
 
-local Source = {}
+local M = {}
 
-function Source.new(name, source_opts, filetypes)
-  vim.validate({
-    name = { name, "string" },
-    source_opts = { source_opts, "table" },
-    filetypes = { filetypes, "table", true },
-  })
-
-  local source = modulelib.find("curstr.action_source." .. name)
+local new = function(source_name)
+  local source = modulelib.find("curstr.action_source." .. source_name)
   if source == nil then
-    return "not found action source: " .. name
+    return "not found action source: " .. source_name
   end
-
-  local custom_source = require("curstr.core.custom").config.sources[name] or {}
-  local tbl = {
-    name = name,
-    opts = vim.tbl_extend("force", source.opts or {}, source_opts, custom_source.opts or {}),
-    filetypes = filetypes or custom_source.filetypes or source.filetypes,
-    _source = source,
-  }
-  return setmetatable(tbl, Source)
-end
-
-function Source.enabled(self)
-  return vim.tbl_contains(self.filetypes, "_") or vim.tbl_contains(self.filetypes, vim.bo.filetype)
-end
-
-local base = require("curstr.action_source.base")
-function Source.__index(self, k)
-  return rawget(Source, k) or self._source[k] or base[k]
+  source.name = source_name
+  return source
 end
 
 local function _resolve(source_name, source_opts, filetypes)
@@ -55,34 +32,54 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
-function Source.resolve(name)
-  local sources = {}
+local enabled = function(filetypes)
+  return vim.tbl_contains(filetypes, "_") or vim.tbl_contains(filetypes, vim.bo.filetype)
+end
+
+local create_group = function(resolved)
+  local source = new(resolved.source_name)
+  if type(source) == "string" then
+    local err = source
+    return err
+  end
+
+  local custom = require("curstr.core.custom").config.sources[source.name] or {}
+
+  local filetypes = resolved.filetypes or custom.filetypes or source.filetypes or { "_" }
+  if not enabled(filetypes) then
+    return nil
+  end
+
+  local opts = vim.tbl_extend("force", source.opts or {}, resolved.source_opts, custom.opts or {})
+  local ctx = {
+    opts = opts,
+  }
+  return source.create(ctx)
+end
+
+function M.resolve(name)
   for _, resolved in ipairs(_resolve(name, {}, nil)) do
-    local source = Source.new(resolved.source_name, resolved.source_opts, resolved.filetypes)
-    if type(source) == "string" then
-      local err = source
+    local raw_group = create_group(resolved)
+    if type(raw_group) == "string" then
+      local err = raw_group
       return err
     end
 
-    if source:enabled() then
-      table.insert(sources, source)
+    if raw_group then
+      return raw_group
     end
   end
-  return sources
 end
 
-function Source.all()
+function M.all()
   return vim
     .iter(vim.api.nvim_get_runtime_file("lua/curstr/action_source/**/*.lua", true))
     :map(function(path)
       local file = vim.split(vim.fs.normalize(path), "lua/curstr/action_source/", { plain = true })[2]
       local name = file:sub(1, #file - 4)
-      if name == "base" then
-        return nil
-      end
-      return Source.new(name, {})
+      return new(name)
     end)
     :totable()
 end
 
-return Source
+return M

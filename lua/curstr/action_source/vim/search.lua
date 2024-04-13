@@ -1,13 +1,13 @@
 local M = {}
 
-function M.create(self)
-  local search_pattern = self.opts.search_pattern
+function M.create(ctx)
+  local search_pattern = ctx.opts.search_pattern
   if search_pattern == "" then
     return nil
   end
 
   local cword = require("curstr.lib.cursor").word()
-  local pattern = vim.fn.substitute(cword, self.opts.source_pattern, search_pattern, self.opts.flags)
+  local pattern = vim.fn.substitute(cword, ctx.opts.source_pattern, search_pattern, ctx.opts.flags)
 
   local position = vim.fn.searchpos(pattern, "nw")
   if position[1] == 0 then

@@ -1,24 +1,24 @@
 local M = {}
 
-function M.create(self)
-  local word, word_range = require("curstr.lib.cursor").word_with_range(self.opts.char_pattern)
+function M.create(ctx)
+  local word, word_range = require("curstr.lib.cursor").word_with_range(ctx.opts.char_pattern)
 
-  local candidates = { self.opts.words }
-  if self.opts.normalized then
+  local candidates = { ctx.opts.words }
+  if ctx.opts.normalized then
     candidates = {
       vim.tbl_map(function(w)
         return w:lower()
-      end, self.opts.words),
+      end, ctx.opts.words),
       vim.tbl_map(function(w)
         return w:upper()
-      end, self.opts.words),
+      end, ctx.opts.words),
       vim.tbl_map(function(w)
         local head = w:sub(1, 1)
         if head == nil then
           return w
         end
         return head:upper() .. w:sub(2)
-      end, self.opts.words),
+      end, ctx.opts.words),
     }
   end
 

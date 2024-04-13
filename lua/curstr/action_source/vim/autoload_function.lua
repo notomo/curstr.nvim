@@ -1,6 +1,6 @@
 local M = {}
 
-function M.create(self)
+function M.create(ctx)
   local cword = require("curstr.lib.cursor").word("#")
   if cword:find("#") == nil then
     return nil
@@ -17,7 +17,7 @@ function M.create(self)
     end
   end
 
-  if not self.opts.include_packpath then
+  if not ctx.opts.include_packpath then
     return nil
   end
 

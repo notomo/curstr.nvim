@@ -1,17 +1,17 @@
 local M = {}
 
-function M.create(self)
-  local source_pattern = self.opts.source_pattern
-  local flags = self.opts.flags
+function M.create(ctx)
+  local source_pattern = ctx.opts.source_pattern
+  local flags = ctx.opts.flags
 
   local path = require("curstr.lib.cursor").file_path()
-  local target_path = vim.fn.substitute(path, source_pattern, self.opts.result_pattern, flags)
+  local target_path = vim.fn.substitute(path, source_pattern, ctx.opts.result_pattern, flags)
   local abs_path = vim.fn.fnamemodify(target_path, ":p")
   if not require("curstr.lib.file").readable(abs_path) then
     return nil
   end
 
-  local search_pattern = self.opts.search_pattern
+  local search_pattern = ctx.opts.search_pattern
   local position = nil
   if search_pattern ~= "" then
     local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)

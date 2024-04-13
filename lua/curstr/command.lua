@@ -1,34 +1,23 @@
 local M = {}
 
-function M.execute(source_name, opts)
-  vim.validate({ source_name = { source_name, "string" }, opts = { opts, "table", true } })
+function M.execute(source_name, raw_opts)
+  vim.validate({
+    source_name = { source_name, "string" },
+    raw_opts = { raw_opts, "table", true },
+  })
 
-  local sources = require("curstr.core.action_source").resolve(source_name)
-  if type(sources) == "string" then
-    local err = sources
+  local raw_group = require("curstr.core.action_source").resolve(source_name)
+  if type(raw_group) == "string" then
+    local err = raw_group
     return err
   end
 
-  opts = opts or {}
-
-  for _, source in ipairs(sources) do
-    local raw_group = source:create()
-    if type(raw_group) == "string" then
-      local err = raw_group
-      return err
-    end
-
-    if raw_group then
-      return require("curstr.core.action_group").execute(raw_group, opts.action)
-    end
+  local opts = raw_opts or {}
+  if raw_group then
+    return require("curstr.core.action_group").execute(raw_group, opts.action)
   end
 
   require("curstr.vendor.misclib.message").warn("not found matched source: " .. source_name)
-end
-
-function M.setup(config)
-  vim.validate({ config = { config, "table" } })
-  require("curstr.core.custom").set(config)
 end
 
 return M

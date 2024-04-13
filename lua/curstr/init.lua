@@ -13,7 +13,7 @@ end
 --- Setup configuration.
 --- @param config table: |curstr.nvim-setup-config|
 function curstr.setup(config)
-  require("curstr.command").setup(config)
+  require("curstr.core.custom").set(config)
 end
 
 return curstr

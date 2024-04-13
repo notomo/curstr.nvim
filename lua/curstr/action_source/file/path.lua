@@ -1,8 +1,8 @@
 local M = {}
 
-function M.create(self)
+function M.create(ctx)
   local path, position = require("curstr.lib.cursor").file_path_with_position()
-  local modified_path = self.opts.modify(path)
+  local modified_path = ctx.opts.modify(path)
   if not require("curstr.lib.file").readable(modified_path) then
     return nil
   end

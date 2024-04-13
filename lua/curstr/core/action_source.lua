@@ -5,6 +5,7 @@ local ActionGroup = require("curstr.core.action_group")
 
 local Source = {}
 
+--- @return CurstrActionSource|string
 function Source.new(name, source_opts, filetypes)
   vim.validate({
     name = { name, "string" },
@@ -14,7 +15,7 @@ function Source.new(name, source_opts, filetypes)
 
   local source = modulelib.find("curstr.action_source." .. name)
   if source == nil then
-    return nil, "not found action source: " .. name
+    return "not found action source: " .. name
   end
 
   local custom_source = require("curstr.core.custom").config.sources[name] or {}
@@ -30,11 +31,7 @@ function Source.new(name, source_opts, filetypes)
 end
 
 function Source.to_group(_, group_name, args)
-  local group, err = ActionGroup.new(group_name, args)
-  if err ~= nil then
-    return nil, err
-  end
-  return group, nil
+  return ActionGroup.new(group_name, args)
 end
 
 function Source.enabled(self)
@@ -63,18 +60,21 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
+--- @return CurstrActionSource[]|string
 function Source.resolve(name)
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {}, nil)) do
-    local source, err = Source.new(resolved.source_name, resolved.source_opts, resolved.filetypes)
-    if err ~= nil then
-      return nil, err
+    local source = Source.new(resolved.source_name, resolved.source_opts, resolved.filetypes)
+    if type(source) == "string" then
+      local err = source
+      return err
     end
+
     if source:enabled() then
       table.insert(sources, source)
     end
   end
-  return sources, nil
+  return sources
 end
 
 function Source.all()

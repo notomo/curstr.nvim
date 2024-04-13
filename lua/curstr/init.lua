@@ -4,7 +4,7 @@ local curstr = {}
 --- @param source_name string: source name
 --- @param opts table|nil: {action = string} |curstr.nvim-ACTIONS|
 function curstr.execute(source_name, opts)
-  local _, err = require("curstr.command").execute(source_name, opts)
+  local err = require("curstr.command").execute(source_name, opts)
   if err then
     require("curstr.vendor.misclib.message").error(err)
   end

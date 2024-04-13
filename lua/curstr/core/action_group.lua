@@ -2,12 +2,13 @@ local modulelib = require("curstr.vendor.misclib.module")
 
 local ActionGroup = {}
 
+--- @return CurstrActionGroup|string
 function ActionGroup.new(name, args)
   vim.validate({ name = { name, "string" }, args = { args, "table" } })
 
   local action_group = modulelib.find("curstr.action_group." .. name)
   if action_group == nil then
-    return nil, "not found action group: " .. name
+    return "not found action group: " .. name
   end
 
   local custom_group = require("curstr.core.custom").config.groups[name] or {}
@@ -18,7 +19,7 @@ function ActionGroup.new(name, args)
   }
   tbl = vim.tbl_deep_extend("keep", tbl, args)
 
-  return setmetatable(tbl, ActionGroup), nil
+  return setmetatable(tbl, ActionGroup)
 end
 
 local ACTION_PREFIX = "action_"
@@ -29,7 +30,7 @@ function ActionGroup.execute(self, name)
   local key = ACTION_PREFIX .. name
   local action = self[key]
   if action == nil then
-    return nil, "not found action: " .. name
+    return "not found action: " .. name
   end
 
   return action(self)

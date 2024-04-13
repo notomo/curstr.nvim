@@ -3,9 +3,10 @@ local M = {}
 function M.execute(source_name, opts)
   vim.validate({ source_name = { source_name, "string" }, opts = { opts, "table", true } })
 
-  local sources, source_err = require("curstr.core.action_source").resolve(source_name)
-  if source_err ~= nil then
-    return nil, source_err
+  local sources = require("curstr.core.action_source").resolve(source_name)
+  if type(sources) == "string" then
+    local err = sources
+    return err
   end
 
   opts = opts or {}
@@ -13,11 +14,12 @@ function M.execute(source_name, opts)
     or { first = vim.fn.line("."), last = vim.fn.line(".") }
 
   for _, source in ipairs(sources) do
-    local group, err = source:create(opts)
-    if err ~= nil then
-      return nil, err
+    local group = source:create(opts)
+    if type(group) == "string" then
+      local err = group
+      return err
     end
-    if group ~= nil then
+    if group then
       return group:execute(opts.action)
     end
   end

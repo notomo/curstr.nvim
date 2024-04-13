@@ -76,9 +76,9 @@ require("genvdoc").generate(full_plugin_name, {
       body = function(ctx)
         local sections = {}
         for _, group in ipairs(require("curstr.core.action_group").all()) do
-          local actions = vim.tbl_map(function(action)
-            return "- " .. action
-          end, group.actions)
+          local actions = vim.tbl_map(function(action_name)
+            return "- " .. action_name
+          end, group.action_names)
           local section = util.help_tagged(
             ctx,
             ("`%s` actions"):format(group.name),

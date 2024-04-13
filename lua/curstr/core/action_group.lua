@@ -13,6 +13,16 @@ end
 
 local ACTION_PREFIX = "action_"
 
+local find_action = function(group, action_name)
+  action_name = action_name or group.default_action
+  local key = ACTION_PREFIX .. action_name
+  local action = group[key]
+  if not action then
+    return "not found action: " .. action_name
+  end
+  return action
+end
+
 function M.execute(raw_group, action_name)
   vim.validate({ action_name = { action_name, "string", true } })
 
@@ -22,15 +32,14 @@ function M.execute(raw_group, action_name)
     return err
   end
 
-  local custom_group = require("curstr.core.custom").config.groups[group.name] or {}
-  local opts = vim.tbl_deep_extend("force", group.opts or {}, custom_group.opts or {})
-
-  action_name = action_name or group.default_action
-  local key = ACTION_PREFIX .. action_name
-  local action = group[key]
-  if not action then
-    return "not found action: " .. action_name
+  local action = find_action(group, action_name)
+  if type(action) == "string" then
+    local err = action
+    return err
   end
+
+  local custom = require("curstr.core.custom").config.groups[group.name] or {}
+  local opts = vim.tbl_deep_extend("force", group.opts or {}, custom.opts or {})
 
   local ctx = {
     args = raw_group,
@@ -39,7 +48,7 @@ function M.execute(raw_group, action_name)
   return action(ctx)
 end
 
-local collect_actions = function(group)
+local collect_action_names = function(group)
   local keys = vim.tbl_keys(group)
   table.sort(keys, function(a, b)
     return a < b
@@ -66,7 +75,7 @@ function M.all()
       local group = find_group(name)
       return {
         name = group.name,
-        actions = collect_actions(group),
+        action_names = collect_action_names(group),
       }
     end)
     :totable()

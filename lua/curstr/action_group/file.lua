@@ -2,36 +2,36 @@ local filelib = require("curstr.lib.file")
 
 local M = {}
 
-function M._adjust_cursor(self)
-  if self.position == nil then
+function M._adjust_cursor(position)
+  if position == nil then
     return
   end
   local count = vim.api.nvim_buf_line_count(0)
-  local row = self.position[1]
+  local row = position[1]
   if row > count then
     row = count
   end
-  vim.api.nvim_win_set_cursor(0, { row, self.position[2] - 1 })
+  vim.api.nvim_win_set_cursor(0, { row, position[2] - 1 })
 end
 
-function M.action_open(self)
-  vim.cmd.edit(filelib.escape(self.path))
-  self:_adjust_cursor()
+function M.action_open(ctx)
+  vim.cmd.edit(filelib.escape(ctx.args.path))
+  M._adjust_cursor(ctx.args.position)
 end
 
-function M.action_tab_open(self)
-  vim.cmd.tabedit(filelib.escape(self.path))
-  self:_adjust_cursor()
+function M.action_tab_open(ctx)
+  vim.cmd.tabedit(filelib.escape(ctx.args.path))
+  M._adjust_cursor(ctx.args.position)
 end
 
-function M.action_vertical_open(self)
-  vim.cmd.vsplit(filelib.escape(self.path))
-  self:_adjust_cursor()
+function M.action_vertical_open(ctx)
+  vim.cmd.vsplit(filelib.escape(ctx.args.path))
+  M._adjust_cursor(ctx.args.position)
 end
 
-function M.action_horizontal_open(self)
-  vim.cmd.split(filelib.escape(self.path))
-  self:_adjust_cursor()
+function M.action_horizontal_open(ctx)
+  vim.cmd.split(filelib.escape(ctx.args.path))
+  M._adjust_cursor(ctx.args.position)
 end
 
 M.default_action = "open"

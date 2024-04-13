@@ -15,6 +15,7 @@ function ActionGroup.new(name, args)
   local tbl = {
     name = name,
     opts = vim.tbl_deep_extend("force", action_group.opts or {}, custom_group.opts or {}),
+    _args = args,
     _action_group = action_group,
   }
   tbl = vim.tbl_deep_extend("keep", tbl, args)
@@ -33,7 +34,11 @@ function ActionGroup.execute(self, name)
     return "not found action: " .. name
   end
 
-  return action(self)
+  local ctx = {
+    args = self._args,
+    opts = self.opts,
+  }
+  return action(ctx)
 end
 
 function ActionGroup.actions(self)

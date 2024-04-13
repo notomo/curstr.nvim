@@ -6,11 +6,13 @@ function M._adjust_cursor(position)
   if position == nil then
     return
   end
+
   local count = vim.api.nvim_buf_line_count(0)
   local row = position[1]
   if row > count then
     row = count
   end
+
   vim.api.nvim_win_set_cursor(0, { row, position[2] - 1 })
 end
 

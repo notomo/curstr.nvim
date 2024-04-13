@@ -1,8 +1,8 @@
 local M = {}
 
-function M.create(self)
+function M.create()
   local cword = require("curstr.lib.cursor").word(":<>")
-  local position = self._search(cword)
+  local position = M._search(cword)
   if position == nil then
     return nil
   end

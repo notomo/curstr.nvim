@@ -10,15 +10,14 @@ function M.execute(source_name, opts)
   end
 
   opts = opts or {}
-  opts.range = require("curstr.vendor.misclib.visual_mode").row_range()
-    or { first = vim.fn.line("."), last = vim.fn.line(".") }
 
   for _, source in ipairs(sources) do
-    local raw_group = source:create(opts)
+    local raw_group = source:create()
     if type(raw_group) == "string" then
       local err = raw_group
       return err
     end
+
     if raw_group then
       return require("curstr.core.action_group").execute(raw_group, opts.action)
     end

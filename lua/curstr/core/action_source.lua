@@ -3,7 +3,6 @@ local ActionGroup = require("curstr.core.action_group")
 
 local Source = {}
 
---- @return CurstrActionSource|string
 function Source.new(name, source_opts, filetypes)
   vim.validate({
     name = { name, "string" },
@@ -56,7 +55,6 @@ local function _resolve(source_name, source_opts, filetypes)
   return resolved
 end
 
---- @return CurstrActionSource[]|string
 function Source.resolve(name)
   local sources = {}
   for _, resolved in ipairs(_resolve(name, {}, nil)) do

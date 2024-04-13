@@ -4,6 +4,7 @@ function M.action_toggle(ctx)
   if not vim.bo.modifiable then
     return
   end
+
   local new_line = M._new_line(ctx.args.range, ctx.args.value)
   vim.api.nvim_set_current_line(new_line)
 end
@@ -12,6 +13,7 @@ function M.action_append(ctx)
   if not vim.bo.modifiable then
     return
   end
+
   local new_line = M._new_line(ctx.args.range, ctx.args.value)
   local bufnr = 0
   local row = vim.api.nvim_win_get_cursor(0)[1]

@@ -23,7 +23,7 @@ local find_action = function(group, action_name)
   return action
 end
 
-function M.execute(raw_group, action_name)
+function M.execute(raw_group, action_name, action_opts)
   vim.validate({ action_name = { action_name, "string", true } })
 
   local group = find_group(raw_group.group_name)
@@ -39,7 +39,7 @@ function M.execute(raw_group, action_name)
   end
 
   local custom = require("curstr.core.custom").config.groups[group.name] or {}
-  local opts = vim.tbl_deep_extend("force", group.opts or {}, custom.opts or {})
+  local opts = vim.tbl_deep_extend("force", group.opts or {}, custom.opts or {}, action_opts)
 
   local ctx = {
     args = raw_group,

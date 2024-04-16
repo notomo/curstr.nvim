@@ -16,6 +16,17 @@ setup({config})                                               *curstr.setup()*
   Parameters: ~
     {config} (table) |curstr.nvim-setup-config|
 
+operator({source_name}, {opts}, {operator_type})           *curstr.operator()*
+  Returns operator string to use as |curstr.execute()|.
+
+  Parameters: ~
+    {source_name} (string) source name
+    {opts} (table|nil) {action = string} |curstr.nvim-ACTIONS|
+    {operator_type} (string|nil) 
+
+  Return: ~
+    (string) 
+
 ==============================================================================
 PARAMETERS                                            *curstr.nvim-PARAMETERS*
 

@@ -7,7 +7,7 @@ function M.create()
   if target == nil then
     return nil
   end
-  return { group_name = "file", path = target }
+  return "file", { path = target }
 end
 
 M.description = [[searchs a file from vim runtime]]

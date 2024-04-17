@@ -14,7 +14,7 @@ function M.create(ctx)
     return nil
   end
   local path = vim.fn.expand("%:p")
-  return { group_name = "file", path = path, position = position }
+  return "file", { path = path, position = position }
 end
 
 M.opts = {

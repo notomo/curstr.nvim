@@ -26,7 +26,7 @@ end
 function M.execute(raw_group, action_name, action_opts)
   vim.validate({ action_name = { action_name, "string", true } })
 
-  local group = find_group(raw_group.group_name)
+  local group = find_group(raw_group.name)
   if type(group) == "string" then
     local err = group
     return err
@@ -42,7 +42,7 @@ function M.execute(raw_group, action_name, action_opts)
   local opts = vim.tbl_deep_extend("force", group.opts or {}, custom.opts or {}, action_opts)
 
   local ctx = {
-    args = raw_group,
+    args = raw_group.args,
     opts = opts,
   }
   return action(ctx)

@@ -6,7 +6,7 @@ function M.create()
   if not require("curstr.lib.file").is_directory(abs_path) then
     return nil
   end
-  return { group_name = "directory", path = abs_path }
+  return "directory", { path = abs_path }
 end
 
 M.description = [[uses relative directory path with current buffer]]

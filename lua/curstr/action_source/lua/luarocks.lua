@@ -8,7 +8,7 @@ function M.create()
   local name = cword:gsub("%.", "/")
   local path = vim.fn.systemlist({ "luarocks", "which", name })[1]
   if require("curstr.lib.file").readable(path) then
-    return { group_name = "file", path = path }
+    return "file", { path = path }
   end
   return nil
 end

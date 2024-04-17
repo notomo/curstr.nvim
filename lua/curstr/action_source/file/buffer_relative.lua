@@ -6,7 +6,7 @@ function M.create()
   if not require("curstr.lib.file").readable(abs_path) then
     return nil
   end
-  return { group_name = "file", path = abs_path, position = position }
+  return "file", { path = abs_path, position = position }
 end
 
 M.description = [[uses a relative file path with current buffer]]

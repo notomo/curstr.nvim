@@ -19,9 +19,9 @@ function M.create(ctx)
     if vim.fn.match(word, pattern) ~= -1 then
       local new_word = vim.fn.substitute(word, pattern, new_pattern, option)
       if ctx.opts.is_line then
-        return { group_name = "togglable/line", value = new_word }
+        return "togglable/line", { value = new_word }
       end
-      return { group_name = "togglable/word", value = new_word, range = word_range }
+      return "togglable/word", { value = new_word, range = word_range }
     end
   end
 

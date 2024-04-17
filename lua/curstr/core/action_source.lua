@@ -54,7 +54,16 @@ local create_group = function(resolved)
   local ctx = {
     opts = opts,
   }
-  return source.create(ctx)
+
+  local group_name, args = source.create(ctx)
+  if not group_name then
+    return nil
+  end
+
+  return {
+    name = group_name,
+    args = args,
+  }
 end
 
 function M.resolve(name)

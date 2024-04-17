@@ -9,7 +9,7 @@ function M.create()
     local targets = vim.fn.glob(pattern, false, true)
     for _, target in ipairs(targets) do
       if require("curstr.lib.file").is_directory(target) then
-        return { group_name = "directory", path = target }
+        return "directory", { path = target }
       end
     end
   end

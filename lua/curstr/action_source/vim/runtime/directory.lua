@@ -7,7 +7,7 @@ function M.create()
   for _, rpath in ipairs(runtime_paths) do
     local target = vim.fs.joinpath(rpath, path)
     if require("curstr.lib.file").is_directory(target) then
-      return { group_name = "directory", path = target }
+      return "directory", { path = target }
     end
   end
 

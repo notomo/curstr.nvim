@@ -11,7 +11,7 @@ function M.create()
 
   for _, path in ipairs(paths) do
     if require("curstr.lib.file").readable(path) then
-      return { group_name = "file", path = path }
+      return "file", { path = path }
     end
   end
 
@@ -24,7 +24,7 @@ function M.create()
 
   for _, path in ipairs(opt_paths) do
     if require("curstr.lib.file").readable(path) then
-      return { group_name = "file", path = path }
+      return "file", { path = path }
     end
   end
 

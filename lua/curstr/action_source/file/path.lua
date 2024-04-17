@@ -6,7 +6,7 @@ function M.create(ctx)
   if not require("curstr.lib.file").readable(modified_path) then
     return nil
   end
-  return { group_name = "file", path = modified_path, position = position }
+  return "file", { path = modified_path, position = position }
 end
 
 M.opts = {

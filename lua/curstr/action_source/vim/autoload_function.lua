@@ -13,7 +13,7 @@ function M.create(ctx)
   for _, path in ipairs(paths) do
     if require("curstr.lib.file").readable(path) then
       local position = M._search(cword, path)
-      return { group_name = "file", path = path, position = position }
+      return "file", { path = path, position = position }
     end
   end
 
@@ -27,7 +27,7 @@ function M.create(ctx)
   for _, path in ipairs(vim.fn.glob(pattern, false, true)) do
     if require("curstr.lib.file").readable(path) then
       local position = M._search(cword, path)
-      return { group_name = "file", path = path, position = position }
+      return "file", { path = path, position = position }
     end
   end
 

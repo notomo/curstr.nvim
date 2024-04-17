@@ -25,7 +25,7 @@ function M.create(ctx)
   for _, words in ipairs(candidates) do
     local new_word = M._select_word(words, word)
     if new_word ~= nil then
-      return { group_name = "togglable/word", value = new_word, range = word_range }
+      return "togglable/word", { value = new_word, range = word_range }
     end
   end
 

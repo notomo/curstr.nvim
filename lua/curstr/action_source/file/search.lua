@@ -17,7 +17,7 @@ function M.create(ctx)
     local pattern = vim.fn.substitute(path, source_pattern, search_pattern, flags)
     position = M._search(pattern, abs_path)
   end
-  return { group_name = "file", path = abs_path, position = position }
+  return "file", { path = abs_path, position = position }
 end
 
 function M._search(pattern, path)

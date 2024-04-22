@@ -21,9 +21,12 @@ function M.action_join(ctx)
   local lines = { first }
   vim.list_extend(
     lines,
-    vim.tbl_filter(function(line)
-      return line ~= ""
-    end, others)
+    vim
+      .iter(others)
+      :filter(function(line)
+        return line ~= ""
+      end)
+      :totable()
   )
 
   local separator = ctx.opts.separator

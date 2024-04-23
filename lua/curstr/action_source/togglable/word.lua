@@ -6,19 +6,28 @@ function M.create(ctx)
   local candidates = { ctx.opts.words }
   if ctx.opts.normalized then
     candidates = {
-      vim.tbl_map(function(w)
-        return w:lower()
-      end, ctx.opts.words),
-      vim.tbl_map(function(w)
-        return w:upper()
-      end, ctx.opts.words),
-      vim.tbl_map(function(w)
-        local head = w:sub(1, 1)
-        if head == nil then
-          return w
-        end
-        return head:upper() .. w:sub(2)
-      end, ctx.opts.words),
+      vim
+        .iter(ctx.opts.words)
+        :map(function(w)
+          return w:lower()
+        end)
+        :totable(),
+      vim
+        .iter(ctx.opts.words)
+        :map(function(w)
+          return w:upper()
+        end)
+        :totable(),
+      vim
+        .iter(ctx.opts.words)
+        :map(function(w)
+          local head = w:sub(1, 1)
+          if head == nil then
+            return w
+          end
+          return head:upper() .. w:sub(2)
+        end)
+        :totable(),
     }
   end
 

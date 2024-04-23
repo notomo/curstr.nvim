@@ -62,9 +62,12 @@ require("genvdoc").generate(full_plugin_name, {
         local sections = {}
         for _, alias_name in ipairs(alias_names) do
           local alias = aliases[alias_name]
-          local names = vim.tbl_map(function(name)
-            return "- " .. name
-          end, alias.names)
+          local names = vim
+            .iter(alias.names)
+            :map(function(name)
+              return "- " .. name
+            end)
+            :totable()
           local section = ("`%s` alias to \n"):format(alias_name) .. table.concat(names, "\n") .. "\n"
           table.insert(sections, section)
         end
@@ -76,9 +79,12 @@ require("genvdoc").generate(full_plugin_name, {
       body = function(ctx)
         local sections = {}
         for _, group in ipairs(require("curstr.core.action_group").all()) do
-          local actions = vim.tbl_map(function(action_name)
-            return "- " .. action_name
-          end, group.action_names)
+          local actions = vim
+            .iter(group.action_names)
+            :map(function(action_name)
+              return "- " .. action_name
+            end)
+            :totable()
           local section = util.help_tagged(
             ctx,
             ("`%s` actions"):format(group.name),

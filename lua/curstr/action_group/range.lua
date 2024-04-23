@@ -14,9 +14,13 @@ function M.action_join(ctx)
   local bufnr = 0
   local old_lines = vim.api.nvim_buf_get_lines(bufnr, range.first - 1, last_line, false)
   local first = table.remove(old_lines, 1)
-  local others = vim.tbl_map(function(line)
-    return line:gsub("^%s*", "")
-  end, old_lines)
+  local others = vim
+    .iter(old_lines)
+    :map(function(line)
+      local x = line:gsub("^%s*", "")
+      return x
+    end)
+    :totable()
 
   local lines = { first }
   vim.list_extend(

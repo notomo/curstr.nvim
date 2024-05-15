@@ -112,8 +112,6 @@ Curstr is a customizable `gf` like plugin.
 (`gf` is vim's builtin **g**oto **f**ile command.)
 ]]):format(full_plugin_name)
 
-  local readme = io.open("README.md", "w")
-  readme:write(content)
-  readme:close()
+  util.write("README.md", content)
 end
 gen_readme()

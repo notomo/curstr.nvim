@@ -74,6 +74,9 @@ ACTION SOURCES                                    *curstr.nvim-ACTION-SOURCES*
 `vim/autoload_function`                  *curstr-source-vim/autoload_function*
   searches a vim autoload function
 
+`vim/entire/around`                          *curstr-source-vim/entire/around*
+  uses a buffer's entire lines
+
 `vim/line/around`                              *curstr-source-vim/line/around*
   uses a buffer's around line
 

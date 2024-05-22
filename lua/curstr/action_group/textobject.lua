@@ -4,6 +4,8 @@ function M.action_select(ctx)
   local _, mode = require("curstr.vendor.misclib.visual_mode").leave()
   mode = ctx.args.mode or mode
 
+  vim.cmd.normal({ args = { "m'" }, bang = true })
+
   local start_pos = ctx.args.start_pos
   vim.api.nvim_buf_set_mark(0, "<", start_pos[1], start_pos[2], {})
 

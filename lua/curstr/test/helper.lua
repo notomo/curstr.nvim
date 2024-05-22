@@ -45,6 +45,12 @@ function helper.add_packpath(path)
   vim.opt.packpath:prepend(vim.fn.fnamemodify(helper.test_data:path(path), ":p"))
 end
 
+function helper.selected(f)
+  vim.api.nvim_feedkeys("v", "tx", true)
+  f()
+  return vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { mode = vim.fn.mode() })
+end
+
 local asserts = require("vusted.assert").asserts
 
 asserts.create("path"):register_eq(function()

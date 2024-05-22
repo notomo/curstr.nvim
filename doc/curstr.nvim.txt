@@ -74,6 +74,12 @@ ACTION SOURCES                                    *curstr.nvim-ACTION-SOURCES*
 `vim/autoload_function`                  *curstr-source-vim/autoload_function*
   searches a vim autoload function
 
+`vim/line/around`                              *curstr-source-vim/line/around*
+  uses a buffer's around line
+
+`vim/line/inner`                                *curstr-source-vim/line/inner*
+  uses a buffer's inner line
+
 `vim/lua`                                              *curstr-source-vim/lua*
   searchs a file from vim runtime lua directory
 
@@ -137,6 +143,9 @@ ACTIONS                                                  *curstr.nvim-ACTIONS*
 
 `range` actions                                    *curstr-action-group-range*
 - join
+
+`textobject` actions                          *curstr-action-group-textobject*
+- select
 
 `togglable/line` actions                  *curstr-action-group-togglable/line*
 - append

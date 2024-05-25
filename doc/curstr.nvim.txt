@@ -104,6 +104,9 @@ ACTION SOURCES                                    *curstr.nvim-ACTION-SOURCES*
 `vim/search`                                        *curstr-source-vim/search*
   searchs a file matched with vim.fn.search()
 
+`vim/surrounded/inner`                    *curstr-source-vim/surrounded/inner*
+  uses a buffer's surrounded text
+
 ==============================================================================
 DEFAULT SOURCE ALIASES                    *curstr.nvim-DEFAULT-SOURCE-ALIASES*
 

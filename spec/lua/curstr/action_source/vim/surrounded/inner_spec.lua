@@ -5,6 +5,22 @@ describe("vim/surrounded/inner", function()
   before_each(helper.before_each)
   after_each(helper.after_each)
 
+  it("can pass targets", function()
+    helper.set_lines([[a hoge b]])
+    vim.api.nvim_win_set_cursor(0, { 1, 4 })
+
+    local got = helper.selected(function()
+      curstr.execute("vim/surrounded/inner", {
+        source_opts = {
+          targets = {
+            { s = "a", e = "b" },
+          },
+        },
+      })
+    end)
+    assert.is_same({ " hoge " }, got)
+  end)
+
   for _, c in ipairs({
     { str = "(hoge)", column = 1, want = { "hoge" } },
     { str = "[hoge]", column = 1, want = { "hoge" } },

@@ -1,6 +1,7 @@
 local M = {}
 
 local default_opts = {
+  source_opts = {},
   action_opts = {},
 }
 
@@ -12,7 +13,7 @@ function M.execute(source_name, raw_opts)
 
   local opts = vim.tbl_deep_extend("force", default_opts, raw_opts or {})
 
-  local raw_group = require("curstr.core.action_source").resolve(source_name)
+  local raw_group = require("curstr.core.action_source").resolve(source_name, opts.source_opts)
   if type(raw_group) == "string" then
     local err = raw_group
     return err

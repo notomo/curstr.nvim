@@ -66,8 +66,8 @@ local create_group = function(resolved)
   }
 end
 
-function M.resolve(name)
-  for _, resolved in ipairs(_resolve(name, {}, nil)) do
+function M.resolve(name, source_opts)
+  for _, resolved in ipairs(_resolve(name, source_opts, nil)) do
     local raw_group = create_group(resolved)
     if type(raw_group) == "string" then
       local err = raw_group

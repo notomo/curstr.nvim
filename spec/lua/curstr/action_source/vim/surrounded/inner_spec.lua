@@ -1,7 +1,7 @@
 local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
 
-describe("vim/line/inner", function()
+describe("vim/surrounded/inner", function()
   before_each(helper.before_each)
   after_each(helper.after_each)
 

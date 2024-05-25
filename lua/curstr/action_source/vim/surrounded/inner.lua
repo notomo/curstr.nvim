@@ -17,7 +17,7 @@ function M.create(ctx)
     if start_pos[1] ~= 0 then
       table.insert(starts, {
         target = target,
-        pos = start_pos,
+        pos = { start_pos[1], start_pos[2] + ctx.opts._start_offset },
       })
     end
   end
@@ -49,7 +49,7 @@ function M.create(ctx)
         {
           visual_mode = vim.keycode("v"),
           start_pos = s.pos,
-          end_pos = { end_pos[1], end_pos[2] - 2 },
+          end_pos = { end_pos[1], end_pos[2] - 2 + ctx.opts._end_offset },
         }
     end
   end
@@ -57,7 +57,7 @@ function M.create(ctx)
   restore_cursor()
 end
 
-M.description = [[uses a buffer's surrounded text]]
+M.description = [[uses a buffer's surrounded inner text]]
 
 M.opts = {
   targets = {
@@ -69,6 +69,8 @@ M.opts = {
     { s = [=['[^']]=], e = [=[[^']\?\zs']=], single_line = true },
     { s = [=[`[^`]]=], e = [=[[^`]\?\zs`]=], single_line = true },
   },
+  _start_offset = 0,
+  _end_offset = 0,
 }
 
 return M

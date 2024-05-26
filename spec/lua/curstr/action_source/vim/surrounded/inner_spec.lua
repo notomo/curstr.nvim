@@ -35,7 +35,7 @@ describe("vim/surrounded/inner", function()
     { str = [[(
 hoge
 foo
- )]], row = 2, column = 4, want = { "", "hoge", "foo", " " } },
+)]], row = 2, column = 4, want = { "", "hoge", "foo" } },
   }) do
     it(("select %s on %s"):format(table.concat(c.want, "\n"), c.str), function()
       helper.set_lines(c.str)

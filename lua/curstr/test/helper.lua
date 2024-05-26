@@ -48,7 +48,7 @@ end
 function helper.selected(f)
   vim.api.nvim_feedkeys("v", "tx", true)
   f()
-  return vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { mode = vim.fn.mode() })
+  return vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = "v" })
 end
 
 local asserts = require("vusted.assert").asserts

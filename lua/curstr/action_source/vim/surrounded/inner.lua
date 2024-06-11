@@ -12,7 +12,6 @@ function M.create(ctx)
 
     local end_pattern = target.e:gsub("\\zs", "")
 
-    ---@diagnostic disable-next-line: redundant-parameter
     local start_pos = vim.fn.searchpairpos(target.s, "", end_pattern, "bnW", "", stopline)
     if start_pos[1] ~= 0 then
       table.insert(starts, {
@@ -40,7 +39,6 @@ function M.create(ctx)
 
     local start_pattern = target.s:gsub("\\zs", "")
 
-    ---@diagnostic disable-next-line: redundant-parameter
     local end_pos = vim.fn.searchpairpos(start_pattern, "", target.e, "nW", "", stopline)
     if end_pos[1] ~= 0 then
       restore_cursor()

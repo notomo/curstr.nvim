@@ -45,7 +45,7 @@ function M.create(ctx)
 
       return "textobject",
         {
-          visual_mode = vim.keycode("v"),
+          visual_mode = "v",
           start_pos = s.pos,
           end_pos = { end_pos[1], end_pos[2] - 2 + ctx.opts._end_offset },
         }

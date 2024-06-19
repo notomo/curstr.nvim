@@ -5,7 +5,7 @@ function M.action_select(ctx)
   mode = ctx.args.mode or mode
 
   if ctx.args.visual_mode then
-    vim.cmd.normal({ args = { ctx.args.visual_mode }, bang = true })
+    vim.cmd.normal({ args = { vim.keycode(ctx.args.visual_mode) }, bang = true })
     require("curstr.vendor.misclib.visual_mode").leave()
   end
 

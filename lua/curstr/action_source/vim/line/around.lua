@@ -20,6 +20,7 @@ function M.create()
     mode = mode,
     start_pos = start_pos,
     end_pos = end_pos,
+    visual_mode = "v",
   }
 end
 

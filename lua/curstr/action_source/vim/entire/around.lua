@@ -11,6 +11,7 @@ function M.create()
   return "textobject", {
     start_pos = { 1, 0 },
     end_pos = end_pos,
+    visual_mode = "V",
   }
 end
 

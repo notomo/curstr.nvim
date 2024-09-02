@@ -5,9 +5,6 @@ describe("vim/script_function", function()
   before_each(function()
     helper.before_each()
 
-    vim.cmd.filetype("on")
-    vim.cmd.syntax("enable")
-
     helper.open_new_file(
       "entry.vim",
       [[
@@ -18,15 +15,11 @@ endfunction
 
 call s:test()]]
     )
+    vim.bo.filetype = "vim"
     helper.search("call s:\\zstest")
   end)
 
-  after_each(function()
-    helper.after_each()
-
-    vim.cmd.filetype("off")
-    vim.cmd.syntax("off")
-  end)
+  after_each(helper.after_each)
 
   local assert_cursor_position = function()
     assert.cursor_row(2)

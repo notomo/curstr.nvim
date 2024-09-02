@@ -5,19 +5,12 @@ describe("vim/lua", function()
   before_each(function()
     helper.before_each()
 
-    vim.cmd.filetype("on")
-    vim.cmd.syntax("enable")
-
     helper.open_new_file("entry.lua", 'require "vim.lsp.util"')
+    vim.bo.filetype = "lua"
     helper.search("lsp")
   end)
 
-  after_each(function()
-    helper.after_each()
-
-    vim.cmd.filetype("off")
-    vim.cmd.syntax("off")
-  end)
+  after_each(helper.after_each)
 
   it("open", function()
     curstr.execute("vim/lua")

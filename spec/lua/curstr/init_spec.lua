@@ -1,5 +1,6 @@
 local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
+local assert = helper.typed_assert(assert)
 
 describe("curstr.operator()", function()
   before_each(helper.before_each)

@@ -1,5 +1,6 @@
 local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
+local assert = helper.typed_assert(assert)
 
 describe("vim/surrounded/around", function()
   before_each(helper.before_each)
@@ -28,7 +29,7 @@ foo
       local got = helper.selected(function()
         curstr.execute("vim/surrounded/around")
       end)
-      assert.is_same(c.want, got)
+      assert.same(c.want, got)
     end)
   end
 end)

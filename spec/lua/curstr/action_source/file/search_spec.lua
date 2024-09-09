@@ -1,5 +1,6 @@
 local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
+local assert = helper.typed_assert(assert)
 
 describe("file/search", function()
   before_each(helper.before_each)

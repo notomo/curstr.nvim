@@ -1,5 +1,6 @@
 local helper = require("curstr.test.helper")
 local curstr = helper.require("curstr")
+local assert = helper.typed_assert(assert)
 
 describe("vim/autoload_function", function()
   before_each(function()
@@ -28,7 +29,7 @@ endfunction
   end
 
   local assert_position = function(pos)
-    assert.is_same(pos, vim.fn.getpos("."))
+    assert.same(pos, vim.fn.getpos("."))
   end
 
   it("open", function()

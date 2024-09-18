@@ -22,6 +22,7 @@ end
 
 function M._search(pattern, path)
   local f = io.open(path, "r")
+  assert(f, "cannot open file: " .. path)
   local row = 1
   local regex = vim.regex(pattern)
   for line in f:lines() do

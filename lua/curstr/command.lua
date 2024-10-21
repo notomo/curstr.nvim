@@ -6,11 +6,6 @@ local default_opts = {
 }
 
 function M.execute(source_name, raw_opts)
-  vim.validate({
-    source_name = { source_name, "string" },
-    raw_opts = { raw_opts, "table", true },
-  })
-
   local opts = vim.tbl_deep_extend("force", default_opts, raw_opts or {})
 
   local raw_group = require("curstr.core.action_source").resolve(source_name, opts.source_opts)

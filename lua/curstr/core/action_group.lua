@@ -23,9 +23,8 @@ local find_action = function(group, action_name)
   return action
 end
 
+--- @param action_name string?
 function M.execute(raw_group, action_name, action_opts)
-  vim.validate({ action_name = { action_name, "string", true } })
-
   local group = find_group(raw_group.name)
   if type(group) == "string" then
     local err = group

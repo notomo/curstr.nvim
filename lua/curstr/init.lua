@@ -6,7 +6,7 @@ local curstr = {}
 function curstr.execute(source_name, opts)
   local err = require("curstr.command").execute(source_name, opts)
   if err then
-    require("curstr.vendor.misclib.message").error(err)
+    error("[curstr] " .. err, 0)
   end
 end
 

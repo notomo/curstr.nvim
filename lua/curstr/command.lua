@@ -18,7 +18,7 @@ function M.execute(source_name, raw_opts)
     return require("curstr.core.action_group").execute(raw_group, opts.action, opts.action_opts)
   end
 
-  require("curstr.vendor.misclib.message").warn("not found matched source: " .. source_name)
+  vim.notify("[curstr] not found matched source: " .. source_name, vim.log.levels.WARN)
 end
 
 return M

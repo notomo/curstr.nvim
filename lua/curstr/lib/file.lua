@@ -13,7 +13,7 @@ function M.escape(path)
 end
 
 function M.lcd(path)
-  vim.cmd.lcd({ args = { M.escape(path) }, mods = { silent = true } })
+  vim.fn.chdir(path, "window")
 end
 
 return M

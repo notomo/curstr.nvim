@@ -1,5 +1,3 @@
-local filelib = require("curstr.lib.file")
-
 local M = {}
 
 function M._adjust_cursor(position)

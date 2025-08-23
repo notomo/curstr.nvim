@@ -17,22 +17,22 @@ function M._adjust_cursor(position)
 end
 
 function M.action_open(ctx)
-  vim.cmd.edit(filelib.escape(ctx.args.path))
+  vim.cmd.edit({ args = { ctx.args.path }, magic = { file = false } })
   M._adjust_cursor(ctx.args.position)
 end
 
 function M.action_tab_open(ctx)
-  vim.cmd.tabedit(filelib.escape(ctx.args.path))
+  vim.cmd.tabedit({ args = { ctx.args.path }, magic = { file = false } })
   M._adjust_cursor(ctx.args.position)
 end
 
 function M.action_vertical_open(ctx)
-  vim.cmd.vsplit(filelib.escape(ctx.args.path))
+  vim.cmd.vsplit({ args = { ctx.args.path }, magic = { file = false } })
   M._adjust_cursor(ctx.args.position)
 end
 
 function M.action_horizontal_open(ctx)
-  vim.cmd.split(filelib.escape(ctx.args.path))
+  vim.cmd.split({ args = { ctx.args.path }, magic = { file = false } })
   M._adjust_cursor(ctx.args.position)
 end
 

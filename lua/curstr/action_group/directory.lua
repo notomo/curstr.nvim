@@ -8,19 +8,19 @@ function M.action_open(ctx)
 end
 
 function M.action_tab_open(ctx)
-  vim.cmd.tabedit(filelib.escape(ctx.args.path))
+  vim.cmd.tabedit({ args = { ctx.args.path }, magic = { file = false } })
   filelib.lcd(ctx.args.path)
   ctx.opts.after(ctx.args.path)
 end
 
 function M.action_vertical_open(ctx)
-  vim.cmd.vsplit(filelib.escape(ctx.args.path))
+  vim.cmd.vsplit({ args = { ctx.args.path }, magic = { file = false } })
   filelib.lcd(ctx.args.path)
   ctx.opts.after(ctx.args.path)
 end
 
 function M.action_horizontal_open(ctx)
-  vim.cmd.split(filelib.escape(ctx.args.path))
+  vim.cmd.split({ args = { ctx.args.path }, magic = { file = false } })
   filelib.lcd(ctx.args.path)
   ctx.opts.after(ctx.args.path)
 end

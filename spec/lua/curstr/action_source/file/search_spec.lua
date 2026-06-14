@@ -1,6 +1,8 @@
+local ntf = require("ntf")
+local describe, it, before_each, after_each, setup = ntf.describe, ntf.it, ntf.before_each, ntf.after_each, ntf.setup
 local helper = require("curstr.test.helper")
-local curstr = helper.require("curstr")
-local assert = helper.typed_assert(assert)
+local curstr = require("curstr")
+local assert = helper.typed_assert(ntf.assert)
 
 describe("file/search", function()
   before_each(helper.before_each)

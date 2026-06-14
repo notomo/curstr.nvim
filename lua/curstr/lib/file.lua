@@ -8,7 +8,6 @@ function M.is_directory(file_path)
   return vim.fn.isdirectory(file_path) ~= 0
 end
 
-
 function M.lcd(path)
   vim.fn.chdir(path, "window")
 end

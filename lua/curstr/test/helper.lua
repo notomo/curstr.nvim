@@ -1,21 +1,22 @@
-local helper = require("vusted.helper")
+local helper = require("ntf.helper")
 local plugin_name = helper.get_module_root(...)
 
 helper.root = helper.find_plugin_root(plugin_name)
 vim.opt.packpath:prepend(vim.fs.joinpath(helper.root, "spec/.shared/packages"))
-require("assertlib").register(require("vusted.assert").register)
+require("assertlib").register(require("ntf.assert").register)
 
 local runtimepath = vim.o.runtimepath
 
 function helper.before_each()
-  helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(helper.root)
+  helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(
+    helper.root,
+    { base_dir = ("test_data_%d/"):format(vim.fn.getpid()) }
+  )
   helper.test_data:cd("")
   vim.o.runtimepath = runtimepath
 end
 
 function helper.after_each()
-  helper.cleanup()
-  helper.cleanup_loaded_modules(plugin_name)
   helper.test_data:teardown()
 end
 
@@ -51,13 +52,13 @@ function helper.selected(f)
   return vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = "v" })
 end
 
-local asserts = require("vusted.assert").asserts
+local assert = require("ntf.assert")
 
-asserts.create("path"):register_eq(function()
+assert.register_eq("path", function()
   return vim.fn.expand("%:p"):gsub(helper.root .. "/" .. "?", "")
 end)
 
-asserts.create("current_dir"):register_eq(function()
+assert.register_eq("current_dir", function()
   return vim.fn.getcwd():gsub(helper.test_data:path("?"), "")
 end)
 

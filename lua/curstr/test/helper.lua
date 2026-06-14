@@ -62,8 +62,8 @@ assert.register_eq("current_dir", function()
   return vim.fn.getcwd():gsub(helper.test_data:path("?"), "")
 end)
 
-function helper.typed_assert(assert)
-  local x = require("assertlib").typed(assert)
+function helper.typed_assert(raw_assert)
+  local x = require("assertlib").typed(raw_assert)
   ---@cast x +{path:fun(want),current_dir:fun(want)}
   return x
 end

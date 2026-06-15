@@ -1,5 +1,5 @@
 local ntf = require("ntf")
-local describe, it, before_each, after_each, setup = ntf.describe, ntf.it, ntf.before_each, ntf.after_each, ntf.setup
+local describe, it, before_each, after_each = ntf.describe, ntf.it, ntf.before_each, ntf.after_each
 local helper = require("curstr.test.helper")
 local curstr = require("curstr")
 local assert = helper.typed_assert(ntf.assert)

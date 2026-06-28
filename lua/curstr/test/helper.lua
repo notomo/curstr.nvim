@@ -8,9 +8,12 @@ require("assertlib").register(require("ntf.assert").register)
 local runtimepath = vim.o.runtimepath
 
 function helper.before_each()
-  helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(helper.root)
+  helper.test_data = require("curstr.vendor.misclib.test.data_dir").setup(vim.fs.joinpath(helper.root, "spec"))
   helper.test_data:cd("")
   vim.o.runtimepath = runtimepath
+  -- The data dir lives under spec/, so add it to runtimepath for the
+  -- vim/runtime/* sources that resolve names via nvim_get_runtime_file.
+  vim.opt.runtimepath:append(vim.fs.joinpath(helper.root, "spec"))
 end
 
 function helper.after_each()
@@ -52,7 +55,7 @@ end
 local assert = require("ntf.assert")
 
 assert.register_eq("path", function()
-  return vim.fn.expand("%:p"):gsub(helper.root .. "/" .. "?", "")
+  return vim.fn.expand("%:p"):gsub(helper.root .. "/spec/" .. "?", "")
 end)
 
 assert.register_eq("current_dir", function()

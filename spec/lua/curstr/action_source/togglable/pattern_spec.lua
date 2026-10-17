@@ -12,8 +12,8 @@ describe("togglable/pattern", function()
       sources = { ["togglable/pattern"] = { opts = { char_pattern = "[:alnum:]_", patterns = {} } } },
     })
     vim.cmd.tabedit()
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.swapfile = false
+    vim.bo.buftype = "nofile"
+    vim.bo.swapfile = false
   end)
   after_each(helper.after_each)
 

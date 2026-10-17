@@ -2,7 +2,11 @@ local helper = require("ntf.helper")
 local plugin_name = helper.get_module_root(...)
 
 helper.root = helper.find_plugin_root(plugin_name)
-vim.opt.packpath:prepend(vim.env.TESTPACK_PACKPATH or vim.fs.joinpath(helper.root, "spec/.shared/packages"))
+vim.api.nvim_set_option_value(
+  "packpath",
+  vim.env.TESTPACK_PACKPATH or vim.fs.joinpath(helper.root, "spec/.shared/packages"),
+  { operation = "prepend" }
+)
 require("assertlib").register(require("ntf.assert").register)
 
 local runtimepath = vim.o.runtimepath
@@ -13,7 +17,7 @@ function helper.before_each()
   vim.o.runtimepath = runtimepath
   -- The data dir lives under spec/, so add it to runtimepath for the
   -- vim/runtime/* sources that resolve names via nvim_get_runtime_file.
-  vim.opt.runtimepath:append(vim.fs.joinpath(helper.root, "spec"))
+  vim.api.nvim_set_option_value("runtimepath", vim.fs.joinpath(helper.root, "spec"), { operation = "append" })
 end
 
 function helper.after_each()
@@ -43,7 +47,11 @@ function helper.open_new_file(path, content)
 end
 
 function helper.add_packpath(path)
-  vim.opt.packpath:prepend(vim.fn.fnamemodify(helper.test_data:path(path), ":p"))
+  vim.api.nvim_set_option_value(
+    "packpath",
+    vim.fn.fnamemodify(helper.test_data:path(path), ":p"),
+    { operation = "prepend" }
+  )
 end
 
 function helper.selected(f)

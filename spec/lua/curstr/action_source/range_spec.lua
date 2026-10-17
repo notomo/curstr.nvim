@@ -11,8 +11,8 @@ describe("range", function()
   it("join", function()
     curstr.setup({ groups = { range = { opts = { separator = "+" } } } })
     vim.cmd.tabedit()
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.swapfile = false
+    vim.bo.buftype = "nofile"
+    vim.bo.swapfile = false
 
     helper.set_lines([[
     1
@@ -31,8 +31,8 @@ describe("range", function()
   it("join_default", function()
     curstr.setup({ groups = { range = { opts = { separator = "+" } } } })
     vim.cmd.tabedit()
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.swapfile = false
+    vim.bo.buftype = "nofile"
+    vim.bo.swapfile = false
 
     helper.set_lines([[
     1
@@ -48,8 +48,8 @@ describe("range", function()
   it("join_with_empty_separator", function()
     curstr.setup({ groups = { range = { opts = { separator = "" } } } })
     vim.cmd.tabedit()
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.swapfile = false
+    vim.bo.buftype = "nofile"
+    vim.bo.swapfile = false
 
     helper.set_lines([[
     1
@@ -68,8 +68,8 @@ describe("range", function()
     helper.set_lines([[
     1
     2]])
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.modifiable = false
+    vim.bo.buftype = "nofile"
+    vim.bo.modifiable = false
     vim.fn.setpos(".", { 0, 1, 1, 0 })
 
     curstr.execute("range", { action = "join" })

@@ -20,7 +20,7 @@ endfunction
     vim.o.runtimepath = vim.o.runtimepath .. "," .. helper.test_data:path("test_plugin")
 
     helper.set_lines("call curstr_test_plugin#execute()")
-    vim.opt_local.filetype = "vim"
+    vim.bo.filetype = "vim"
     helper.search("curstr")
   end)
   after_each(helper.after_each)
@@ -116,7 +116,7 @@ endfunction
     )
     helper.add_packpath("package")
     helper.open_new_file("call.vim", "vim.fn.example#execute()")
-    vim.opt_local.filetype = "vim"
+    vim.bo.filetype = "vim"
     helper.search("example#execute")
 
     curstr.execute("vim/autoload_function")

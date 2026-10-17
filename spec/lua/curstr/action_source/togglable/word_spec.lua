@@ -12,8 +12,8 @@ describe("togglable/word", function()
       sources = { ["togglable/word"] = { opts = { char_pattern = "[:alnum:]_", words = {} } } },
     })
     vim.cmd.tabedit()
-    vim.opt_local.buftype = "nofile"
-    vim.opt_local.swapfile = false
+    vim.bo.buftype = "nofile"
+    vim.bo.swapfile = false
   end)
   after_each(helper.after_each)
 
@@ -96,7 +96,7 @@ describe("togglable/word", function()
     helper.set_lines([[public]])
     vim.fn.setpos(".", { 0, 1, 1, 0 })
     curstr.setup({ sources = { ["togglable/word"] = { opts = { words = { "public", "protected" } } } } })
-    vim.opt_local.modifiable = false
+    vim.bo.modifiable = false
 
     curstr.execute("togglable/word")
 

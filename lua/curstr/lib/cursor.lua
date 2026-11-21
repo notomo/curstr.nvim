@@ -38,9 +38,59 @@ local trim_prefix = function(file_path)
   return file_path
 end
 
+local narrow_to_ascii = function(file_path)
+  if not file_path:find("[\128-\255]") then
+    return file_path
+  end
+
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+
+  local offset = nil
+  local init = 1
+  while true do
+    local s, e = line:find(file_path, init, true)
+    if s == nil then
+      break
+    end
+    if s <= col and col <= e then
+      offset = col - s + 1
+      break
+    end
+    if offset == nil and col < s then
+      offset = 0
+    end
+    init = s + 1
+  end
+
+  local segments = {}
+  for segment, e in file_path:gmatch("([\1-\127]+)()") do
+    table.insert(segments, { e = e - 1, str = segment })
+  end
+  if #segments == 0 then
+    return file_path
+  end
+  if offset == nil then
+    return segments[1].str
+  end
+
+  local last
+  for _, segment in ipairs(segments) do
+    if offset <= segment.e then
+      return segment.str
+    end
+    last = segment
+  end
+  return last.str
+end
+
+local normalize = function(file_path)
+  return trim_prefix(narrow_to_ascii(file_path))
+end
+
 function M.file_path(added_isfname)
   if added_isfname == nil then
-    return trim_prefix(vim.fn.expand("<cfile>"))
+    return normalize(vim.fn.expand("<cfile>"))
   end
 
   local origin_isfname = vim.o.isfname
@@ -52,7 +102,7 @@ function M.file_path(added_isfname)
   local path = vim.fn.expand("<cfile>")
   vim.o.isfname = origin_isfname
 
-  return trim_prefix(path)
+  return normalize(path)
 end
 
 local parse_position = function(str, s, e)

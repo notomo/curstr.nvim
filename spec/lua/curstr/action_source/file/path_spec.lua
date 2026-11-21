@@ -26,6 +26,8 @@ opened.txt:3,4
 opened.txt:3:4
 file://./opened.txt
 $DIR_NAME/file
+変更点（opened.txt）を確認
+詳細はopened.txt:3,4を参照
 \v+=
 ]]
     )
@@ -123,6 +125,33 @@ $DIR_NAME/file
     curstr.execute("file/path")
 
     assert.buffer_name_tail("file")
+  end)
+
+  it("open path surrounded by multibyte characters", function()
+    helper.search("（opened")
+    vim.cmd.normal({ args = { "l" }, bang = true })
+
+    curstr.execute("file/path")
+
+    assert.buffer_name_tail("opened.txt")
+  end)
+
+  it("open path surrounded by multibyte characters with cursor on multibyte character", function()
+    helper.search("（opened")
+
+    curstr.execute("file/path")
+
+    assert.buffer_name_tail("opened.txt")
+  end)
+
+  it("open path with position adjacent to multibyte characters", function()
+    helper.search("opened.txt:3,4を")
+
+    curstr.execute("file/path")
+
+    assert.buffer_name_tail("opened.txt")
+    assert.cursor_row(3)
+    assert.cursor_column(4)
   end)
 
   it("raises no error with invalid regex", function()

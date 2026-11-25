@@ -4,10 +4,17 @@ function M.create(ctx)
   local source_pattern = ctx.opts.source_pattern
   local flags = ctx.opts.flags
 
-  local path = require("curstr.lib.cursor").file_path()
-  local target_path = vim.fn.substitute(path, source_pattern, ctx.opts.result_pattern, flags)
-  local abs_path = vim.fn.fnamemodify(target_path, ":p")
-  if not require("curstr.lib.file").readable(abs_path) then
+  local path, abs_path
+  for _, candidate in ipairs(require("curstr.lib.cursor").file_paths()) do
+    local target_path = vim.fn.substitute(candidate, source_pattern, ctx.opts.result_pattern, flags)
+    local target_abs_path = vim.fn.fnamemodify(target_path, ":p")
+    if require("curstr.lib.file").readable(target_abs_path) then
+      path = candidate
+      abs_path = target_abs_path
+      break
+    end
+  end
+  if abs_path == nil then
     return nil
   end
 

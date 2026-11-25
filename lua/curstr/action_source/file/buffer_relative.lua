@@ -1,12 +1,13 @@
 local M = {}
 
 function M.create()
-  local path, position = require("curstr.lib.cursor").file_path_with_position()
-  local abs_path = vim.fs.joinpath(vim.fn.expand("%:p:h"), path)
-  if not require("curstr.lib.file").readable(abs_path) then
-    return nil
+  for _, e in ipairs(require("curstr.lib.cursor").file_paths_with_position()) do
+    local abs_path = vim.fs.joinpath(vim.fn.expand("%:p:h"), e.path)
+    if require("curstr.lib.file").readable(abs_path) then
+      return "file", { path = abs_path, position = e.position }
+    end
   end
-  return "file", { path = abs_path, position = position }
+  return nil
 end
 
 M.description = [[uses a relative file path with current buffer]]

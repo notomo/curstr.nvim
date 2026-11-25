@@ -16,4 +16,21 @@ describe("directory/path source", function()
 
     assert.current_dir("path/opened")
   end)
+
+  it("can open multibyte path", function()
+    helper.test_data:create_dir("資料/設計")
+    helper.set_lines([[資料/設計]])
+
+    curstr.execute("directory/path")
+
+    assert.current_dir("資料/設計")
+  end)
+
+  it("ignores a separator between multibyte characters", function()
+    helper.set_lines([[資料/設計]])
+
+    curstr.execute("directory/path")
+
+    assert.current_dir("")
+  end)
 end)

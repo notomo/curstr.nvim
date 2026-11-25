@@ -40,7 +40,7 @@ end
 
 local narrow_to_ascii = function(file_path)
   if not file_path:find("[\128-\255]") then
-    return file_path
+    return nil
   end
 
   local line = vim.api.nvim_get_current_line()
@@ -65,10 +65,13 @@ local narrow_to_ascii = function(file_path)
 
   local segments = {}
   for segment, e in file_path:gmatch("([\1-\127]+)()") do
-    table.insert(segments, { e = e - 1, str = segment })
+    -- only separators: a rest of multibyte path, not a path
+    if trim_prefix(segment):find("[^/]") then
+      table.insert(segments, { e = e - 1, str = segment })
+    end
   end
   if #segments == 0 then
-    return file_path
+    return nil
   end
   if offset == nil then
     return segments[1].str
@@ -84,13 +87,9 @@ local narrow_to_ascii = function(file_path)
   return last.str
 end
 
-local normalize = function(file_path)
-  return trim_prefix(narrow_to_ascii(file_path))
-end
-
-function M.file_path(added_isfname)
+local expand_cfile = function(added_isfname)
   if added_isfname == nil then
-    return normalize(vim.fn.expand("<cfile>"))
+    return vim.fn.expand("<cfile>")
   end
 
   local origin_isfname = vim.o.isfname
@@ -102,7 +101,20 @@ function M.file_path(added_isfname)
   local path = vim.fn.expand("<cfile>")
   vim.o.isfname = origin_isfname
 
-  return normalize(path)
+  return path
+end
+
+--- Returns path candidates in order of priority.
+function M.file_paths(added_isfname)
+  local cfile = expand_cfile(added_isfname)
+  local paths = { trim_prefix(cfile) }
+
+  local ascii = narrow_to_ascii(cfile)
+  if ascii ~= nil then
+    table.insert(paths, trim_prefix(ascii))
+  end
+
+  return paths
 end
 
 local parse_position = function(str, s, e)
@@ -113,9 +125,7 @@ end
 
 local file_path_regex = vim.regex("\\v[^:]+:\\zs(\\d+)([,:]\\d+)?")
 
-function M.file_path_with_position(added_isfname)
-  local file_path = M.file_path(added_isfname)
-
+local split_position = function(file_path)
   do
     local s, e = file_path_regex:match_str(file_path)
     if s ~= nil then
@@ -126,16 +136,23 @@ function M.file_path_with_position(added_isfname)
   end
 
   local cword = trim_prefix(vim.fn.expand("<cWORD>"))
-  local pattern = ("\\v%s:\\zs(\\d+)([,:]\\d+)?"):format(file_path)
-  local ok, regex = pcall(vim.regex, pattern)
-  if not ok then
-    return file_path, nil
-  end
-  local s, e = regex:match_str(cword)
+  local pattern = ("\\V%s:\\zs\\v(\\d+)([,:]\\d+)?"):format(vim.fn.escape(file_path, "\\"))
+  local s, e = vim.regex(pattern):match_str(cword)
   if s == nil then
     return file_path, nil
   end
   return file_path, parse_position(cword, s, e)
+end
+
+--- Returns path candidates with position in order of priority.
+function M.file_paths_with_position(added_isfname)
+  return vim
+    .iter(M.file_paths(added_isfname))
+    :map(function(file_path)
+      local path, position = split_position(file_path)
+      return { path = path, position = position }
+    end)
+    :totable()
 end
 
 function M.line_with_range()

@@ -1,13 +1,13 @@
 local M = {}
 
 function M.create()
-  local path = require("curstr.lib.cursor").file_path()
-
   local runtime_paths = vim.split(vim.o.runtimepath, ",", { plain = true })
-  for _, rpath in ipairs(runtime_paths) do
-    local target = vim.fs.joinpath(rpath, path)
-    if require("curstr.lib.file").is_directory(target) then
-      return "directory", { path = target }
+  for _, path in ipairs(require("curstr.lib.cursor").file_paths()) do
+    for _, rpath in ipairs(runtime_paths) do
+      local target = vim.fs.joinpath(rpath, path)
+      if require("curstr.lib.file").is_directory(target) then
+        return "directory", { path = target }
+      end
     end
   end
 

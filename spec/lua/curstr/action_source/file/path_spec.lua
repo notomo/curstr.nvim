@@ -17,6 +17,15 @@ describe("file/path", function()
 12345]]
     )
     helper.test_data:create_file("with_env/file")
+    helper.test_data:create_dir("資料")
+    helper.test_data:create_file(
+      "資料/設計.md",
+      [[
+12345
+12345
+12345
+12345]]
+    )
     helper.open_new_file(
       "entry.txt",
       [[
@@ -28,6 +37,9 @@ file://./opened.txt
 $DIR_NAME/file
 変更点（opened.txt）を確認
 詳細はopened.txt:3,4を参照
+資料/設計.md
+資料/設計.md:3,4
+(資料/設計.md)
 \v+=
 ]]
     )
@@ -150,6 +162,26 @@ $DIR_NAME/file
     curstr.execute("file/path")
 
     assert.buffer_name_tail("opened.txt")
+    assert.cursor_row(3)
+    assert.cursor_column(4)
+  end)
+
+  for _, pattern in ipairs({ "^資料", "^資料\\zs/", "^資料/\\zs設計", "^資料/設計\\zs.md", "(\\zs資料" }) do
+    it("open multibyte path with cursor on " .. pattern, function()
+      helper.search(pattern)
+
+      curstr.execute("file/path")
+
+      assert.buffer_name_tail("設計.md")
+    end)
+  end
+
+  it("open multibyte path with position", function()
+    helper.search("設計.md:3,4")
+
+    curstr.execute("file/path")
+
+    assert.buffer_name_tail("設計.md")
     assert.cursor_row(3)
     assert.cursor_column(4)
   end)
